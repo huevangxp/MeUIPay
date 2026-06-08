@@ -1630,7 +1630,7 @@
                   d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"
                 />
               </svg>
-              <span>ປະຫວັດຈ່າຍເງິນຫຼາຍ</span>
+              <span>ປະຫວັດໂອນເງິນເດືອນ</span>
             </button>
             <button class="tab-item" id="tab-2" onclick="switchTab(2)">
               <svg viewBox="0 0 24 24">
@@ -1771,7 +1771,11 @@
             </div>
 
             <!-- Download Button (Row 2 Col 3-5) -->
-            <div class="download-btn-container" style="grid-column: span 3" id="downloadBtnFilterGroup">
+            <div
+              class="download-btn-container"
+              style="grid-column: span 3"
+              id="downloadBtnFilterGroup"
+            >
               <button class="download-btn" onclick="triggerDownload()">
                 <!-- PDF icon -->
                 <svg viewBox="0 0 24 24">
@@ -2696,11 +2700,19 @@
             return false;
           }
           // Type category check (only on Tab 0)
-          if (currentActiveTab === 0 && typeValue !== "all" && item.typeCategory !== typeValue) {
+          if (
+            currentActiveTab === 0 &&
+            typeValue !== "all" &&
+            item.typeCategory !== typeValue
+          ) {
             return false;
           }
           // Group select check (only on Tab 0)
-          if (currentActiveTab === 0 && groupValue !== "all" && item.group !== groupValue) {
+          if (
+            currentActiveTab === 0 &&
+            groupValue !== "all" &&
+            item.group !== groupValue
+          ) {
             return false;
           }
           // Date range check (ignore if dates are at their mockup defaults "11/11/2025")
