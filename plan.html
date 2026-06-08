@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MOLSW System Development Plan | Web & Admin Portal</title>
-    <!-- Tailwind CSS v3 Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+Lao:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+Lao:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <script>
       tailwind.config = {
         theme: {
@@ -19,13 +20,13 @@
               sans: ["Outfit", "Noto Sans Lao", "sans-serif"],
             },
             animation: {
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            }
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
           },
         },
       };
     </script>
-    
+
     <style>
       @keyframes flow {
         to {
@@ -40,16 +41,20 @@
         box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
       }
       /* Language toggle styling helper */
-      .lang-en .lao-text { display: none !important; }
-      .lang-lao .en-text { display: none !important; }
-      
+      .lang-en .lao-text {
+        display: none !important;
+      }
+      .lang-lao .en-text {
+        display: none !important;
+      }
+
       /* Active state for interactive timeline */
       .phase-active {
         border-color: rgba(99, 102, 241, 0.6) !important;
         background-color: rgba(248, 250, 252, 0.95) !important;
         box-shadow: 0 4px 20px rgba(99, 102, 241, 0.05) !important;
       }
-      
+
       /* Tech stack active tab */
       .tab-active {
         background-color: #e0e7ff !important;
@@ -64,7 +69,7 @@
         color: #4338ca !important;
         font-weight: 600 !important;
       }
-      
+
       /* Print Optimization */
       @media print {
         body {
@@ -81,76 +86,133 @@
       }
     </style>
   </head>
-  <body class="bg-[#f8fafc] text-slate-800 min-h-screen font-sans selection:bg-indigo-100 selection:text-indigo-900 relative overflow-x-hidden lang-lao pb-20">
-    
-    <!-- Decorative Subtle Light Blurs -->
-    <div class="absolute top-[-10%] left-[-15%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[130px] pointer-events-none print:hidden"></div>
-    <div class="absolute top-[40%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/8 blur-[120px] pointer-events-none print:hidden"></div>
-    <div class="absolute bottom-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-emerald-500/8 blur-[135px] pointer-events-none print:hidden"></div>
+  <body
+    class="bg-[#f8fafc] text-slate-800 min-h-screen font-sans selection:bg-indigo-100 selection:text-indigo-900 relative overflow-x-hidden lang-lao pb-20"
+  >
+    <div
+      class="absolute top-[-10%] left-[-15%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[130px] pointer-events-none print:hidden"
+    ></div>
+    <div
+      class="absolute top-[40%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/8 blur-[120px] pointer-events-none print:hidden"
+    ></div>
+    <div
+      class="absolute bottom-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-emerald-500/8 blur-[135px] pointer-events-none print:hidden"
+    ></div>
 
-    <!-- Main Container -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      
-      <!-- Top Action Navigation -->
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-xl border border-slate-200/80 p-4 rounded-2xl shadow-sm">
+      <div
+        class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-xl border border-slate-200/80 p-4 rounded-2xl shadow-sm"
+      >
         <div class="flex items-center space-x-3">
-          <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/10">
+          <div
+            class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/10"
+          >
             MOLSW
           </div>
           <div>
-            <span class="text-xs text-indigo-600 font-semibold tracking-wider uppercase block">System Architecture</span>
-            <span class="text-sm text-slate-600 font-medium block">Ministry of Labour and Social Welfare Portal</span>
+            <span
+              class="text-xs text-indigo-600 font-semibold tracking-wider uppercase block"
+              >System Architecture</span
+            >
+            <span class="text-sm text-slate-600 font-medium block"
+              >Ministry of Labour and Social Welfare Portal</span
+            >
           </div>
         </div>
 
         <div class="flex items-center space-x-3 print:hidden">
-          <!-- Language Toggle Button -->
-          <button onclick="toggleLanguage()" class="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 px-4 py-2 rounded-xl text-sm font-medium transition duration-200 text-slate-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 11.37 7.31 16.5 3 19" />
+          <button
+            onclick="toggleLanguage()"
+            class="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 px-4 py-2 rounded-xl text-sm font-medium transition duration-200 text-slate-700"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5 text-indigo-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 11.37 7.31 16.5 3 19"
+              />
             </svg>
             <span class="lao-text">ສະຫຼັບພາສາ (EN)</span>
             <span class="en-text">Switch to Lao (LAO)</span>
           </button>
 
-          <!-- Print / PDF Button -->
-          <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 border border-slate-200/80 p-2 rounded-xl transition duration-200 text-slate-700" title="Print Plan">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          <button
+            onclick="window.print()"
+            class="bg-slate-100 hover:bg-slate-200 border border-slate-200/80 p-2 rounded-xl transition duration-200 text-slate-700"
+            title="Print Plan"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-slate-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+              />
             </svg>
           </button>
         </div>
       </div>
 
-      <!-- Header Section -->
       <header class="text-center mb-12 relative">
-        <div class="inline-flex items-center space-x-2 bg-indigo-50 border border-indigo-100 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4">
+        <div
+          class="inline-flex items-center space-x-2 bg-indigo-50 border border-indigo-100 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4"
+        >
           <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-          <span class="lao-text">ແຜນງານການພັດທະນາລະບົບ MOLSW (21 ອາທິດ / ~5 ເດືອນ)</span>
-          <span class="en-text">MOLSW System Development Plan (21 Weeks / ~5 Months)</span>
+          <span class="lao-text"
+            >ແຜນງານການພັດທະນາລະບົບ MOLSW (9 ອາທິດ / ~2 ເດືອນ)</span
+          >
+          <span class="en-text"
+            >MOLSW System Development Plan (9 Weeks / ~2 Months)</span
+          >
         </div>
-        <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-none mb-4">
-          <span class="lao-text">ແຜນພັດທະນາລະບົບເວັບໄຊກະຊວງແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ</span>
-          <span class="en-text">Ministry of Labour and Social Welfare Plan</span>
+        <h1
+          class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-none mb-4"
+        >
+          <span class="lao-text"
+            >ແຜນພັດທະນາລະບົບເວັບໄຊກະຊວງແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ</span
+          >
+          <span class="en-text"
+            >Ministry of Labour and Social Welfare Plan</span
+          >
         </h1>
         <p class="text-lg text-slate-600 max-w-3xl mx-auto font-light">
-          <span class="lao-text">ລະບົບໂຄງສ້າງ 3-Tier ແຍກພາກສ່ວນການສະແດງຜົນ, ການປະມວນຜົນທຸລະກິດ ແລະ ການຈັດການຖານຂໍ້ມູນ</span>
-          <span class="en-text">A three-tier architecture separating presentation, application logic, and database management</span>
+          <span class="lao-text"
+            >ລະບົບໂຄງສ້າງ 3-Tier ແຍກພາກສ່ວນການສະແດງຜົນ, ການປະມວນຜົນທຸລະກິດ ແລະ
+            ການຈັດການຖານຂໍ້ມູນ</span
+          >
+          <span class="en-text"
+            >A three-tier architecture separating presentation, application
+            logic, and database management</span
+          >
         </p>
 
-        <!-- Project Global Stats Bar -->
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto mt-8 bg-white border border-slate-200/85 p-6 rounded-2xl shadow-sm">
+        <div
+          class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto mt-8 bg-white border border-slate-200/85 p-6 rounded-2xl shadow-sm"
+        >
           <div class="text-center border-r border-slate-200 last:border-0">
-            <span class="text-slate-550 text-xs uppercase tracking-wider block">
+            <span class="text-slate-555 text-xs uppercase tracking-wider block">
               <span class="lao-text">ໄລຍະເວລາທັງໝົດ</span>
               <span class="en-text">Total Duration</span>
             </span>
             <span class="text-2xl font-extrabold text-indigo-600">
-              21 <span class="text-sm font-medium text-slate-500">Weeks</span>
+              9 <span class="text-sm font-medium text-slate-500">Weeks</span>
             </span>
           </div>
           <div class="text-center border-r border-slate-200 last:border-0">
-            <span class="text-slate-550 text-xs uppercase tracking-wider block">
+            <span class="text-slate-555 text-xs uppercase tracking-wider block">
               <span class="lao-text">ຈຳນວນໄລຍະງານ</span>
               <span class="en-text">Total Phases</span>
             </span>
@@ -173,7 +235,7 @@
               <span class="en-text">Start / Target</span>
             </span>
             <span class="text-lg font-bold text-slate-600">
-              TBD / TBD
+              08/06/2026 / 10/08/2026
             </span>
           </div>
           <div class="text-center last:border-0">
@@ -181,1175 +243,2025 @@
               <span class="lao-text">ຄວາມຄືບໜ້າໂຄງການ</span>
               <span class="en-text">Overall Progress</span>
             </span>
-            <span id="global-progress-percent" class="text-2xl font-extrabold text-amber-600">
+            <span
+              id="global-progress-percent"
+              class="text-2xl font-extrabold text-amber-600"
+            >
               0%
             </span>
           </div>
         </div>
 
-        <!-- Live Progress bar -->
         <div class="max-w-5xl mx-auto mt-4 px-1">
-          <div class="w-full bg-slate-200/70 border border-slate-300/30 h-2.5 rounded-full overflow-hidden">
-            <div id="global-progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full w-0 transition-all duration-500 ease-out shadow-sm shadow-indigo-500/10"></div>
+          <div
+            class="w-full bg-slate-200/70 border border-slate-300/30 h-2.5 rounded-full overflow-hidden"
+          >
+            <div
+              id="global-progress-bar"
+              class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full w-0 transition-all duration-500 ease-out shadow-sm shadow-indigo-500/10"
+            ></div>
           </div>
         </div>
       </header>
 
-      <!-- Section: System Architecture & Development Flowchart -->
       <section class="mb-16">
-        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
-          <span class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+        <h2
+          class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2"
+        >
+          <span
+            class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                clip-rule="evenodd"
+              />
             </svg>
           </span>
-          <span class="lao-text">1. ໂຄງສ້າງສະຖາປັດຕະຍະກຳລະບົບ 3-Tier (System Architecture)</span>
+          <span class="lao-text"
+            >1. ໂຄງສ້າງສະຖາປັດຕະຍະກຳລະບົບ 3-Tier (System Architecture)</span
+          >
           <span class="en-text">1. 3-Tier System Architecture & Data Flow</span>
         </h2>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm relative overflow-hidden flex flex-col items-center">
-          <!-- Text Architecture Details -->
-          <div class="w-full max-w-4xl mb-8 border-b border-slate-100 pb-6 text-sm text-slate-600 leading-relaxed">
+        <div
+          class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm relative overflow-hidden flex flex-col items-center"
+        >
+          <div
+            class="w-full max-w-4xl mb-8 border-b border-slate-100 pb-6 text-sm text-slate-600 leading-relaxed"
+          >
             <span class="lao-text">
-              ລະບົບ MOLSW ນຳໃຊ້ໂຄງສ້າງສະຖາປັດຕະຍະກຳ 3-Tier ທີ່ແຍກພາກສ່ວນການສະແດງຜົນ (Presentation Layer), ເຫດຜົນທາງທຸລະກິດ (Application Logic) ແລະ ຖານຂໍ້ມູນ (Data Management). 
-              ເວັບໄຊສາທາລະນະ ແລະ ລະບົບຫຼັງບ້ານ Admin ສື່ສານຜ່ານ REST APIs ຫາ Backend API Layer.
+              ລະບົບ MOLSW ນຳໃຊ້ໂຄງສ້າງສະຖາປັດຕະຍະກຳ 3-Tier
+              ທີ່ແຍກພາກສ່ວນການສະແດງຜົນ (Presentation Layer), ເຫດຜົນທາງທຸລະກິດ
+              (Application Logic) ແລະ ຖານຂໍ້ມູນ (Data Management).
+              ເວັບໄຊສາທາລະນະ ແລະ ລະບົບຫຼັງບ້ານ Admin ສື່ສານຜ່ານ REST APIs ຫາ
+              Backend API Layer.
             </span>
             <span class="en-text">
-              The MOLSW Web Portal follows a three-tier architecture that separates presentation, application logic, and data management for maintainability and scalability.
-              The Public Website and the Admin Portal communicate through REST APIs to a centralized Backend API layer.
+              The MOLSW Web Portal follows a three-tier architecture that
+              separates presentation, application logic, and data management for
+              maintainability and scalability. The Public Website and the Admin
+              Portal communicate through REST APIs to a centralized Backend API
+              layer.
             </span>
           </div>
 
-          <!-- Grid representing layout of Node structure -->
           <div class="w-full max-w-4xl relative z-10">
-            <!-- Row 1: PostgreSQL Database -->
             <div class="flex justify-center mb-16 relative">
-              <div class="bg-white border border-cyan-300 p-5 rounded-2xl w-60 text-center shadow-sm hover:border-cyan-500 transition-all duration-300 group z-10">
-                <div class="inline-flex p-2 bg-cyan-50 text-cyan-600 rounded-lg mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              <div
+                class="bg-white border border-cyan-300 p-5 rounded-2xl w-60 text-center shadow-sm hover:border-cyan-500 transition-all duration-300 group z-10"
+              >
+                <div
+                  class="inline-flex p-2 bg-cyan-50 text-cyan-600 rounded-lg mb-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                    />
                   </svg>
                 </div>
-                <h4 class="font-extrabold text-sm text-cyan-700 uppercase tracking-wide">PostgreSQL 16</h4>
+                <h4
+                  class="font-extrabold text-sm text-cyan-700 uppercase tracking-wide"
+                >
+                  PostgreSQL 16
+                </h4>
                 <p class="text-[10px] text-slate-500 mt-1">
                   <span class="lao-text">ຖານຂໍ້ມູນຫຼັກຂອງລະບົບ MOLSW</span>
                   <span class="en-text">Database Layer (PG 16)</span>
                 </p>
               </div>
-              
-              <!-- Connection Downward Arrow/Line to API -->
-              <svg class="absolute left-1/2 -bottom-16 -translate-x-1/2 h-16 w-8 pointer-events-none" viewBox="0 0 32 64">
-                <line x1="16" y1="0" x2="16" y2="60" stroke="#0ea5e9" stroke-width="2" class="flow-line" />
+              <svg
+                class="absolute left-1/2 -bottom-16 -translate-x-1/2 h-16 w-8 pointer-events-none"
+                viewBox="0 0 32 64"
+              >
+                <line
+                  x1="16"
+                  y1="0"
+                  x2="16"
+                  y2="60"
+                  stroke="#0ea5e9"
+                  stroke-width="2"
+                  class="flow-line"
+                />
                 <polygon points="16,64 11,54 21,54" fill="#0ea5e9" />
               </svg>
             </div>
 
-            <!-- Row 2: Node.js API (Center Hub) -->
             <div class="flex justify-center mb-16 relative">
-              <div class="bg-white border border-indigo-300 p-5 rounded-2xl w-72 text-center shadow-sm hover:border-indigo-500 transition-all duration-300 group z-10">
-                <div class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              <div
+                class="bg-white border border-indigo-300 p-5 rounded-2xl w-72 text-center shadow-sm hover:border-indigo-500 transition-all duration-300 group z-10"
+              >
+                <div
+                  class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    />
                   </svg>
                 </div>
-                <h4 class="font-extrabold text-sm text-indigo-700 uppercase tracking-wide">Node 22 + Express API (TypeORM)</h4>
+                <h4
+                  class="font-extrabold text-sm text-indigo-700 uppercase tracking-wide"
+                >
+                  Node 22 + Express API (TypeORM)
+                </h4>
                 <p class="text-[10px] text-slate-500 mt-1">
-                  <span class="lao-text">ຈຸດໃຈກາງການຄວບຄຸມ Logic ຂອງທຸລະກິດ</span>
-                  <span class="en-text">Application Logic (Business Rules)</span>
+                  <span class="lao-text"
+                    >ຈຸດໃຈກາງການຄວບຄຸມ Logic ຂອງທຸລະກິດ</span
+                  >
+                  <span class="en-text"
+                    >Application Logic (Business Rules)</span
+                  >
                 </p>
               </div>
-
-              <!-- Flow Connection SVGs splitting to 2 paths (Left, Right) -->
-              <svg class="absolute top-[50%] left-[5%] right-[5%] w-[90%] h-24 -z-10 pointer-events-none" viewBox="0 0 600 96" fill="none">
-                <!-- Line to Admin (Left) -->
-                <path d="M300,24 L150,24 L150,90" stroke="#6366f1" stroke-width="2" class="flow-line" />
+              <svg
+                class="absolute top-[50%] left-[5%] right-[5%] w-[90%] h-24 -z-10 pointer-events-none"
+                viewBox="0 0 600 96"
+                fill="none"
+              >
+                <path
+                  d="M300,24 L150,24 L150,90"
+                  stroke="#6366f1"
+                  stroke-width="2"
+                  class="flow-line"
+                />
                 <polygon points="150,96 145,86 155,86" fill="#6366f1" />
-
-                <!-- Line to Public (Right) -->
-                <path d="M300,24 L450,24 L450,90" stroke="#10b981" stroke-width="2" class="flow-line" />
+                <path
+                  d="M300,24 L450,24 L450,90"
+                  stroke="#10b981"
+                  stroke-width="2"
+                  class="flow-line"
+                />
                 <polygon points="450,96 445,86 455,86" fill="#10b981" />
               </svg>
             </div>
 
-            <!-- Row 3: Admin Web and Public Web -->
-            <div class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-8 px-4 relative">
-              
-              <!-- Admin Web Portal (Nuxt 4 + Vuetify 4) -->
-              <div class="bg-white border border-indigo-200 p-5 rounded-2xl text-center shadow-sm hover:border-indigo-400 transition-all duration-300 group z-10">
-                <div class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-8 px-4 relative"
+            >
+              <div
+                class="bg-white border border-indigo-200 p-5 rounded-2xl text-center shadow-sm hover:border-indigo-400 transition-all duration-300 group z-10"
+              >
+                <div
+                  class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                    />
                   </svg>
                 </div>
-                <h4 class="font-extrabold text-sm text-indigo-700 uppercase tracking-wide">Nuxt 4 Admin Portal</h4>
+                <h4
+                  class="font-extrabold text-sm text-indigo-700 uppercase tracking-wide"
+                >
+                  Nuxt 4 Admin Portal
+                </h4>
                 <p class="text-[10px] text-slate-555 mt-1">
-                  <span class="lao-text">Vuetify 4, Pinia, ລະບົບຫຼັງບ້ານຈັດການ MOLSW</span>
+                  <span class="lao-text"
+                    >Vuetify 4, Pinia, ລະບົບຫຼັງບ້ານຈັດການ MOLSW</span
+                  >
                   <span class="en-text">Vuetify 4 Admin Panel Interface</span>
                 </p>
               </div>
 
-              <!-- Public Front-facing Nuxt (SSR Web) -->
-              <div class="bg-white border border-emerald-200 p-5 rounded-2xl text-center shadow-sm hover:border-emerald-400 transition-all duration-300 group z-10">
-                <div class="inline-flex p-2 bg-emerald-50 text-emerald-650 rounded-lg mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.343 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              <div
+                class="bg-white border border-emerald-200 p-5 rounded-2xl text-center shadow-sm hover:border-emerald-400 transition-all duration-300 group z-10"
+              >
+                <div
+                  class="inline-flex p-2 bg-emerald-50 text-emerald-650 rounded-lg mb-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.343 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
                   </svg>
                 </div>
-                <h4 class="font-extrabold text-sm text-emerald-700 uppercase tracking-wide">Nuxt 4 Public Web</h4>
+                <h4
+                  class="font-extrabold text-sm text-emerald-700 uppercase tracking-wide"
+                >
+                  Nuxt 4 Public Web
+                </h4>
                 <p class="text-[10px] text-slate-555 mt-1">
-                  <span class="lao-text">TailwindCSS, Nuxt SEO, ຂໍ້ມູນຂ່າວສານ</span>
-                  <span class="en-text">Tailwind-based Public Portal (SSR)</span>
+                  <span class="lao-text"
+                    >TailwindCSS, Nuxt SEO, ຂໍ້ມູນຂ່າວສານ</span
+                  >
+                  <span class="en-text"
+                    >Tailwind-based Public Portal (SSR)</span
+                  >
                 </p>
               </div>
-
             </div>
           </div>
-          
+
           <div class="mt-8 text-center text-xs text-slate-400">
-            <span class="lao-text">* ໝາຍເຫດ: ເສັ້ນແລ່ນສະແດງທິດທາງການສົ່ງຂໍ້ມູນ (Data Flow Direction) ຜ່ານ REST APIs ຄວາມປອດໄພສູງ</span>
-            <span class="en-text">* Note: Flow lines indicate interactive data routing via secure REST endpoints.</span>
+            <span class="lao-text"
+              >* ໝາຍເຫດ: ເສັ້ນແລ່ນສະແດງທິດທາງການສົ່ງຂໍ້ມູນ (Data Flow Direction)
+              ຜ່ານ REST APIs ຄວາມປອດໄພສູງ</span
+            >
+            <span class="en-text"
+              >* Note: Flow lines indicate interactive data routing via secure
+              REST endpoints.</span
+            >
           </div>
         </div>
       </section>
 
-      <!-- Section: Core Technology Stack (Tabs) -->
       <section class="mb-16">
-        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
-          <span class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+        <h2
+          class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2"
+        >
+          <span
+            class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                clip-rule="evenodd"
+              />
             </svg>
           </span>
-          <span class="lao-text">2. ສະຖາປັດຕະຍະກຳ ເຕັກໂນໂລຊີທີ່ນຳໃຊ້ (Technology Stack)</span>
+          <span class="lao-text"
+            >2. ສະຖາປັດຕະຍະກຳ ເຕັກໂນໂລຊີທີ່ນຳໃຊ້ (Technology Stack)</span
+          >
           <span class="en-text">2. Technology Stack Specifications</span>
         </h2>
 
-        <!-- Interactive Tabs Navigation -->
         <div class="flex space-x-2 mb-6 border-b border-slate-200 pb-2">
-          <button onclick="switchTechTab('backend')" id="tab-btn-backend" class="tab-active px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg">
+          <button
+            onclick="switchTechTab('backend')"
+            id="tab-btn-backend"
+            class="tab-active px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg"
+          >
             Backend API
           </button>
-          <button onclick="switchTechTab('admin')" id="tab-btn-admin" class="px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg">
+          <button
+            onclick="switchTechTab('admin')"
+            id="tab-btn-admin"
+            class="px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg"
+          >
             Frontend Admin Portal
           </button>
-          <button onclick="switchTechTab('public')" id="tab-btn-public" class="px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg">
+          <button
+            onclick="switchTechTab('public')"
+            id="tab-btn-public"
+            class="px-4 py-2 border-b-2 border-transparent font-bold text-sm text-slate-500 hover:text-indigo-600 transition duration-200 rounded-t-lg"
+          >
             Public Website
           </button>
         </div>
 
-        <!-- Tech Stack Content Panels -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-          
-          <!-- Backend Tab Content -->
           <div id="tech-panel-backend" class="space-y-4">
             <div class="flex items-center justify-between mb-2">
-              <h3 class="text-md font-bold text-slate-800">Node.js API Stack Specs</h3>
-              <span class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold">REST API Server</span>
+              <h3 class="text-md font-bold text-slate-800">
+                Node.js API Stack Specs
+              </h3>
+              <span
+                class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold"
+                >REST API Server</span
+              >
             </div>
-            
+
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse text-sm">
                 <thead>
                   <tr class="border-b border-slate-200 bg-slate-50/50">
-                    <th class="py-2 px-4 font-semibold text-slate-650">Component</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Technology Selected</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Purpose / Role</th>
+                    <th class="py-2 px-4 font-semibold text-slate-650">
+                      Component
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Technology Selected
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Purpose / Role
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Runtime</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Node.js 22</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Modern runtime environment with upgraded ES modules support.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Runtime
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Node.js 22</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Modern runtime environment with upgraded ES modules
+                      support.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Framework</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Express.js</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Robust, lightweight framework for REST routing.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Framework
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Express.js</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Robust, lightweight framework for REST routing.
+                    </td>
                   </tr>
                   <tr>
                     <td class="py-2.5 px-4 font-medium text-slate-800">ORM</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">TypeORM</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Data-mapper design pattern object-relational mapping using TypeScript.</td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >TypeORM</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Data-mapper design pattern object-relational mapping using
+                      TypeScript.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Database</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">PostgreSQL 16</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Relational Database supporting high transactions and queries.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Database
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >PostgreSQL 16</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Relational Database supporting high transactions and
+                      queries.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Authentication</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">JWT</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">JSON Web Tokens for stateless access authorizations.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Authentication
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >JWT</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      JSON Web Tokens for stateless access authorizations.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Documentation</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Swagger</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">OpenAPI definitions UI generation for API sandboxing.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Documentation
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Swagger</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      OpenAPI definitions UI generation for API sandboxing.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Logging</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Winston</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Structured logging framework for tracing server events.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Logging
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Winston</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Structured logging framework for tracing server events.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Validation</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">class-validator</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Decorator-based parameter verification on route payloads.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Validation
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >class-validator</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Decorator-based parameter verification on route payloads.
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Admin Tab Content -->
           <div id="tech-panel-admin" class="hidden space-y-4">
             <div class="flex items-center justify-between mb-2">
-              <h3 class="text-md font-bold text-slate-800">Admin Dashboard Frontend Specs</h3>
-              <span class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold">Nuxt 4 Vuetify Client</span>
+              <h3 class="text-md font-bold text-slate-800">
+                Admin Dashboard Frontend Specs
+              </h3>
+              <span
+                class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold"
+                >Nuxt 4 Vuetify Client</span
+              >
             </div>
-            
+
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse text-sm">
                 <thead>
                   <tr class="border-b border-slate-200 bg-slate-50/50">
-                    <th class="py-2 px-4 font-semibold text-slate-655">Component</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Technology Selected</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Purpose / Role</th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Component
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Technology Selected
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Purpose / Role
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Framework</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Nuxt 4</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Advanced features, auto-imports, file-based routing.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Framework
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Nuxt 4</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Advanced features, auto-imports, file-based routing.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">UI library</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Vuetify 4</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Material Design component kit tailored for dashboards.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      UI library
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Vuetify 4</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Material Design component kit tailored for dashboards.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">State Management</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Pinia</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Store design logic representing authentications, configurations.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      State Management
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Pinia</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Store design logic representing authentications,
+                      configurations.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">HTTP Engine</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Axios</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Structured HTTP requests configurations and interceptors.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      HTTP Engine
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Axios</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Structured HTTP requests configurations and interceptors.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Form Validation</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">VeeValidate</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Client-side validations logic on forms.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Form Validation
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >VeeValidate</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Client-side validations logic on forms.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Charts Engine</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">nuxt-charts</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Visual representations of metrics and citizen data.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Charts Engine
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >nuxt-charts</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Visual representations of metrics and citizen data.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Data Grid</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">DataTable</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Feature-rich grids displaying search, filters, export datasets.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Data Grid
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >DataTable</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Feature-rich grids displaying search, filters, export
+                      datasets.
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Public Tab Content -->
           <div id="tech-panel-public" class="hidden space-y-4">
             <div class="flex items-center justify-between mb-2">
-              <h3 class="text-md font-bold text-slate-800">Public Website Frontend Specs</h3>
-              <span class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold">Nuxt 4 SSR Client</span>
+              <h3 class="text-md font-bold text-slate-800">
+                Public Website Frontend Specs
+              </h3>
+              <span
+                class="text-xs bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-semibold"
+                >Nuxt 4 SSR Client</span
+              >
             </div>
-            
+
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse text-sm">
                 <thead>
                   <tr class="border-b border-slate-200 bg-slate-50/50">
-                    <th class="py-2 px-4 font-semibold text-slate-655">Component</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Technology Selected</th>
-                    <th class="py-2 px-4 font-semibold text-slate-655">Purpose / Role</th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Component
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Technology Selected
+                    </th>
+                    <th class="py-2 px-4 font-semibold text-slate-655">
+                      Purpose / Role
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Framework</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Nuxt 4</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Server-Side Rendering framework to boost loading paint times.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Framework
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Nuxt 4</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Server-Side Rendering framework to boost loading paint
+                      times.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Styling Library</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">TailwindCSS</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Utility-first framework to construct highly customized designs.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Styling Library
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >TailwindCSS</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Utility-first framework to construct highly customized
+                      designs.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">SEO Integration</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Nuxt SEO</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Configures metadata schemas, sitemaps, indexing friendly tags.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      SEO Integration
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Nuxt SEO</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Configures metadata schemas, sitemaps, indexing friendly
+                      tags.
+                    </td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-4 font-medium text-slate-800">Content Model</td>
-                    <td class="py-2.5 px-4"><span class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold">Dynamic API</span></td>
-                    <td class="py-2.5 px-4 text-slate-500">Retrieves statistics and news dynamically from central backend REST database.</td>
+                    <td class="py-2.5 px-4 font-medium text-slate-800">
+                      Content Model
+                    </td>
+                    <td class="py-2.5 px-4">
+                      <span
+                        class="bg-indigo-55 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold"
+                        >Dynamic API</span
+                      >
+                    </td>
+                    <td class="py-2.5 px-4 text-slate-500">
+                      Retrieves statistics and news dynamically from central
+                      backend REST database.
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-
         </div>
       </section>
 
-      <!-- Section: Database Design & Entity Relationships -->
       <section class="mb-16">
-        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
-          <span class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+        <h2
+          class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2"
+        >
+          <span
+            class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+              />
             </svg>
           </span>
-          <span class="lao-text">3. ການອອກແບບຖານຂໍ້ມູນ & ຄວາມສຳພັນ (Database Schema & ERD)</span>
+          <span class="lao-text"
+            >3. ການອອກແບບຖານຂໍ້ມູນ & ຄວາມສຳພັນ (Database Schema & ERD)</span
+          >
           <span class="en-text">3. Database Design & Entity Relationships</span>
         </h2>
 
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Left panel: List of tables -->
-            <div class="lg:col-span-4 border-r border-slate-100 pr-0 lg:pr-6 space-y-2 max-h-[500px] overflow-y-auto print:max-h-none print:overflow-visible">
-              <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 mb-3">
+            <div
+              class="lg:col-span-4 border-r border-slate-100 pr-0 lg:pr-6 space-y-2 max-h-[500px] overflow-y-auto print:max-h-none print:overflow-visible"
+            >
+              <h3
+                class="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 mb-3"
+              >
                 <span class="lao-text">ຕາຕະລາງທັງໝົດ (13 Tables)</span>
                 <span class="en-text">Core DB Tables</span>
               </h3>
-              
+
               <div class="grid grid-cols-2 lg:grid-cols-1 gap-1">
-                <button onclick="selectDBTable('users')" id="db-btn-users" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
-                  <span class="p-1 bg-indigo-50 text-indigo-600 rounded">🔐</span>
+                <button
+                  onclick="selectDBTable('users')"
+                  id="db-btn-users"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
+                  <span class="p-1 bg-indigo-50 text-indigo-600 rounded"
+                    >🔐</span
+                  >
                   <span class="truncate">users</span>
                 </button>
-                <button onclick="selectDBTable('roles')" id="db-btn-roles" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
-                  <span class="p-1 bg-purple-50 text-purple-600 rounded">🛡️</span>
+                <button
+                  onclick="selectDBTable('roles')"
+                  id="db-btn-roles"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
+                  <span class="p-1 bg-purple-50 text-purple-600 rounded"
+                    >🛡️</span
+                  >
                   <span class="truncate">roles</span>
                 </button>
-                <button onclick="selectDBTable('permissions')" id="db-btn-permissions" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('permissions')"
+                  id="db-btn-permissions"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-pink-50 text-pink-600 rounded">🔑</span>
                   <span class="truncate">permissions</span>
                 </button>
-                <button onclick="selectDBTable('sectors')" id="db-btn-sectors" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('sectors')"
+                  id="db-btn-sectors"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-teal-50 text-teal-650 rounded">🏢</span>
                   <span class="truncate">sectors</span>
                 </button>
-                <button onclick="selectDBTable('policies')" id="db-btn-policies" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('policies')"
+                  id="db-btn-policies"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-sky-50 text-sky-600 rounded">📜</span>
                   <span class="truncate">policies</span>
                 </button>
-                <button onclick="selectDBTable('activities')" id="db-btn-activities" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
-                  <span class="p-1 bg-emerald-50 text-emerald-600 rounded">🏃</span>
+                <button
+                  onclick="selectDBTable('activities')"
+                  id="db-btn-activities"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
+                  <span class="p-1 bg-emerald-50 text-emerald-600 rounded"
+                    >🏃</span
+                  >
                   <span class="truncate">activities</span>
                 </button>
-                <button onclick="selectDBTable('news')" id="db-btn-news" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
-                  <span class="p-1 bg-yellow-50 text-yellow-600 rounded">📰</span>
+                <button
+                  onclick="selectDBTable('news')"
+                  id="db-btn-news"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
+                  <span class="p-1 bg-yellow-50 text-yellow-600 rounded"
+                    >📰</span
+                  >
                   <span class="truncate">news</span>
                 </button>
-                <button onclick="selectDBTable('labor_stats')" id="db-btn-labor_stats" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('labor_stats')"
+                  id="db-btn-labor_stats"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-cyan-50 text-cyan-600 rounded">💼</span>
                   <span class="truncate">labor_stats</span>
                 </button>
-                <button onclick="selectDBTable('welfare_programs')" id="db-btn-welfare_programs" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('welfare_programs')"
+                  id="db-btn-welfare_programs"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-red-50 text-red-600 rounded">🤝</span>
                   <span class="truncate">welfare_programs</span>
                 </button>
-                <button onclick="selectDBTable('magazines')" id="db-btn-magazines" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('magazines')"
+                  id="db-btn-magazines"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-rose-50 text-rose-600 rounded">📖</span>
                   <span class="truncate">magazines</span>
                 </button>
-                <button onclick="selectDBTable('notifications')" id="db-btn-notifications" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('notifications')"
+                  id="db-btn-notifications"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-blue-50 text-blue-600 rounded">🔔</span>
                   <span class="truncate">notifications</span>
                 </button>
-                <button onclick="selectDBTable('audit_logs')" id="db-btn-audit_logs" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
-                  <span class="p-1 bg-orange-50 text-orange-600 rounded">📋</span>
+                <button
+                  onclick="selectDBTable('audit_logs')"
+                  id="db-btn-audit_logs"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
+                  <span class="p-1 bg-orange-50 text-orange-600 rounded"
+                    >📋</span
+                  >
                   <span class="truncate">audit_logs</span>
                 </button>
-                <button onclick="selectDBTable('system_configs')" id="db-btn-system_configs" class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600">
+                <button
+                  onclick="selectDBTable('system_configs')"
+                  id="db-btn-system_configs"
+                  class="flex items-center space-x-2.5 p-2 rounded-xl text-left border border-slate-100 hover:bg-slate-50 transition text-xs text-slate-600"
+                >
                   <span class="p-1 bg-gray-50 text-gray-650 rounded">⚙️</span>
                   <span class="truncate">system_configs</span>
                 </button>
               </div>
             </div>
 
-            <!-- Right panel: Interactive schema information display -->
-            <div class="lg:col-span-8 flex flex-col justify-between min-h-[450px]">
-              <div id="db-table-info-box" class="space-y-6">
-                <!-- Content will load dynamically from selectDBTable -->
-              </div>
+            <div
+              class="lg:col-span-8 flex flex-col justify-between min-h-[450px]"
+            >
+              <div id="db-table-info-box" class="space-y-6"></div>
             </div>
-
           </div>
         </div>
       </section>
 
-      <!-- Section: Interactive Gantt/Timeline Chart -->
       <section class="mb-16">
-        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
-          <span class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1-1H3a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2zm5 0a1 1 0 00-1-1H8a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2zm5 0a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2z" clip-rule="evenodd" />
+        <h2
+          class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2"
+        >
+          <span
+            class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6 2a1 1 0 00-1-1H3a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2zm5 0a1 1 0 00-1-1H8a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2zm5 0a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1h2a1 1 0 001-1V2z"
+                clip-rule="evenodd"
+              />
             </svg>
           </span>
           <span class="lao-text">4. ຕາຕະລາງແຜນງານ (Gantt Chart Timeline)</span>
           <span class="en-text">4. Gantt Chart Timeline</span>
         </h2>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-x-auto print:overflow-visible">
-          
-          <!-- Gantt Container (Fixed minimum width to avoid squishing) -->
+        <div
+          class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-x-auto print:overflow-visible"
+        >
           <div class="min-w-[760px]">
-            <!-- Timeline Header (Months 1 to 5) -->
-            <div class="grid grid-cols-12 gap-2 border-b border-slate-200 pb-4 mb-4">
-              <!-- Empty spacer corner -->
-              <div class="col-span-3 text-xs font-semibold text-slate-500 tracking-wider">
+            <div
+              class="grid grid-cols-12 gap-2 border-b border-slate-200 pb-4 mb-4"
+            >
+              <div
+                class="col-span-3 text-xs font-semibold text-slate-500 tracking-wider"
+              >
                 <span class="lao-text">ໄລຍະໂຄງການ</span>
                 <span class="en-text">Project Phase</span>
               </div>
-              
-              <!-- 5 Month Headers (Spanned across remaining 9 cols) -->
-              <div class="col-span-9 grid grid-cols-5 gap-1 text-center font-bold text-xs text-slate-650 uppercase tracking-widest">
-                <div>Month 1 (W1-4)</div>
-                <div>Month 2 (W5-8)</div>
-                <div>Month 3 (W9-12)</div>
-                <div>Month 4 (W13-16)</div>
-                <div>Month 5 (W17-21)</div>
+
+              <div
+                class="col-span-9 grid grid-cols-9 gap-1 text-center font-bold text-xs text-slate-650 uppercase tracking-widest"
+              >
+                <div title="08/06/2026 - 14/06/2026">W1</div>
+                <div title="15/06/2026 - 21/06/2026">W2</div>
+                <div title="22/06/2026 - 28/06/2026">W3</div>
+                <div title="29/06/2026 - 05/07/2026">W4</div>
+                <div title="06/07/2026 - 12/07/2026">W5</div>
+                <div title="13/07/2026 - 19/07/2026">W6</div>
+                <div title="20/07/2026 - 26/07/2026">W7</div>
+                <div title="27/07/2026 - 02/08/2026">W8</div>
+                <div title="03/08/2026 - 10/08/2026">W9</div>
               </div>
             </div>
 
-            <!-- Timeline Rows -->
             <div class="space-y-4">
-              <!-- Phase 1 Row -->
-              <div onclick="selectPhase(1)" id="timeline-row-1" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(1)"
+                id="timeline-row-1"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-indigo-600">Phase 1</span>
+                  <span class="text-xs font-bold text-indigo-600"
+                    >Phase 1 (W1)</span
+                  >
+                  <span class="text-[9px] text-slate-500 font-light"
+                    >08/06 - 14/06</span
+                  >
                   <span class="text-[10px] text-slate-550 font-light truncate">
                     <span class="lao-text">ການວິເຄາະ ແລະ ອອກແບບ</span>
                     <span class="en-text">Analysis & Design</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <!-- Spans Weeks 1-2 (Half of Month 1) -->
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-1 h-full bg-gradient-to-r from-indigo-500 to-indigo-650 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div
+                    class="col-span-1 h-full bg-gradient-to-r from-indigo-500 to-indigo-650 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    1 W
                   </div>
-                  <div class="col-span-4"></div>
+                  <div class="col-span-8"></div>
                 </div>
               </div>
 
-              <!-- Phase 2 Row -->
-              <div onclick="selectPhase(2)" id="timeline-row-2" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(2)"
+                id="timeline-row-2"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-purple-600">Phase 2</span>
+                  <span class="text-xs font-bold text-purple-600"
+                    >Phase 2 (W2-3)</span
+                  >
+                  <span class="text-[9px] text-slate-500 font-light"
+                    >15/06 - 28/06</span
+                  >
                   <span class="text-[10px] text-slate-550 font-light truncate">
                     <span class="lao-text">ໂຄງສ້າງຫຼັງບ້ານຫຼັກ</span>
                     <span class="en-text">Backend Core</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <!-- Empty space for W1-2 (half of Month 1) -->
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-1"></div>
-                    <!-- Spans W3-4 (half of Month 1) -->
-                    <div class="col-span-1 h-full bg-gradient-to-r from-purple-500 to-purple-650 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-1"></div>
+                  <div
+                    class="col-span-2 h-full bg-gradient-to-r from-purple-500 to-purple-650 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    2 W
                   </div>
-                  <!-- Spans W5-6 (half of Month 2) -->
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-2 h-full bg-gradient-to-r from-purple-550 to-purple-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
-                  </div>
-                  <div class="col-span-3"></div>
+                  <div class="col-span-6"></div>
                 </div>
               </div>
 
-              <!-- Phase 3 Row -->
-              <div onclick="selectPhase(3)" id="timeline-row-3" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(3)"
+                id="timeline-row-3"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-pink-650">Phase 3</span>
+                  <span class="text-xs font-bold text-pink-650"
+                    >Phase 3 (W4)</span
+                  >
+                  <span class="text-[9px] text-slate-500 font-light"
+                    >29/06 - 05/07</span
+                  >
                   <span class="text-[10px] text-slate-555 font-light truncate">
                     <span class="lao-text">ໂມດູນເນື້ອຫາ ແລະ ຂໍ້ມູນຫຼັກ</span>
                     <span class="en-text">Content & Core Modules</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <!-- Empty Months 1 -->
-                  <div class="col-span-1"></div>
-                  <!-- Spans W7-8 (half of Month 2) & W9-10 (half of Month 3) -->
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-2 h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-3"></div>
+                  <div
+                    class="col-span-1 h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    1 W
                   </div>
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-2 h-full bg-gradient-to-r from-pink-550 to-pink-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
-                  </div>
-                  <div class="col-span-2"></div>
+                  <div class="col-span-5"></div>
                 </div>
               </div>
 
-              <!-- Phase 4 Row -->
-              <div onclick="selectPhase(4)" id="timeline-row-4" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(4)"
+                id="timeline-row-4"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-cyan-600">Phase 4</span>
+                  <span class="text-xs font-bold text-cyan-600"
+                    >Phase 4 (W5)</span
+                  >
+                  <span class="text-[9px] text-slate-500 font-light"
+                    >06/07 - 12/07</span
+                  >
                   <span class="text-[10px] text-slate-555 font-light truncate">
                     <span class="lao-text">ບົດລາຍງານ & ແດຊບອດ</span>
                     <span class="en-text">Reporting & Dashboard</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <!-- Empty Months 1 & 2 -->
-                  <div class="col-span-2"></div>
-                  <!-- Spans W11-12 (half of Month 3) & W13 (part of Month 4) -->
-                  <div class="col-span-1 grid grid-cols-2 gap-1">
-                    <div class="col-span-2 h-full bg-gradient-to-r from-cyan-500 to-cyan-655 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-4"></div>
+                  <div
+                    class="col-span-1 h-full bg-gradient-to-r from-cyan-500 to-cyan-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    1 W
                   </div>
-                  <div class="col-span-1 grid grid-cols-4 gap-1">
-                    <div class="col-span-1 h-full bg-gradient-to-r from-cyan-550 to-cyan-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      1 W
-                    </div>
-                    <div class="col-span-3"></div>
-                  </div>
-                  <div class="col-span-1"></div>
+                  <div class="col-span-4"></div>
                 </div>
               </div>
 
-              <!-- Phase 5 Row -->
-              <div onclick="selectPhase(5)" id="timeline-row-5" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(5)"
+                id="timeline-row-5"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-emerald-600">Phase 5</span>
+                  <span class="text-xs font-bold text-emerald-600"
+                    >Phase 5 (W6-7)</span
+                  >
+                  <span class="text-[9px] text-slate-500 font-light"
+                    >13/07 - 26/07</span
+                  >
                   <span class="text-[10px] text-slate-555 font-light truncate">
                     <span class="lao-text">ລະບົບຈັດການ Admin</span>
                     <span class="en-text">Admin Portal</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <!-- Empty Month 1-3 -->
-                  <div class="col-span-3"></div>
-                  <!-- Spans W14-16 (rest of Month 4) & W17 (part of Month 5) -->
-                  <div class="col-span-1 grid grid-cols-4 gap-1">
-                    <div class="col-span-1"></div>
-                    <div class="col-span-3 h-full bg-gradient-to-r from-emerald-500 to-emerald-655 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      3 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-5"></div>
+                  <div
+                    class="col-span-2 h-full bg-gradient-to-r from-emerald-500 to-emerald-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    2 W
                   </div>
-                  <div class="col-span-1 grid grid-cols-5 gap-1">
-                    <div class="col-span-1 h-full bg-gradient-to-r from-emerald-550 to-emerald-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      1 W
-                    </div>
-                    <div class="col-span-4"></div>
-                  </div>
+                  <div class="col-span-2"></div>
                 </div>
               </div>
 
-              <!-- Phase 6 Row -->
-              <div onclick="selectPhase(6)" id="timeline-row-6" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(6)"
+                id="timeline-row-6"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-teal-650">Phase 6</span>
+                  <span class="text-xs font-bold text-teal-650"
+                    >Phase 6 (W8)</span
+                  >
+                  <span class="text-[9px] text-slate-555 font-light"
+                    >27/07 - 02/08</span
+                  >
                   <span class="text-[10px] text-slate-555 font-light truncate">
                     <span class="lao-text">ໜ້າເວັບໄຊສາທາລະນະ</span>
                     <span class="en-text">Public Website</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <div class="col-span-4"></div>
-                  <!-- Spans W18-19 (part of Month 5) -->
-                  <div class="col-span-1 grid grid-cols-5 gap-1">
-                    <div class="col-span-1"></div>
-                    <div class="col-span-2 h-full bg-gradient-to-r from-teal-500 to-teal-655 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
-                    <div class="col-span-2"></div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-7"></div>
+                  <div
+                    class="col-span-1 h-full bg-gradient-to-r from-teal-500 to-teal-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    1 W
                   </div>
+                  <div class="col-span-1"></div>
                 </div>
               </div>
 
-              <!-- Phase 7 Row -->
-              <div onclick="selectPhase(7)" id="timeline-row-7" class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50">
+              <div
+                onclick="selectPhase(7)"
+                id="timeline-row-7"
+                class="grid grid-cols-12 gap-2 items-center cursor-pointer p-2 rounded-xl transition duration-200 border border-transparent hover:bg-slate-50"
+              >
                 <div class="col-span-3 flex flex-col pr-2">
-                  <span class="text-xs font-bold text-amber-600">Phase 7</span>
+                  <span class="text-xs font-bold text-amber-600"
+                    >Phase 7 (W9)</span
+                  >
+                  <span class="text-[9px] text-slate-555 font-light"
+                    >03/08 - 10/08</span
+                  >
                   <span class="text-[10px] text-slate-555 font-light truncate">
                     <span class="lao-text">ທົດສອບ & ຂຶ້ນລະບົບ</span>
                     <span class="en-text">Testing & Launch</span>
                   </span>
                 </div>
-                <div class="col-span-9 grid grid-cols-5 gap-1 h-8 bg-slate-100/60 rounded-lg p-1">
-                  <div class="col-span-4"></div>
-                  <!-- Spans W20-21 (end of Month 5) -->
-                  <div class="col-span-1 grid grid-cols-5 gap-1">
-                    <div class="col-span-3"></div>
-                    <div class="col-span-2 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-md relative shadow-sm flex items-center justify-center text-[8px] font-bold text-white tracking-wide">
-                      2 W
-                    </div>
+                <div
+                  class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
+                >
+                  <div class="col-span-8"></div>
+                  <div
+                    class="col-span-1 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                  >
+                    1 W
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <!-- Timeline Selected Details Panel -->
+
           <div class="mt-8 pt-6 border-t border-slate-100">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+            <h4
+              class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"
+            >
               <span class="lao-text">ລາຍລະອຽດໄລຍະງານທີ່ເລືອກ</span>
               <span class="en-text">Selected Phase Details</span>
             </h4>
-            
-            <!-- Dynamic Phase Text Containers -->
-            <div id="phase-detail-content" class="bg-slate-50 border border-slate-200/80 p-5 rounded-xl text-slate-700">
+
+            <div
+              id="phase-detail-content"
+              class="bg-slate-50 border border-slate-200/80 p-5 rounded-xl text-slate-700"
+            >
               <p class="text-slate-500 text-xs italic">
-                <span class="lao-text">ກົດເລືອກໄລຍະງານໃນ Gantt Chart ຂ້າງເທິງ ເພື່ອເບິ່ງລາຍລະອຽດ...</span>
-                <span class="en-text">Click on any phase row in the Gantt Chart above to view deliverables and timing...</span>
+                <span class="lao-text"
+                  >ກົດເລືອກໄລຍະງານໃນ Gantt Chart ຂ້າງເທິງ
+                  ເພື່ອເບິ່ງລາຍລະອຽດ...</span
+                >
+                <span class="en-text"
+                  >Click on any phase row in the Gantt Chart above to view
+                  deliverables and timing...</span
+                >
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Phase Breakdown Checklist (Interactive) -->
       <section class="mb-12">
-        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
-          <span class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M6.267 3.455a.75.75 0 00-.708-.523H4.5a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h11a.75.75 0 00.75-.75V3.682a.75.75 0 00-.75-.75h-1.06a.75.75 0 00-.707.523C13.62 4.417 12.898 5 12 5c-.898 0-1.62-.583-1.983-1.545a.75.75 0 00-.707-.523H8.25a.75.75 0 00-.708.523C7.18 4.417 6.458 5 5.56 5c-.898 0-1.62-.583-1.983-1.545zM4.5 1.5c-1.243 0-2.25 1.007-2.25 2.25v12.5c0 1.243 1.007 2.25 2.25 2.25h11c1.243 0 2.25-1.007 2.25-2.25V3.75c0-1.243-1.007-2.25-2.25-2.25h-1.06c-.43 0-.825.242-1.02.625C13.238 3.518 12.67 4 12 4c-.67 0-1.238-.482-1.42-1.25-.195-.383-.59-.625-1.02-.625H8.25c-.43 0-.825.242-1.02.625C7.038 3.518 6.47 4 5.75 4c-.67 0-1.238-.482-1.42-1.25-.195-.383-.59-.625-1.02-.625H4.5z" />
+        <h2
+          class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2"
+        >
+          <span
+            class="p-1.5 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6.267 3.455a.75.75 0 00-.708-.523H4.5a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h11a.75.75 0 00.75-.75V3.682a.75.75 0 00-.75-.75h-1.06a.75.75 0 00-.707.523C13.62 4.417 12.898 5 12 5c-.898 0-1.62-.583-1.983-1.545a.75.75 0 00-.707-.523H8.25a.75.75 0 00-.708.523C7.18 4.417 6.458 5 5.56 5c-.898 0-1.62-.583-1.983-1.545zM4.5 1.5c-1.243 0-2.25 1.007-2.25 2.25v12.5c0 1.243 1.007 2.25 2.25 2.25h11c1.243 0 2.25-1.007 2.25-2.25V3.75c0-1.243-1.007-2.25-2.25-2.25h-1.06c-.43 0-.825.242-1.02.625C13.238 3.518 12.67 4 12 4c-.67 0-1.238-.482-1.42-1.25-.195-.383-.59-.625-1.02-.625H8.25c-.43 0-.825.242-1.02.625C7.038 3.518 6.47 4 5.75 4c-.67 0-1.238-.482-1.42-1.25-.195-.383-.59-.625-1.02-.625H4.5z"
+              />
             </svg>
           </span>
-          <span class="lao-text">5. ລາຍລະອຽດໜ້າວຽກທັງໝົດ (Task Deliverables Checklist)</span>
+          <span class="lao-text"
+            >5. ລາຍລະອຽດໜ້າວຽກທັງໝົດ (Task Deliverables Checklist)</span
+          >
           <span class="en-text">5. Task Deliverables Tracker Checklist</span>
         </h2>
 
-        <!-- Interactive Phase cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <!-- Phase 1 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-indigo-650 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">Phase 1 (W1-2)</span>
-              <span id="phase-1-progress" class="text-xs text-indigo-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-indigo-650 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100"
+                >Phase 1 (W1: 08/06 - 14/06)</span
+              >
+              <span
+                id="phase-1-progress"
+                class="text-xs text-indigo-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ການວິເຄາະ ແລະ ອອກແບບລະບົບ</span>
-              <span class="en-text">Analysis & Design (2 Weeks)</span>
+              <span class="en-text">Analysis & Design (1 Week)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ເກັບກຳຂໍ້ມູນຄວາມຕ້ອງການຂອງລະບົບ VMS (Requirements Gathering)</span>
-                  <span class="en-text">Collect detailed user requirements for Village Management System</span>
+                  <span class="lao-text"
+                    >ເກັບກຳຂໍ້ມູນຄວາມຕ້ອງການຂອງລະບົບ (Requirements
+                    Gathering)</span
+                  >
+                  <span class="en-text"
+                    >Collect detailed user requirements</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ອອກແບບຖານຂໍ້ມູນ PostgreSQL SQL Entity Tables</span>
-                  <span class="en-text">Design Database tables (PostgreSQL) and TypeORM associations</span>
+                  <span class="lao-text"
+                    >ອອກແບບຖານຂໍ້ມູນ PostgreSQL SQL Entity Tables</span
+                  >
+                  <span class="en-text"
+                    >Design Database tables (PostgreSQL) and TypeORM
+                    associations</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ອອກແບບ UI/UX (Figma prototypes) ສໍາລັບ Admin & Public</span>
-                  <span class="en-text">Complete UI/UX templates drafts for Admin Dashboard & Public Web</span>
+                  <span class="lao-text"
+                    >ອອກແບບ UI/UX (Figma prototypes) ສໍາລັບ Admin & Public</span
+                  >
+                  <span class="en-text"
+                    >Complete UI/UX templates drafts for Admin Dashboard &
+                    Public Web</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ກຳນົດເອກະສານ APIs Documentation (endpoints draft)</span>
-                  <span class="en-text">Define technical API specification documentation</span>
+                  <span class="lao-text"
+                    >ກຳນົດເອກະສານ APIs Documentation (endpoints draft)</span
+                  >
+                  <span class="en-text"
+                    >Define technical API specification documentation</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 2 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-purple-650 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">Phase 2 (W3-6)</span>
-              <span id="phase-2-progress" class="text-xs text-purple-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-purple-650 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100"
+                >Phase 2 (W2-3: 15/06 - 28/06)</span
+              >
+              <span
+                id="phase-2-progress"
+                class="text-xs text-purple-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ໂຄງສ້າງຫຼັງບ້ານຫຼັກ</span>
-              <span class="en-text">Backend Core (4 Weeks)</span>
+              <span class="en-text">Backend Core (2 Weeks)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາລະບົບ Authentication (JWT) & Middleware</span>
-                  <span class="en-text">Implement Secure JWT token Authorization & Middleware</span>
+                  <span class="lao-text"
+                    >ພັດທະນາລະບົບ Authentication (JWT) & Middleware</span
+                  >
+                  <span class="en-text"
+                    >Implement Secure JWT token Authorization & Middleware</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາລະບົບຈັດການຜູ້ໃຊ້ (User Management)</span>
-                  <span class="en-text">Develop system User accounts creation and editing modules</span>
+                  <span class="lao-text"
+                    >ພັດທະນາລະບົບຈັດການຜູ້ໃຊ້ (User Management)</span
+                  >
+                  <span class="en-text"
+                    >Develop system User accounts creation and editing
+                    modules</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ຈັດການລະບົບແບ່ງສິດທິການເຂົ້າເຖິງ (Role Permissions RBAC)</span>
-                  <span class="en-text">Configure Role-Based Access Control (RBAC) scopes</span>
+                  <span class="lao-text"
+                    >ຈັດການລະບົບແບ່ງສິດທິການເຂົ້າເຖິງ (Role Permissions
+                    RBAC)</span
+                  >
+                  <span class="en-text"
+                    >Configure Role-Based Access Control (RBAC) scopes</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາ ໂມດູນຂະແໜງການ ແລະ ນິຕິກຳ (Sectors & Policies API)</span>
-                  <span class="en-text">Develop database configurations & API endpoints for Sectors and Policies</span>
+                  <span class="lao-text"
+                    >ພັດທະນາ ໂມດູນຂະແໜງການ ແລະ ນິຕິກຳ (Sectors & Policies
+                    API)</span
+                  >
+                  <span class="en-text"
+                    >Develop database configurations & API endpoints for Sectors
+                    and Policies</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-purple-600 focus:ring-purple-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາ ໂມດູນໂຄງການສະຫວັດດີການ (Welfare Programs API)</span>
-                  <span class="en-text">Build Welfare programs records, links, and details API operations</span>
+                  <span class="lao-text"
+                    >ພັດທະນາ ໂມດູນໂຄງການສະຫວັດດີການ (Welfare Programs API)</span
+                  >
+                  <span class="en-text"
+                    >Build Welfare programs records, links, and details API
+                    operations</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 3 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-pink-650 bg-pink-50 px-2.5 py-1 rounded-full border border-pink-100">Phase 3 (W7-10)</span>
-              <span id="phase-3-progress" class="text-xs text-pink-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-pink-650 bg-pink-50 px-2.5 py-1 rounded-full border border-pink-100"
+                >Phase 3 (W4: 29/06 - 05/07)</span
+              >
+              <span
+                id="phase-3-progress"
+                class="text-xs text-pink-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ໂມດູນເນື້ອຫາ ແລະ ຂໍ້ມູນຫຼັກ</span>
-              <span class="en-text">Content & Core Modules (4 Weeks)</span>
+              <span class="en-text">Content & Core Modules (1 Week)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາລະບົບຈັດການການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ (News & Activities APIs)</span>
-                  <span class="en-text">Develop search, addition, delete services on News & Activities database</span>
+                  <span class="lao-text"
+                    >ພັດທະນາລະບົບຈັດການການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ (News &
+                    Activities APIs)</span
+                  >
+                  <span class="en-text"
+                    >Develop search, addition, delete services on News &
+                    Activities database</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ສ້າງລະບົບບັນທຶກວາລະສານ (Magazines records APIs)</span>
-                  <span class="en-text">Build digital registers endpoints for magazines tracking and publication</span>
+                  <span class="lao-text"
+                    >ສ້າງລະບົບບັນທຶກວາລະສານ (Magazines records APIs)</span
+                  >
+                  <span class="en-text"
+                    >Build digital registers endpoints for magazines tracking
+                    and publication</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-pink-600 focus:ring-pink-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ສ້າງລະບົບຕິດຕາມສະຖິຕິແຮງງານ (Labor Stats tracking logic)</span>
-                  <span class="en-text">Implement workforce and labor stats logic integration flows</span>
+                  <span class="lao-text"
+                    >ສ້າງລະບົບຕິດຕາມສະຖິຕິແຮງງານ (Labor Stats tracking
+                    logic)</span
+                  >
+                  <span class="en-text"
+                    >Implement workforce and labor stats logic integration
+                    flows</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 4 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-cyan-650 bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-100">Phase 4 (W11-13)</span>
-              <span id="phase-4-progress" class="text-xs text-cyan-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-cyan-650 bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-100"
+                >Phase 4 (W5: 06/07 - 12/07)</span
+              >
+              <span
+                id="phase-4-progress"
+                class="text-xs text-cyan-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ບົດລາຍງານ ແລະ ແດຊບອດ</span>
-              <span class="en-text">Reporting & Dashboard (3 Weeks)</span>
+              <span class="en-text">Reporting & Dashboard (1 Week)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ສ້າງ APIs ສະຖິຕິແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ (Labour & Social Welfare Dashboard)</span>
-                  <span class="en-text">Build aggregation APIs for labour workforce statistics & social welfare metrics</span>
+                  <span class="lao-text"
+                    >ສ້າງ APIs ສະຖິຕິແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ (Labour &
+                    Social Welfare Dashboard)</span
+                  >
+                  <span class="en-text"
+                    >Build aggregation APIs for labour workforce statistics &
+                    social welfare metrics</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາລະບົບລາຍງານການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ (Activities & News Analytics)</span>
-                  <span class="en-text">Develop activity tracking & news engagement analytics report endpoints</span>
+                  <span class="lao-text"
+                    >ພັດທະນາລະບົບລາຍງານການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ (Activities &
+                    News Analytics)</span
+                  >
+                  <span class="en-text"
+                    >Develop activity tracking & news engagement analytics
+                    report endpoints</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ສ້າງລະບົບລາຍງານນິຕິກຳ ແລະ ເອກະສານທາງການ (Policy & Legislation Reports)</span>
-                  <span class="en-text">Build policy document statistics, decree tracking & compliance report modules</span>
+                  <span class="lao-text"
+                    >ສ້າງລະບົບລາຍງານນິຕິກຳ ແລະ ເອກະສານທາງການ (Policy &
+                    Legislation Reports)</span
+                  >
+                  <span class="en-text"
+                    >Build policy document statistics, decree tracking &
+                    compliance report modules</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ສ້າງລະບົບລາຍງານຂະແໜງການ ແລະ ກົງຈັກການຈັດຕັ້ງ (Sector & Organization Reports)</span>
-                  <span class="en-text">Develop organizational structure & sector-wise performance summary APIs</span>
+                  <span class="lao-text"
+                    >ສ້າງລະບົບລາຍງານຂະແໜງການ ແລະ ກົງຈັກການຈັດຕັ້ງ (Sector &
+                    Organization Reports)</span
+                  >
+                  <span class="en-text"
+                    >Develop organizational structure & sector-wise performance
+                    summary APIs</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-cyan-600 focus:ring-cyan-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາການສົ່ງອອກໄຟລ໌ Excel/PDF ແລະ ວາລະສານ (Export & Magazine Downloads)</span>
-                  <span class="en-text">Configure dynamic xlsx, pdf generator & magazine download stream services</span>
+                  <span class="lao-text"
+                    >ພັດທະນາການສົ່ງອອກໄຟລ໌ Excel/PDF ແລະ ວາລະສານ (Export &
+                    Magazine Downloads)</span
+                  >
+                  <span class="en-text"
+                    >Configure dynamic xlsx, pdf generator & magazine download
+                    stream services</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 5 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-emerald-650 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">Phase 5 (W14-17)</span>
-              <span id="phase-5-progress" class="text-xs text-emerald-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-emerald-650 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100"
+                >Phase 5 (W6-7: 13/07 - 26/07)</span
+              >
+              <span
+                id="phase-5-progress"
+                class="text-xs text-emerald-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ລະບົບຈັດການ Admin Portal</span>
-              <span class="en-text">Admin Portal Development (4 Weeks)</span>
+              <span class="en-text">Admin Portal Development (2 Weeks)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-650 focus:ring-emerald-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-650 focus:ring-emerald-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ຕິດຕັ້ງ Nuxt 4 workspace & Vuetify 4 shell layouts</span>
-                  <span class="en-text">Initialize Vue client, set up views routing, layouts shells</span>
+                  <span class="lao-text"
+                    >ຕິດຕັ້ງ Nuxt 4 workspace & Vuetify 4 shell layouts</span
+                  >
+                  <span class="en-text"
+                    >Initialize Vue client, set up views routing, layouts
+                    shells</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ເຊື່ອມໂຍງໜ້າຈໍ CRUD ທັງໝົດ (ຂະແໜງການ, ນິຕິກຳ, ຂ່າວສານ, ຜູ້ໃຊ້ງານ)</span>
-                  <span class="en-text">Develop screens interfaces for editing, details displaying</span>
+                  <span class="lao-text"
+                    >ເຊື່ອມໂຍງໜ້າຈໍ CRUD ທັງໝົດ (ຂະແໜງການ, ນິຕິກຳ, ຂ່າວສານ,
+                    ຜູ້ໃຊ້ງານ)</span
+                  >
+                  <span class="en-text"
+                    >Develop screens interfaces for editing, details
+                    displaying</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາລະບົບຄົ້ນຫາ ແລະ ຟິວເຕີ (DataTable searches & filters)</span>
-                  <span class="en-text">Integrate client-side Data Grid filters, multi queries</span>
+                  <span class="lao-text"
+                    >ພັດທະນາລະບົບຄົ້ນຫາ ແລະ ຟິວເຕີ (DataTable searches &
+                    filters)</span
+                  >
+                  <span class="en-text"
+                    >Integrate client-side Data Grid filters, multi
+                    queries</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-emerald-655 focus:ring-emerald-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ເຊື່ອມຕໍ່ລະບົບ RBAC permissions controls ກັບ UI views</span>
-                  <span class="en-text">Enforce dynamic sidebars display depending on User roles scopes</span>
+                  <span class="lao-text"
+                    >ເຊື່ອມຕໍ່ລະບົບ RBAC permissions controls ກັບ UI views</span
+                  >
+                  <span class="en-text"
+                    >Enforce dynamic sidebars display depending on User roles
+                    scopes</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 6 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-teal-650 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-100">Phase 6 (W18-19)</span>
-              <span id="phase-6-progress" class="text-xs text-teal-650 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-teal-650 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-100"
+                >Phase 6 (W8: 27/07 - 02/08)</span
+              >
+              <span
+                id="phase-6-progress"
+                class="text-xs text-teal-650 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ໜ້າເວັບໄຊສາທາລະນະ</span>
-              <span class="en-text">Public Website (2 Weeks)</span>
+              <span class="en-text">Public Website (1 Week)</span>
             </h3>
-            
+
             <ul class="space-y-3">
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ພັດທະນາເວັບໄຊຫຼັກ (Public Web Portal interface)</span>
-                  <span class="en-text">Build information pages layout in Nuxt 4 & TailwindCSS</span>
+                  <span class="lao-text"
+                    >ພັດທະນາເວັບໄຊຫຼັກ (Public Web Portal interface)</span
+                  >
+                  <span class="en-text"
+                    >Build information pages layout in Nuxt 4 &
+                    TailwindCSS</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ປັບແຕ່ງ SEO metadata, Dynamic Sitemaps (Nuxt SEO)</span>
-                  <span class="en-text">Set up sitemap index, meta tagging to boost search rankings</span>
+                  <span class="lao-text"
+                    >ປັບແຕ່ງ SEO metadata, Dynamic Sitemaps (Nuxt SEO)</span
+                  >
+                  <span class="en-text"
+                    >Set up sitemap index, meta tagging to boost search
+                    rankings</span
+                  >
                 </span>
               </li>
               <li class="flex items-start space-x-3">
-                <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500" />
+                <input
+                  type="checkbox"
+                  onchange="calculateProgress()"
+                  class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-teal-600 focus:ring-teal-500"
+                />
                 <span class="text-xs text-slate-600">
-                  <span class="lao-text">ເຊື່ອມໂຍງການສະແດງຜົນສະຖິຕິ (Public Statistics dashboard view)</span>
-                  <span class="en-text">Fetch public aggregations metrics dynamically to feed homepage widgets</span>
+                  <span class="lao-text"
+                    >ເຊື່ອມໂຍງການສະແດງຜົນສະຖິຕິ (Public Statistics dashboard
+                    view)</span
+                  >
+                  <span class="en-text"
+                    >Fetch public aggregations metrics dynamically to feed
+                    homepage widgets</span
+                  >
                 </span>
               </li>
             </ul>
           </div>
 
-          <!-- Phase 7 Card -->
-          <div class="bg-white border border-slate-200 p-6 rounded-2xl relative md:col-span-2 shadow-sm">
+          <div
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative md:col-span-2 shadow-sm"
+          >
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-bold text-amber-655 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">Phase 7 (W20-21)</span>
-              <span id="phase-7-progress" class="text-xs text-amber-655 font-semibold">0%</span>
+              <span
+                class="text-xs font-bold text-amber-655 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100"
+                >Phase 7 (W9: 03/08 - 10/08)</span
+              >
+              <span
+                id="phase-7-progress"
+                class="text-xs text-amber-655 font-semibold"
+                >0%</span
+              >
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-4">
               <span class="lao-text">ການທົດສອບ ແລະ ຂຶ້ນລະບົບ</span>
-              <span class="en-text">Testing & Launch Deployment (2 Weeks)</span>
+              <span class="en-text">Testing & Launch Deployment (1 Week)</span>
             </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <ul class="space-y-3">
                 <li class="flex items-start space-x-3">
-                  <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500" />
+                  <input
+                    type="checkbox"
+                    onchange="calculateProgress()"
+                    class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500"
+                  />
                   <span class="text-xs text-slate-600">
-                    <span class="lao-text">ດຳເນີນການທົດສອບ UAT (User Acceptance Testing)</span>
-                    <span class="en-text">Collect client UAT sign-offs reports and trace bugs logs</span>
+                    <span class="lao-text"
+                      >ດຳເນີນການທົດສອບ UAT (User Acceptance Testing)</span
+                    >
+                    <span class="en-text"
+                      >Collect client UAT sign-offs reports and trace bugs
+                      logs</span
+                    >
+                  </span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    onchange="calculateProgress()"
+                    class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500"
+                  />
+                  <span class="text-xs text-slate-600">
+                    <span class="lao-text"
+                      >ຈັດກຽມຄູ່ມືການນຳໃຊ້ ແລະ ເອກະສານລະບົບ
+                      (Documentation)</span
+                    >
+                    <span class="en-text"
+                      >Prepare system usage manuals and documentation</span
+                    >
                   </span>
                 </li>
               </ul>
               <ul class="space-y-3">
                 <li class="flex items-start space-x-3">
-                  <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500" />
+                  <input
+                    type="checkbox"
+                    onchange="calculateProgress()"
+                    class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500"
+                  />
                   <span class="text-xs text-slate-600">
-                    <span class="lao-text">ແກ້ໄຂ Bug ແລະ ປັບແຕ່ງ Security configurations</span>
-                    <span class="en-text">Resolve issues, lock API security parameters and environment variables</span>
+                    <span class="lao-text"
+                      >ຈັດກຽມ XML/YAML config parameters deployment
+                      templates</span
+                    >
+                    <span class="en-text"
+                      >Prepare server configs parameters defined for
+                      environments</span
+                    >
                   </span>
                 </li>
-              </ul>
-              <ul class="space-y-3">
                 <li class="flex items-start space-x-3">
-                  <input type="checkbox" onchange="calculateProgress()" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500" />
+                  <input
+                    type="checkbox"
+                    onchange="calculateProgress()"
+                    class="task-checkbox mt-1 h-4 w-4 rounded border-slate-300 bg-white text-amber-650 focus:ring-amber-500"
+                  />
                   <span class="text-xs text-slate-600">
-                    <span class="lao-text">Deploy ຖານຂໍ້ມູນ, Express server API & Nuxt static client, config CI/CD pipeline</span>
-                    <span class="en-text">Deploy services to cloud servers, bind domains, configurations SSL and pipelines actions</span>
+                    <span class="lao-text"
+                      >ຂຶ້ນລະບົບ Production, ຕັ້ງຄ່າ SSL (HTTPS) ແລະ CI/CD auto
+                      build</span
+                    >
+                    <span class="en-text"
+                      >Live server setups hosting PostgreSQL, Express API and
+                      Nuxt sites under HTTPS</span
+                    >
                   </span>
                 </li>
               </ul>
             </div>
           </div>
-
         </div>
       </section>
-
     </div>
 
-    <!-- Script Section for interactive logic -->
     <script>
       // 1. Language Toggle Logic
+      let currentLang = "lao";
       function toggleLanguage() {
         const body = document.body;
-        if (body.classList.contains('lang-lao')) {
-          body.classList.remove('lang-lao');
-          body.classList.add('lang-en');
+        if (currentLang === "lao") {
+          body.classList.remove("lang-lao");
+          body.classList.add("lang-en");
+          currentLang = "en";
         } else {
-          body.classList.remove('lang-en');
-          body.classList.add('lang-lao');
+          body.classList.remove("lang-en");
+          body.classList.add("lang-lao");
+          currentLang = "lao";
         }
       }
 
-      // 2. Dynamic Progress Logic
+      // 2. Progress Calculation Logic
       function calculateProgress() {
-        const checkboxes = document.querySelectorAll('.task-checkbox');
-        const totalTasks = checkboxes.length;
-        let checkedTasks = 0;
-        
-        checkboxes.forEach(box => {
-          if (box.checked) checkedTasks++;
+        const checkboxes = document.querySelectorAll(".task-checkbox");
+        const total = checkboxes.length;
+        let checked = 0;
+
+        checkboxes.forEach((cb) => {
+          if (cb.checked) checked++;
         });
 
-        // Compute global percent
-        const percent = Math.round((checkedTasks / totalTasks) * 100);
-        document.getElementById('global-progress-percent').innerText = `${percent}%`;
-        document.getElementById('global-progress-bar').style.width = `${percent}%`;
+        const percentage =
+          total === 0 ? 0 : Math.round((checked / total) * 100);
 
-        // Compute phase-specific percents
-        const phaseTasks = [
-          { id: 'phase-1-progress', start: 0, end: 3 },
-          { id: 'phase-2-progress', start: 4, end: 8 },
-          { id: 'phase-3-progress', start: 9, end: 11 },
-          { id: 'phase-4-progress', start: 12, end: 16 },
-          { id: 'phase-5-progress', start: 17, end: 20 },
-          { id: 'phase-6-progress', start: 21, end: 23 },
-          { id: 'phase-7-progress', start: 24, end: 26 }
-        ];
-
-        phaseTasks.forEach(phase => {
-          let phaseChecked = 0;
-          const totalInPhase = (phase.end - phase.start) + 1;
-          for (let i = phase.start; i <= phase.end; i++) {
-            if (checkboxes[i] && checkboxes[i].checked) {
-              phaseChecked++;
-            }
-          }
-          const phasePercent = Math.round((phaseChecked / totalInPhase) * 100);
-          document.getElementById(phase.id).innerText = `${phasePercent}%`;
-        });
+        // Update global bar
+        document.getElementById("global-progress-percent").innerText =
+          `${percentage}%`;
+        document.getElementById("global-progress-bar").style.width =
+          `${percentage}%`;
       }
 
-      // 3. Gantt Selection Logic
+      // 3. Gantt Chart Interactive Data
       const phaseDetailsData = {
         1: {
-          titleLao: "ໄລຍະທີ 1: ການວິເຄາະ ແລະ ອອກແບບລະບົບ ( Month 1 / Weeks 1 - 2 )",
-          titleEn: "Phase 1: Analysis & Design ( Month 1 / Weeks 1 - 2 )",
-          descLao: "ອອກແບບແຜນວາດຖານຂໍ້ມູນ PostgreSQL, ເກັບກຳຄວາມຕ້ອງການທັງໝົດຂອງລະບົບ MOLSW, ແລະ ອອກແບບ UI/UX ພ້ອມກັບ API specifications.",
-          descEn: "Designs databases PostgreSQL schemas, collects MOLSW requirements specifications, and maps user journey layouts on design modules.",
+          titleLao:
+            "ໄລຍະທີ 1: ການວິເຄາະ ແລະ ອອກແບບລະບົບ (08/06/2026 - 14/06/2026 / ອາທິດ 1)",
+          titleEn:
+            "Phase 1: Analysis & Design (08/06/2026 - 14/06/2026 / Week 1)",
+          descLao:
+            "ອອກແບບແຜນວາດຖານຂໍ້ມູນ PostgreSQL, ເກັບກຳຄວາມຕ້ອງການທັງໝົດຂອງລະບົບ MOLSW, ແລະ ອອກແບບ UI/UX ພ້ອມກັບ API specifications.",
+          descEn:
+            "Designs databases PostgreSQL schemas, collects MOLSW requirements specifications, and maps user journey layouts on design modules.",
           deliverablesLao: [
             "ເອກະສານ Requirements Specifications.",
             "PostgreSQL Database Schema & ORM Entities design.",
             "Figma High-Fidelity UI/UX mockups.",
-            "API endpoint OpenAPI Swagger specification drafts."
+            "API endpoint OpenAPI Swagger specification drafts.",
           ],
           deliverablesEn: [
             "Complete core System Requirements Specification draft.",
             "PostgreSQL normalized entities & relations diagrams.",
             "Interactive screens mockups for dashboards & public portals.",
-            "Technical API specifications drafts for development."
-          ]
+            "Technical API specifications drafts for development.",
+          ],
         },
         2: {
-          titleLao: "ໄລຍະທີ 2: ໂຄງສ້າງຫຼັງບ້ານຫຼັກ ( Month 1 - Month 2 / Weeks 3 - 6 )",
-          titleEn: "Phase 2: Backend Core ( Month 1 - Month 2 / Weeks 3 - 6 )",
-          descLao: "ພັດທະນາລະບົບ backend ຫຼັກ (Express + TypeORM) ລວມທັງລະບົບ login/logout (JWT), RBAC (Role-Based Access Control) ແລະ ໂມດູນຂະແໜງການ ແລະ ນິຕິກຳ.",
-          descEn: "Establishes core backend architectures. Implements secure token authorization (JWT), user profile modules, Role-Based Access Control, and initial CRUD endpoints for Sectors & Policies.",
+          titleLao:
+            "ໄລຍະທີ 2: ໂຄງສ້າງຫຼັງບ້ານຫຼັກ (15/06/2026 - 28/06/2026 / ອາທິດ 2 - 3)",
+          titleEn:
+            "Phase 2: Backend Core (15/06/2026 - 28/06/2026 / Weeks 2 - 3)",
+          descLao:
+            "ພັດທະນາລະບົບ backend ຫຼັກ (Express + TypeORM) ລວມທັງລະບົບ login/logout (JWT), RBAC (Role-Based Access Control) ແລະ ໂມດູນຂະແໜງການ ແລະ ນິຕິກຳ.",
+          descEn:
+            "Establishes core backend architectures. Implements secure token authorization (JWT), user profile modules, Role-Based Access Control, and initial CRUD endpoints for Sectors & Policies.",
           deliverablesLao: [
             "Node.js & TypeORM system architecture initialization.",
             "JWT stateless authentication routes.",
             "User profile management endpoints with RBAC.",
-            "CRUD operations APIs for Sectors and Policies."
+            "CRUD operations APIs for Sectors and Policies.",
           ],
           deliverablesEn: [
             "Express service template initialized with TypeORM and PostgreSQL connection.",
             "Token validations logic & security authorization middlewares.",
             "Users controller endpoints and dynamic permissions structures.",
-            "Validated CRUD paths for Sectors & Policies operations."
-          ]
+            "Validated CRUD paths for Sectors & Policies operations.",
+          ],
         },
         3: {
-          titleLao: "ໄລຍະທີ 3: ໂມດູນເນື້ອຫາ ແລະ ຂໍ້ມູນຫຼັກ ( Month 2 - Month 3 / Weeks 7 - 10 )",
-          titleEn: "Phase 3: Content & Core Modules ( Month 2 - Month 3 / Weeks 7 - 10 )",
-          descLao: "ພັດທະນາ API ຈັດການການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ, ວາລະສານ, ແລະ ສະຖິຕິແຮງງານ.",
-          descEn: "Develops core endpoints for news, activities, magazines and labor statistics.",
+          titleLao:
+            "ໄລຍະທີ 3: ໂມດູນເນື້ອຫາ ແລະ ຂໍ້ມູນຫຼັກ (29/06/2026 - 05/07/2026 / ອາທິດ 4)",
+          titleEn:
+            "Phase 3: Content & Core Modules (29/06/2026 - 05/07/2026 / Week 4)",
+          descLao:
+            "ພັດທະນາ API ຈັດການການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ, ວາລະສານ, ແລະ ສະຖິຕິແຮງງານ.",
+          descEn:
+            "Develops core endpoints for news, activities, magazines and labor statistics.",
           deliverablesLao: [
             "APIs CRUD ຈັດການການເຄື່ອນໄຫວ ແລະ ຂ່າວສານ.",
             "ລະບົບບັນທຶກວາລະສານ.",
-            "ໂມດູນຕິດຕາມສະຖິຕິແຮງງານ."
+            "ໂມດູນຕິດຕາມສະຖິຕິແຮງງານ.",
           ],
           deliverablesEn: [
             "News & Activities details records controller paths with search filtering queries.",
             "Magazines tracking registers for publications.",
-            "Labor stats history modules tracking workforce data."
-          ]
+            "Labor stats history modules tracking workforce data.",
+          ],
         },
         4: {
-          titleLao: "ໄລຍະທີ 4: ບົດລາຍງານ ແລະ ແດຊບອດ ( Month 3 - Month 4 / Weeks 11 - 13 )",
-          titleEn: "Phase 4: Reporting & Dashboard ( Month 3 - Month 4 / Weeks 11 - 13 )",
-          descLao: "ພັດທະນາລະບົບສະຖິຕິແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ, ລະບົບລາຍງານການເຄື່ອນໄຫວ/ຂ່າວສານ, ລາຍງານນິຕິກຳ/ເອກະສານ, ລາຍງານຂະແໜງການ ແລະ ລະບົບສົ່ງອອກ Excel/PDF/ວາລະສານ.",
-          descEn: "Implements labour & social welfare dashboards, activity/news analytics, policy document tracking, sector organization reports, and dynamic Excel/PDF/magazine export services.",
+          titleLao:
+            "ໄລຍະທີ 4: ບົດລາຍງານ ແລະ ແດຊບອດ (06/07/2026 - 12/07/2026 / ອາທິດ 5)",
+          titleEn:
+            "Phase 4: Reporting & Dashboard (06/07/2026 - 12/07/2026 / Week 5)",
+          descLao:
+            "ພັດທະນາລະບົບສະຖິຕິແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ, ລະບົບລາຍງານການເຄື່ອນໄຫວ/ຂ່າວສານ, ລາຍງານນິຕິກຳ/ເອກະສານ, ລາຍງານຂະແໜງການ ແລະ ລະບົບສົ່ງອອກ Excel/PDF/ວາລະສານ.",
+          descEn:
+            "Implements labour & social welfare dashboards, activity/news analytics, policy document tracking, sector organization reports, and dynamic Excel/PDF/magazine export services.",
           deliverablesLao: [
             "APIs ສະຖິຕິແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ.",
             "ລະບົບລາຍງານການເຄື່ອນໄຫວ ແລະ ວິເຄາະຂ່າວສານ.",
             "ລະບົບລາຍງານນິຕິກຳ, ດຳລັດ ແລະ ເອກະສານທາງການ.",
             "ລະບົບລາຍງານຂະແໜງການ ແລະ ກົງຈັກການຈັດຕັ້ງ.",
-            "ລະບົບ export ຂໍ້ມູນເປັນ Excel (xlsx), PDF ແລະ ດາວໂຫຼດວາລະສານ."
+            "ລະບົບ export ຂໍ້ມູນເປັນ Excel (xlsx), PDF ແລະ ດາວໂຫຼດວາລະສານ.",
           ],
           deliverablesEn: [
             "Aggregated APIs for workforce employment, social welfare cases & benefits metrics.",
             "Activity tracking dashboards and news engagement analytics endpoints.",
             "Policy decree compliance reports and legislation document statistics.",
             "Sector-wise performance summaries and organizational structure reports.",
-            "Binary download APIs for xlsx spreadsheets, PDF reports and magazine files."
-          ]
+            "Binary download APIs for xlsx spreadsheets, PDF reports and magazine files.",
+          ],
         },
         5: {
-          titleLao: "ໄລຍະທີ 5: ລະບົບຈັດການ Admin Portal ( Month 4 - Month 5 / Weeks 14 - 17 )",
-          titleEn: "Phase 5: Admin Portal ( Month 4 - Month 5 / Weeks 14 - 17 )",
-          descLao: "ພັດທະນາ frontend ຫຼັງບ້ານ (Nuxt 4 + Vuetify 4) ເຊື່ອມຕໍ່ກັບ APIs, ສ້າງໜ້າຈໍຄຸ້ມຄອງຂໍ້ມູນທັງໝົດ, ລະບົບຄົ້ນຫາ, ລະບົບ validation ແລະ ຈັດການສິດທິຜູ້ໃຊ້.",
-          descEn: "Scaffolds administrative web panel. Visualizes data entries grids, secures routes permissions inside Vuetify elements, and hooks API endpoints to forms.",
+          titleLao:
+            "ໄລຍະທີ 5: ລະບົບຈັດການ Admin Portal (13/07/2026 - 26/07/2026 / ອາທິດ 6 - 7)",
+          titleEn:
+            "Phase 5: Admin Portal (13/07/2026 - 26/07/2026 / Weeks 6 - 7)",
+          descLao:
+            "ພັດທະນາ frontend ຫຼັງບ້ານ (Nuxt 4 + Vuetify 4) ເຊື່ອມຕໍ່ກັບ APIs, ສ້າງໜ້າຈໍຄຸ້ມຄອງຂໍ້ມູນທັງໝົດ, ລະບົບຄົ້ນຫາ, ລະບົບ validation ແລະ ຈັດການສິດທິຜູ້ໃຊ້.",
+          descEn:
+            "Scaffolds administrative web panel. Visualizes data entries grids, secures routes permissions inside Vuetify elements, and hooks API endpoints to forms.",
           deliverablesLao: [
             "Nuxt 4 Admin portal template setup.",
             "UI components ຈັດການຂໍ້ມູນ (Data Tables).",
             "Forms validation ດ້ວຍ VeeValidate.",
-            "ລະບົບຈຳກັດສິດທິຜູ້ໃຊ້ງານໃນ UI."
+            "ລະບົບຈຳກັດສິດທິຜູ້ໃຊ້ງານໃນ UI.",
           ],
           deliverablesEn: [
             "Nuxt 4 workspace configured with Vuetify components UI structure.",
             "Interactive Data Tables with backend pagination, search and sort headers.",
             "VeeValidate validation schemas on inputs.",
-            "Pinia auth store restricting route displays based on roles scopes."
-          ]
+            "Pinia auth store restricting route displays based on roles scopes.",
+          ],
         },
         6: {
-          titleLao: "ໄລຍະທີ 6: ໜ້າເວັບໄຊສາທາລະນະ ( Month 5 / Weeks 18 - 19 )",
-          titleEn: "Phase 6: Public Website ( Month 5 / Weeks 18 - 19 )",
-          descLao: "ພັດທະນາໜ້າເວັບໄຊສາທາລະນະດ້ວຍ Nuxt 4 ແລະ TailwindCSS, ປັບແຕ່ງ SEO metadata ໃຫ້ດີທີ່ສຸດ ແລະ ເຊື່ອມຕໍ່ APIs ເພື່ອສະແດງສະຖິຕິພົນລະເມືອງໃຫ້ປະຊາຊົນເຂົ້າເຖິງ.",
-          descEn: "Develops client public website. Integrates dynamic content API models, configures sitemaps, and optimizes initial loading speeds.",
+          titleLao:
+            "ໄລຍະທີ 6: ໜ້າເວັບໄຊສາທາລະນະ (27/07/2026 - 02/08/2026 / ອາທິດ 8)",
+          titleEn: "Phase 6: Public Website (27/07/2026 - 02/08/2026 / Week 8)",
+          descLao:
+            "ພັດທະນາໜ້າເວັບໄຊສາທາລະນະດ້ວຍ Nuxt 4 ແລະ TailwindCSS, ປັບແຕ່ງ SEO metadata ໃຫ້ດີທີ່ສຸດ ແລະ ເຊື່ອມຕໍ່ APIs ເພື່ອສະແດງສະຖິຕິພົນລະເມືອງໃຫ້ປະຊາຊົນເຂົ້າເຖິງ.",
+          descEn:
+            "Develops client public website. Integrates dynamic content API models, configures sitemaps, and optimizes initial loading speeds.",
           deliverablesLao: [
             "Public Website interface ດ້ວຍ TailwindCSS.",
             "ການເຊື່ອມໂຍງ Nuxt SEO (Metadata, Sitemaps).",
-            "ໜ້າສະແດງຂໍ້ມູນສະຖິຕິ ແລະ ຂ່າວສານ."
+            "ໜ້າສະແດງຂໍ້ມູນສະຖິຕິ ແລະ ຂ່າວສານ.",
           ],
           deliverablesEn: [
             "Responsive and indexable website frontend styled with custom CSS.",
             "Nuxt SEO modules active generating dynamic metadata tags.",
-            "Widgets querying and charting public stats safely."
-          ]
+            "Widgets querying and charting public stats safely.",
+          ],
         },
         7: {
-          titleLao: "ໄລຍະທີ 7: ການທົດສອບ ແລະ ຂຶ້ນລະບົບ ( Month 5 / Weeks 20 - 21 )",
-          titleEn: "Phase 7: Testing & Deployment ( Month 5 / Weeks 20 - 21 )",
-          descLao: "ໄລຍະ UAT, ແກ້ໄຂ Bug, ປັບປຸງຄວາມປອດໄພຂອງ API, ຂຽນຄູ່ມືການນຳໃຊ້ລະບົບ, ແລະ ຂຶ້ນລະບົບ Production Servers ພ້ອມ SSL & CI/CD.",
-          descEn: "Executes final security checks, records UAT logs, compiles manual guides, and deploys code files into staging and production cloud servers.",
+          titleLao:
+            "ໄລຍະທີ 7: ການທົດສອບ ແລະ ຂຶ້ນລະບົບ (03/08/2026 - 10/08/2026 / ອາທິດ 9)",
+          titleEn:
+            "Phase 7: Testing & Deployment (03/08/2026 - 10/08/2026 / Week 9)",
+          descLao:
+            "ໄລຍະ UAT, ແກ້ໄຂ Bug, ປັບປຸງຄວາມປອດໄພຂອງ API, ຂຽນຄູ່ມືການນຳໃຊ້ລະບົບ, ແລະ ຂຶ້ນລະບົບ Production Servers ພ້ອມ SSL & CI/CD.",
+          descEn:
+            "Executes final security checks, records UAT logs, compiles manual guides, and deploys code files into staging and production cloud servers.",
           deliverablesLao: [
             "ບົດລາຍງານ UAT sign-off feedback.",
             "ຄູ່ມືການໃຊ້ລະບົບ (System Documentation).",
             "XML/YAML config parameters deployment templates.",
-            "ຂຶ້ນລະບົບ Production, ຕັ້ງຄ່າ SSL (HTTPS) ແລະ CI/CD auto build."
+            "ຂຶ້ນລະບົບ Production, ຕັ້ງຄ່າ SSL (HTTPS) ແລະ CI/CD auto build.",
           ],
           deliverablesEn: [
             "Validated UAT reports with zero critical blockers remaining.",
             "Technical configuration guides and developer documentation.",
             "YAML server configs parameters defined for environments.",
-            "Live server setups hosting PostgreSQL, Express API and Nuxt sites under HTTPS."
-          ]
-        }
+            "Live server setups hosting PostgreSQL, Express API and Nuxt sites under HTTPS.",
+          ],
+        },
       };
 
       function selectPhase(phaseId) {
         // Remove active styling from all rows
         for (let i = 1; i <= 7; i++) {
           if (document.getElementById(`timeline-row-${i}`)) {
-            document.getElementById(`timeline-row-${i}`).classList.remove('phase-active');
+            document
+              .getElementById(`timeline-row-${i}`)
+              .classList.remove("phase-active");
           }
         }
         // Add active style to selected row
         if (document.getElementById(`timeline-row-${phaseId}`)) {
-          document.getElementById(`timeline-row-${phaseId}`).classList.add('phase-active');
+          document
+            .getElementById(`timeline-row-${phaseId}`)
+            .classList.add("phase-active");
         }
 
         // Populate detail section
         const data = phaseDetailsData[phaseId];
-        
+
         let deliverablesLaoHtml = "";
-        data.deliverablesLao.forEach(item => {
+        data.deliverablesLao.forEach((item) => {
           deliverablesLaoHtml += `<li class="flex items-center space-x-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span><span>${item}</span></li>`;
         });
 
         let deliverablesEnHtml = "";
-        data.deliverablesEn.forEach(item => {
+        data.deliverablesEn.forEach((item) => {
           deliverablesEnHtml += `<li class="flex items-center space-x-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>${item}</span></li>`;
         });
 
-        document.getElementById('phase-detail-content').innerHTML = `
+        document.getElementById("phase-detail-content").innerHTML = `
           <div class="space-y-4">
             <div>
               <h5 class="text-sm font-extrabold text-slate-800 mb-1">
@@ -1377,237 +2289,704 @@
 
       // 4. Technology Tabs Logic
       function switchTechTab(tabId) {
-        const tabs = ['backend', 'admin', 'public'];
-        tabs.forEach(t => {
-          document.getElementById(`tab-btn-${t}`).classList.remove('tab-active');
-          document.getElementById(`tech-panel-${t}`).classList.add('hidden');
+        const tabs = ["backend", "admin", "public"];
+        tabs.forEach((t) => {
+          document
+            .getElementById(`tab-btn-${t}`)
+            .classList.remove("tab-active");
+          document.getElementById(`tech-panel-${t}`).classList.add("hidden");
         });
-        document.getElementById(`tab-btn-${tabId}`).classList.add('tab-active');
-        document.getElementById(`tech-panel-${tabId}`).classList.remove('hidden');
+        document.getElementById(`tab-btn-${tabId}`).classList.add("tab-active");
+        document
+          .getElementById(`tech-panel-${tabId}`)
+          .classList.remove("hidden");
       }
 
       // 5. Database Schema interactive details
       const dbTablesData = {
         users: {
           name: "users",
-          descLao: "ເກັບຂໍ້ມູນບັນຊີຜູ້ໃຊ້ງານ (ແອດມິນ ແລະ ເຈົ້າໜ້າທີ່ບ້ານ) ເພື່ອຢືນຢັນຕົວຕົນ.",
-          descEn: "Stores credentials and configuration references for administrators and village officers.",
+          descLao:
+            "ເກັບຂໍ້ມູນບັນຊີຜູ້ໃຊ້ງານ (ແອດມິນ ແລະ ເຈົ້າໜ້າທີ່ບ້ານ) ເພື່ອຢືນຢັນຕົວຕົນ.",
+          descEn:
+            "Stores credentials and configuration references for administrators and village officers.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier for each user account." },
-            { name: "username", type: "VARCHAR(50)", keys: "Unique", desc: "Login username." },
-            { name: "email", type: "VARCHAR(100)", keys: "Unique", desc: "Account email address for recoveries." },
-            { name: "password_hash", type: "VARCHAR(255)", keys: "Required", desc: "Bcrypt hash password string." },
-            { name: "role_id", type: "UUID (FK)", keys: "🔗 FK", desc: "References roles(id) to enforce RBAC." },
-            { name: "created_at", type: "TIMESTAMP", keys: "Default NOW", desc: "Timestamp when user was registered." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier for each user account.",
+            },
+            {
+              name: "username",
+              type: "VARCHAR(50)",
+              keys: "Unique",
+              desc: "Login username.",
+            },
+            {
+              name: "email",
+              type: "VARCHAR(100)",
+              keys: "Unique",
+              desc: "Account email address for recoveries.",
+            },
+            {
+              name: "password_hash",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Bcrypt hash password string.",
+            },
+            {
+              name: "role_id",
+              type: "UUID (FK)",
+              keys: "🔗 FK",
+              desc: "References roles(id) to enforce RBAC.",
+            },
+            {
+              name: "created_at",
+              type: "TIMESTAMP",
+              keys: "Default NOW",
+              desc: "Timestamp when user was registered.",
+            },
           ],
           relations: [
-            { source: "users.role_id", target: "roles.id", type: "Many-to-One (N:1)", descL: "ຜູ້ໃຊ້ແຕ່ລະຄົນມີໄດ້ 1 ສິດທິຫຼັກ", descE: "Each user belongs to exactly one role group." },
-            { source: "notifications.user_id", target: "users.id", type: "One-to-Many (1:N)", descL: "ຜູ້ໃຊ້ສາມາດມີການແຈ້ງເຕືອນໄດ້ຫຼາຍອັນ", descE: "A user can receive multiple system notifications." },
-            { source: "audit_logs.actor_id", target: "users.id", type: "One-to-Many (1:N)", descL: "ຜູ້ໃຊ້ 1 ຄົນ ສ້າງປະຫວັດການທຳງານໄດ້ຫຼາຍອັນ", descE: "One user can perform actions yielding multiple logs." }
-          ]
+            {
+              source: "users.role_id",
+              target: "roles.id",
+              type: "Many-to-One (N:1)",
+              descL: "ຜູ້ໃຊ້ແຕ່ລະຄົນມີໄດ້ 1 ສິດທິຫຼັກ",
+              descE: "Each user belongs to exactly one role group.",
+            },
+            {
+              source: "notifications.user_id",
+              target: "users.id",
+              type: "One-to-Many (1:N)",
+              descL: "ຜູ້ໃຊ້ສາມາດມີການແຈ້ງເຕືອນໄດ້ຫຼາຍອັນ",
+              descE: "A user can receive multiple system notifications.",
+            },
+            {
+              source: "audit_logs.actor_id",
+              target: "users.id",
+              type: "One-to-Many (1:N)",
+              descL: "ຜູ້ໃຊ້ 1 ຄົນ ສ້າງປະຫວັດການທຳງານໄດ້ຫຼາຍອັນ",
+              descE: "One user can perform actions yielding multiple logs.",
+            },
+          ],
         },
         roles: {
           name: "roles",
-          descLao: "ກຳນົດລະດັບສິດທິຜູ້ໃຊ້ງານ (ເຊັ່ນ: Super Admin, Officer) ເພື່ອຄວບຄຸມການເຂົ້າເຖິງ APIs.",
-          descEn: "Defines access levels and roles (e.g. Admin, Village Officer) to classify user scopes.",
+          descLao:
+            "ກຳນົດລະດັບສິດທິຜູ້ໃຊ້ງານ (ເຊັ່ນ: Super Admin, Officer) ເພື່ອຄວບຄຸມການເຂົ້າເຖິງ APIs.",
+          descEn:
+            "Defines access levels and roles (e.g. Admin, Village Officer) to classify user scopes.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier for the role." },
-            { name: "name", type: "VARCHAR(50)", keys: "Unique", desc: "Name of the role (e.g. ADMIN, VILLAGE_OFFICER)." },
-            { name: "description", type: "TEXT", keys: "Optional", desc: "Purpose and description of access scopes." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier for the role.",
+            },
+            {
+              name: "name",
+              type: "VARCHAR(50)",
+              keys: "Unique",
+              desc: "Name of the role (e.g. ADMIN, VILLAGE_OFFICER).",
+            },
+            {
+              name: "description",
+              type: "TEXT",
+              keys: "Optional",
+              desc: "Purpose and description of access scopes.",
+            },
           ],
           relations: [
-            { source: "users.role_id", target: "roles.id", type: "One-to-Many (1:N)", descL: "1 ສິດທິ ສາມາດມີຜູ້ໃຊ້ງານໄດ້ຫຼາຍຄົນ", descE: "A single role can be assigned to multiple users." },
-            { source: "role_permissions", target: "roles.id", type: "Many-to-Many (M:N)", descL: "ສິດທິ ແລະ ຂໍ້ກຳນົດພິເສດ ເຊື່ອມຕໍ່ກັນແບບຫຼາຍຫາຫຼາຍ", descE: "Roles mapped to permissions via junction table." }
-          ]
+            {
+              source: "users.role_id",
+              target: "roles.id",
+              type: "One-to-Many (1:N)",
+              descL: "1 ສິດທິ ສາມາດມີຜູ້ໃຊ້ງານໄດ້ຫຼາຍຄົນ",
+              descE: "A single role can be assigned to multiple users.",
+            },
+            {
+              source: "role_permissions",
+              target: "roles.id",
+              type: "Many-to-Many (M:N)",
+              descL: "ສິດທິ ແລະ ຂໍ້ກຳນົດພິເສດ ເຊື່ອມຕໍ່ກັນແບບຫຼາຍຫາຫຼາຍ",
+              descE: "Roles mapped to permissions via junction table.",
+            },
+          ],
         },
         permissions: {
           name: "permissions",
-          descLao: "ເກັບລາຍການສິດທິລະອຽດແຍກຕາມໜ້າວຽກ (ເຊັ່ນ: manage_citizens, export_reports).",
-          descEn: "Granular access flags mapping features permissions (e.g. view_dashboard, write_citizens).",
+          descLao:
+            "ເກັບລາຍການສິດທິລະອຽດແຍກຕາມໜ້າວຽກ (ເຊັ່ນ: manage_citizens, export_reports).",
+          descEn:
+            "Granular access flags mapping features permissions (e.g. view_dashboard, write_citizens).",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier for the permission." },
-            { name: "code", type: "VARCHAR(50)", keys: "Unique", desc: "Technical permission check string code." },
-            { name: "name", type: "VARCHAR(100)", keys: "Required", desc: "Readable permission flag name." },
-            { name: "description", type: "TEXT", keys: "Optional", desc: "Details of what this access permission grants." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier for the permission.",
+            },
+            {
+              name: "code",
+              type: "VARCHAR(50)",
+              keys: "Unique",
+              desc: "Technical permission check string code.",
+            },
+            {
+              name: "name",
+              type: "VARCHAR(100)",
+              keys: "Required",
+              desc: "Readable permission flag name.",
+            },
+            {
+              name: "description",
+              type: "TEXT",
+              keys: "Optional",
+              desc: "Details of what this access permission grants.",
+            },
           ],
           relations: [
-            { source: "role_permissions", target: "permissions.id", type: "Many-to-Many (M:N)", descL: "1 ສິດທິລະອຽດ ສາມາດຖືກນຳໃຊ້ໃນຫຼາຍກຸ່ມ Roles", descE: "Permissions are mapped to role clusters." }
-          ]
+            {
+              source: "role_permissions",
+              target: "permissions.id",
+              type: "Many-to-Many (M:N)",
+              descL: "1 ສິດທິລະອຽດ ສາມາດຖືກນຳໃຊ້ໃນຫຼາຍກຸ່ມ Roles",
+              descE: "Permissions are mapped to role clusters.",
+            },
+          ],
         },
         sectors: {
           name: "sectors",
           descLao: "ເກັບຂໍ້ມູນຂະແໜງການ ແລະ ກົງຈັກການຈັດຕັ້ງພາຍໃນກະຊວງ.",
-          descEn: "Stores organizational sectors and department structures within MOLSW.",
+          descEn:
+            "Stores organizational sectors and department structures within MOLSW.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier for the sector." },
-            { name: "name", type: "VARCHAR(150)", keys: "Required", desc: "Sector or department name." },
-            { name: "code", type: "VARCHAR(50)", keys: "Unique", desc: "Official sector code." },
-            { name: "parent_id", type: "UUID (FK)", keys: "🔗 FK (Nullable)", desc: "References parent sector for hierarchy." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier for the sector.",
+            },
+            {
+              name: "name",
+              type: "VARCHAR(150)",
+              keys: "Required",
+              desc: "Sector or department name.",
+            },
+            {
+              name: "code",
+              type: "VARCHAR(50)",
+              keys: "Unique",
+              desc: "Official sector code.",
+            },
+            {
+              name: "parent_id",
+              type: "UUID (FK)",
+              keys: "🔗 FK (Nullable)",
+              desc: "References parent sector for hierarchy.",
+            },
           ],
           relations: [
-            { source: "sectors.parent_id", target: "sectors.id", type: "One-to-Many (1:N)", descL: "1 ກົມ/ຂະແໜງ ສາມາດມີໜ່ວຍງານຍ່ອຍໄດ້", descE: "Hierarchical self-referencing relationship." }
-          ]
+            {
+              source: "sectors.parent_id",
+              target: "sectors.id",
+              type: "One-to-Many (1:N)",
+              descL: "1 ກົມ/ຂະແໜງ ສາມາດມີໜ່ວຍງານຍ່ອຍໄດ້",
+              descE: "Hierarchical self-referencing relationship.",
+            },
+          ],
         },
         policies: {
           name: "policies",
           descLao: "ເກັບຂໍ້ມູນນິຕິກຳ, ດຳລັດ ແລະ ເອກະສານທາງການຂອງກະຊວງ.",
-          descEn: "Stores official policies, decrees, and legal documents of the ministry.",
+          descEn:
+            "Stores official policies, decrees, and legal documents of the ministry.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier for the policy." },
-            { name: "title", type: "VARCHAR(255)", keys: "Required", desc: "Title of the policy document." },
-            { name: "document_no", type: "VARCHAR(50)", keys: "Unique", desc: "Official document number." },
-            { name: "issue_date", type: "DATE", keys: "Required", desc: "Date of issuance." },
-            { name: "file_url", type: "TEXT", keys: "Required", desc: "Path or URL to the uploaded PDF." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier for the policy.",
+            },
+            {
+              name: "title",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Title of the policy document.",
+            },
+            {
+              name: "document_no",
+              type: "VARCHAR(50)",
+              keys: "Unique",
+              desc: "Official document number.",
+            },
+            {
+              name: "issue_date",
+              type: "DATE",
+              keys: "Required",
+              desc: "Date of issuance.",
+            },
+            {
+              name: "file_url",
+              type: "TEXT",
+              keys: "Required",
+              desc: "Path or URL to the uploaded PDF.",
+            },
           ],
           relations: [
-            { source: "policies.sector_id", target: "sectors.id", type: "Many-to-One (N:1)", descL: "ແຕ່ລະນິຕິກຳ ອາດຂຶ້ນກັບ 1 ຂະແໜງການ", descE: "Links policy to a responsible sector." }
-          ]
+            {
+              source: "policies.sector_id",
+              target: "sectors.id",
+              type: "Many-to-One (N:1)",
+              descL: "ແຕ່ລະນິຕິກຳ ອາດຂຶ້ນກັບ 1 ຂະແໜງການ",
+              descE: "Links policy to a responsible sector.",
+            },
+          ],
         },
         activities: {
           name: "activities",
           descLao: "ບັນທຶກການເຄື່ອນໄຫວ ແລະ ກິດຈະກຳຕ່າງໆຂອງພະນັກງານກະຊວງ.",
-          descEn: "Logs official activities and events executed by ministry staff.",
+          descEn:
+            "Logs official activities and events executed by ministry staff.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "title", type: "VARCHAR(255)", keys: "Required", desc: "Title of the activity." },
-            { name: "description", type: "TEXT", keys: "Required", desc: "Detailed description of the activity." },
-            { name: "event_date", type: "DATE", keys: "Required", desc: "Date when activity occurred." },
-            { name: "location", type: "VARCHAR(255)", keys: "Optional", desc: "Location of the event." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "title",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Title of the activity.",
+            },
+            {
+              name: "description",
+              type: "TEXT",
+              keys: "Required",
+              desc: "Detailed description of the activity.",
+            },
+            {
+              name: "event_date",
+              type: "DATE",
+              keys: "Required",
+              desc: "Date when activity occurred.",
+            },
+            {
+              name: "location",
+              type: "VARCHAR(255)",
+              keys: "Optional",
+              desc: "Location of the event.",
+            },
           ],
           relations: [
-            { source: "activities.author_id", target: "users.id", type: "Many-to-One (N:1)", descL: "ຜູ້ບັນທຶກການເຄື່ອນໄຫວ", descE: "Links to the user who posted the activity." }
-          ]
+            {
+              source: "activities.author_id",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "ຜູ້ບັນທຶກການເຄື່ອນໄຫວ",
+              descE: "Links to the user who posted the activity.",
+            },
+          ],
         },
         news: {
           name: "news",
-          descLao: "ເກັບຂໍ້ມູນຂ່າວສານ, ປະກາດ ແລະ ບົດຄວາມສຳລັບໜ້າເວັບໄຊສາທາລະນະ.",
+          descLao:
+            "ເກັບຂໍ້ມູນຂ່າວສານ, ປະກາດ ແລະ ບົດຄວາມສຳລັບໜ້າເວັບໄຊສາທາລະນະ.",
           descEn: "Stores public announcements, news articles, and PR content.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "title", type: "VARCHAR(255)", keys: "Required", desc: "Headline of the news article." },
-            { name: "content", type: "TEXT", keys: "Required", desc: "HTML or Markdown content." },
-            { name: "published_at", type: "TIMESTAMP", keys: "Optional", desc: "Publishing timestamp." },
-            { name: "status", type: "VARCHAR(20)", keys: "Default DRAFT", desc: "DRAFT or PUBLISHED." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "title",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Headline of the news article.",
+            },
+            {
+              name: "content",
+              type: "TEXT",
+              keys: "Required",
+              desc: "HTML or Markdown content.",
+            },
+            {
+              name: "published_at",
+              type: "TIMESTAMP",
+              keys: "Optional",
+              desc: "Publishing timestamp.",
+            },
+            {
+              name: "status",
+              type: "VARCHAR(20)",
+              keys: "Default DRAFT",
+              desc: "DRAFT or PUBLISHED.",
+            },
           ],
           relations: [
-            { source: "news.author_id", target: "users.id", type: "Many-to-One (N:1)", descL: "ຜູ້ຂຽນຂ່າວ", descE: "Author user." }
-          ]
+            {
+              source: "news.author_id",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "ຜູ້ຂຽນຂ່າວ",
+              descE: "Author user.",
+            },
+          ],
         },
         labor_stats: {
           name: "labor_stats",
-          descLao: "ເກັບກຳສະຖິຕິແຮງງານ, ຜູ້ວ່າງງານ ແລະ ອັດຕາການຈ້າງງານໃນແຕ່ລະເດືອນ/ປີ.",
-          descEn: "Labor statistics including unemployment rates and workforce metrics.",
+          descLao:
+            "ເກັບກຳສະຖິຕິແຮງງານ, ຜູ້ວ່າງງານ ແລະ ອັດຕາການຈ້າງງານໃນແຕ່ລະເດືອນ/ປີ.",
+          descEn:
+            "Labor statistics including unemployment rates and workforce metrics.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "year", type: "INT", keys: "Required", desc: "Reporting year." },
-            { name: "month", type: "INT", keys: "Optional", desc: "Reporting month." },
-            { name: "total_workforce", type: "INT", keys: "Required", desc: "Total eligible workforce." },
-            { name: "employed_count", type: "INT", keys: "Required", desc: "Number of employed individuals." },
-            { name: "unemployed_count", type: "INT", keys: "Required", desc: "Number of unemployed individuals." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "year",
+              type: "INT",
+              keys: "Required",
+              desc: "Reporting year.",
+            },
+            {
+              name: "month",
+              type: "INT",
+              keys: "Optional",
+              desc: "Reporting month.",
+            },
+            {
+              name: "total_workforce",
+              type: "INT",
+              keys: "Required",
+              desc: "Total eligible workforce.",
+            },
+            {
+              name: "employed_count",
+              type: "INT",
+              keys: "Required",
+              desc: "Number of employed individuals.",
+            },
+            {
+              name: "unemployed_count",
+              type: "INT",
+              keys: "Required",
+              desc: "Number of unemployed individuals.",
+            },
           ],
           relations: [
-            { source: "labor_stats.province_id", target: "sectors.id", type: "Many-to-One (N:1)", descL: "ສະຖິຕິແຍກຕາມແຂວງ ຫຼື ຂະແໜງການ", descE: "Optionally break down stats by sector or province." }
-          ]
+            {
+              source: "labor_stats.province_id",
+              target: "sectors.id",
+              type: "Many-to-One (N:1)",
+              descL: "ສະຖິຕິແຍກຕາມແຂວງ ຫຼື ຂະແໜງການ",
+              descE: "Optionally break down stats by sector or province.",
+            },
+          ],
         },
         welfare_programs: {
           name: "welfare_programs",
           descLao: "ເກັບຂໍ້ມູນໂຄງການສະຫວັດດີການສັງຄົມ ແລະ ເງິນຊ່ວຍເຫຼືອຕ່າງໆ.",
           descEn: "Social welfare programs and subsidy distribution records.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "program_name", type: "VARCHAR(255)", keys: "Required", desc: "Name of the welfare program." },
-            { name: "budget_allocated", type: "DECIMAL", keys: "Required", desc: "Total allocated budget." },
-            { name: "beneficiaries_count", type: "INT", keys: "Default 0", desc: "Number of citizens benefiting." },
-            { name: "start_date", type: "DATE", keys: "Required", desc: "Program start date." },
-            { name: "end_date", type: "DATE", keys: "Optional", desc: "Program end date." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "program_name",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Name of the welfare program.",
+            },
+            {
+              name: "budget_allocated",
+              type: "DECIMAL",
+              keys: "Required",
+              desc: "Total allocated budget.",
+            },
+            {
+              name: "beneficiaries_count",
+              type: "INT",
+              keys: "Default 0",
+              desc: "Number of citizens benefiting.",
+            },
+            {
+              name: "start_date",
+              type: "DATE",
+              keys: "Required",
+              desc: "Program start date.",
+            },
+            {
+              name: "end_date",
+              type: "DATE",
+              keys: "Optional",
+              desc: "Program end date.",
+            },
           ],
           relations: [
-            { source: "welfare_programs.managed_by", target: "sectors.id", type: "Many-to-One (N:1)", descL: "ໂຄງການຄຸ້ມຄອງໂດຍກົມ/ຂະແໜງການໃດ", descE: "Sector managing the program." }
-          ]
+            {
+              source: "welfare_programs.managed_by",
+              target: "sectors.id",
+              type: "Many-to-One (N:1)",
+              descL: "ໂຄງການຄຸ້ມຄອງໂດຍກົມ/ຂະແໜງການໃດ",
+              descE: "Sector managing the program.",
+            },
+          ],
         },
         magazines: {
           name: "magazines",
           descLao: "ບັນທຶກວາລະສານປະຈຳເດືອນ ຫຼື ໄຕມາດ ສຳລັບໃຫ້ດາວໂຫຼດ (PDF).",
-          descEn: "Digital magazine publications available for public download.",
+          descEn:
+            "Digital magazine publications available for public download.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "title", type: "VARCHAR(255)", keys: "Required", desc: "Magazine issue title." },
-            { name: "issue_number", type: "VARCHAR(50)", keys: "Required", desc: "Issue number or volume." },
-            { name: "publish_date", type: "DATE", keys: "Required", desc: "Publication date." },
-            { name: "pdf_url", type: "TEXT", keys: "Required", desc: "URL to the downloadable PDF file." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "title",
+              type: "VARCHAR(255)",
+              keys: "Required",
+              desc: "Magazine issue title.",
+            },
+            {
+              name: "issue_number",
+              type: "VARCHAR(50)",
+              keys: "Required",
+              desc: "Issue number or volume.",
+            },
+            {
+              name: "publish_date",
+              type: "DATE",
+              keys: "Required",
+              desc: "Publication date.",
+            },
+            {
+              name: "pdf_url",
+              type: "TEXT",
+              keys: "Required",
+              desc: "URL to the downloadable PDF file.",
+            },
           ],
           relations: [
-            { source: "magazines.publisher_id", target: "users.id", type: "Many-to-One (N:1)", descL: "ຜູ້ອັບໂຫຼດວາລະສານ", descE: "User who published the magazine." }
-          ]
+            {
+              source: "magazines.publisher_id",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "ຜູ້ອັບໂຫຼດວາລະສານ",
+              descE: "User who published the magazine.",
+            },
+          ],
         },
         notifications: {
           name: "notifications",
-          descLao: "ການແຈ້ງເຕືອນລະບົບທີ່ສົ່ງຫາຜູ້ໃຊ້ງານແຕ່ລະຄົນ (ເຊັ່ນ: ການອະນຸມັດຍົກຍ້າຍ).",
-          descEn: "System alerts dispatched to user sessions (e.g. pending migrations alerts).",
+          descLao:
+            "ການແຈ້ງເຕືອນລະບົບທີ່ສົ່ງຫາຜູ້ໃຊ້ງານແຕ່ລະຄົນ (ເຊັ່ນ: ການອະນຸມັດຍົກຍ້າຍ).",
+          descEn:
+            "System alerts dispatched to user sessions (e.g. pending migrations alerts).",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "user_id", type: "UUID (FK)", keys: "🔗 FK", desc: "References users(id) who receives the alert." },
-            { name: "title", type: "VARCHAR(150)", keys: "Required", desc: "Notification title." },
-            { name: "message", type: "TEXT", keys: "Required", desc: "Detailed notification text message." },
-            { name: "is_read", type: "BOOLEAN", keys: "Default FALSE", desc: "Indicates read status by receiver user." },
-            { name: "created_at", type: "TIMESTAMP", keys: "Default NOW", desc: "Timestamp when alert was generated." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "user_id",
+              type: "UUID (FK)",
+              keys: "🔗 FK",
+              desc: "References users(id) who receives the alert.",
+            },
+            {
+              name: "title",
+              type: "VARCHAR(150)",
+              keys: "Required",
+              desc: "Notification title.",
+            },
+            {
+              name: "message",
+              type: "TEXT",
+              keys: "Required",
+              desc: "Detailed notification text message.",
+            },
+            {
+              name: "is_read",
+              type: "BOOLEAN",
+              keys: "Default FALSE",
+              desc: "Indicates read status by receiver user.",
+            },
+            {
+              name: "created_at",
+              type: "TIMESTAMP",
+              keys: "Default NOW",
+              desc: "Timestamp when alert was generated.",
+            },
           ],
           relations: [
-            { source: "notifications.user_id", target: "users.id", type: "Many-to-One (N:1)", descL: "การแจ้งเตือนของระบบส่งหาผู้ใช้นั้นๆ", descE: "Alert points back to a single user account destination." }
-          ]
+            {
+              source: "notifications.user_id",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "การแจ้งเตือนของระบบส่งหาผู้ใช้นั้นๆ",
+              descE: "Alert points back to a single user account destination.",
+            },
+          ],
         },
         audit_logs: {
           name: "audit_logs",
-          descLao: "ເກັບບັນທຶກທຸກການເຄື່ອນໄຫວສຳຄັນໃນລະບົບ (ເຊັ່ນ: ໃຜແກ້ໄຂຂໍ້ມູນ, ວັນທີ, IP) ເພື່ອຄວາມປອດໄພ.",
-          descEn: "System access audit logs capturing actor IDs, scopes, actions, and network signatures.",
+          descLao:
+            "ເກັບບັນທຶກທຸກການເຄື່ອນໄຫວສຳຄັນໃນລະບົບ (ເຊັ່ນ: ໃຜແກ້ໄຂຂໍ້ມູນ, ວັນທີ, IP) ເພື່ອຄວາມປອດໄພ.",
+          descEn:
+            "System access audit logs capturing actor IDs, scopes, actions, and network signatures.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "actor_id", type: "UUID (FK)", keys: "🔗 FK", desc: "References users(id) of the person who acted." },
-            { name: "action", type: "VARCHAR(100)", keys: "Required", desc: "Type of action performed (e.g. UPDATE_CITIZEN)." },
-            { name: "module", type: "VARCHAR(50)", keys: "Required", desc: "Module interacted with (e.g. CITIZENS)." },
-            { name: "ip_address", type: "VARCHAR(45)", keys: "Required", desc: "IP address of the requester." },
-            { name: "created_at", type: "TIMESTAMP", keys: "Default NOW", desc: "Timestamp when log was created." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "actor_id",
+              type: "UUID (FK)",
+              keys: "🔗 FK",
+              desc: "References users(id) of the person who acted.",
+            },
+            {
+              name: "action",
+              type: "VARCHAR(100)",
+              keys: "Required",
+              desc: "Type of action performed (e.g. UPDATE_CITIZEN).",
+            },
+            {
+              name: "module",
+              type: "VARCHAR(50)",
+              keys: "Required",
+              desc: "Module interacted with (e.g. CITIZENS).",
+            },
+            {
+              name: "ip_address",
+              type: "VARCHAR(45)",
+              keys: "Required",
+              desc: "IP address of the requester.",
+            },
+            {
+              name: "created_at",
+              type: "TIMESTAMP",
+              keys: "Default NOW",
+              desc: "Timestamp when log was created.",
+            },
           ],
           relations: [
-            { source: "audit_logs.actor_id", target: "users.id", type: "Many-to-One (N:1)", descL: "ບັນທຶກປະຫວັດການກະທຳ ອ້າງອີງຫາ User ຜູ້ກະທຳ", descE: "Audited action mapped to user account responsible." }
-          ]
+            {
+              source: "audit_logs.actor_id",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "ບັນທຶກປະຫວັດການກະທຳ ອ້າງອີງຫາ User ຜູ້ກະທຳ",
+              descE: "Audited action mapped to user account responsible.",
+            },
+          ],
         },
         system_configs: {
           name: "system_configs",
-          descLao: "ເກັບຄ່າກຳນົດທົ່ວໄປຂອງລະບົບ MOLSW (ເຊັ່ນ: ປີປະຕິບັດການ, ຂໍ້ມູນການຕັ້ງຄ່າ).",
-          descEn: "Global configuration key-value store configuring system-wide parameters.",
+          descLao:
+            "ເກັບຄ່າກຳນົດທົ່ວໄປຂອງລະບົບ MOLSW (ເຊັ່ນ: ປີປະຕິບັດການ, ຂໍ້ມູນການຕັ້ງຄ່າ).",
+          descEn:
+            "Global configuration key-value store configuring system-wide parameters.",
           fields: [
-            { name: "id", type: "UUID (PK)", keys: "🔑 PK", desc: "Unique identifier." },
-            { name: "key", type: "VARCHAR(100)", keys: "Unique", desc: "System configuration unique key name." },
-            { name: "value", type: "TEXT", keys: "Required", desc: "Stored configuration configuration value." },
-            { name: "description", type: "TEXT", keys: "Optional", desc: "Notes describing what configuration key controls." },
-            { name: "updated_by", type: "UUID (FK)", keys: "🔗 FK", desc: "References users(id) of last updater." }
+            {
+              name: "id",
+              type: "UUID (PK)",
+              keys: "🔑 PK",
+              desc: "Unique identifier.",
+            },
+            {
+              name: "key",
+              type: "VARCHAR(100)",
+              keys: "Unique",
+              desc: "System configuration unique key name.",
+            },
+            {
+              name: "value",
+              type: "TEXT",
+              keys: "Required",
+              desc: "Stored configuration configuration value.",
+            },
+            {
+              name: "description",
+              type: "TEXT",
+              keys: "Optional",
+              desc: "Notes describing what configuration key controls.",
+            },
+            {
+              name: "updated_by",
+              type: "UUID (FK)",
+              keys: "🔗 FK",
+              desc: "References users(id) of last updater.",
+            },
           ],
           relations: [
-            { source: "system_configs.updated_by", target: "users.id", type: "Many-to-One (N:1)", descL: "ປັບປຸງຫຼ້າສຸດໂດຍ User ທ່ານໃດໜຶ່ງ", descE: "Linked to user profile responsible for the last changes." }
-          ]
-        }
+            {
+              source: "system_configs.updated_by",
+              target: "users.id",
+              type: "Many-to-One (N:1)",
+              descL: "ປັບປຸງຫຼ້າສຸດໂດຍ User ທ່ານໃດໜຶ່ງ",
+              descE: "Linked to user profile responsible for the last changes.",
+            },
+          ],
+        },
       };
 
       function selectDBTable(tableName) {
         // Remove active class from all buttons
-        const tables = ['users', 'roles', 'permissions', 'sectors', 'policies', 'activities', 'news', 'labor_stats', 'welfare_programs', 'magazines', 'notifications', 'audit_logs', 'system_configs'];
-        tables.forEach(t => {
+        const tables = [
+          "users",
+          "roles",
+          "permissions",
+          "sectors",
+          "policies",
+          "activities",
+          "news",
+          "labor_stats",
+          "welfare_programs",
+          "magazines",
+          "notifications",
+          "audit_logs",
+          "system_configs",
+        ];
+        tables.forEach((t) => {
           if (document.getElementById(`db-btn-${t}`)) {
-            document.getElementById(`db-btn-${t}`).classList.remove('db-btn-active');
+            document
+              .getElementById(`db-btn-${t}`)
+              .classList.remove("db-btn-active");
           }
         });
 
         // Set active styling to selected button
         if (document.getElementById(`db-btn-${tableName}`)) {
-          document.getElementById(`db-btn-${tableName}`).classList.add('db-btn-active');
+          document
+            .getElementById(`db-btn-${tableName}`)
+            .classList.add("db-btn-active");
         }
 
         const data = dbTablesData[tableName];
-        
+
         // Render fields list
         let fieldsHtml = "";
-        data.fields.forEach(f => {
+        data.fields.forEach((f) => {
           fieldsHtml += `
             <tr class="border-b border-slate-100 hover:bg-slate-50/50">
               <td class="py-2 px-3 font-semibold text-slate-800">${f.name}</td>
@@ -1620,7 +2999,7 @@
 
         // Render relations list
         let relationsHtml = "";
-        data.relations.forEach(r => {
+        data.relations.forEach((r) => {
           relationsHtml += `
             <div class="p-3 bg-slate-50 border border-slate-150 rounded-xl space-y-1">
               <div class="flex items-center justify-between text-xs font-bold">
@@ -1635,7 +3014,7 @@
           `;
         });
 
-        document.getElementById('db-table-info-box').innerHTML = `
+        document.getElementById("db-table-info-box").innerHTML = `
           <div>
             <div class="flex items-center space-x-2">
               <span class="text-xl">🗄️</span>
@@ -1647,7 +3026,6 @@
             </p>
           </div>
 
-          <!-- Tabs of fields or relationships -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
             <div>
               <h5 class="text-xs font-bold text-slate-450 uppercase tracking-widest mb-3">
@@ -1686,9 +3064,9 @@
 
       // Initialize default active selections
       selectPhase(1);
-      switchTechTab('backend');
-      selectDBTable('users');
-      calculateProgress();
+      switchTechTab("backend");
+      selectDBTable("users");
+      calculateProgress(); // Run once on boot to set initial 0%
     </script>
   </body>
 </html>
