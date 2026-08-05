@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="lo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ຄິວອາໂຄດ - LAO QR Banking</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary-teal': '#006b5d',
+              'primary-teal-hover': '#005449',
+              'primary-teal-light': '#eaf4f3',
+              'accent-yellow': '#f19e38',
+              'accent-red': '#e53e3e',
+              'accent-green': '#10b981',
+              'bg-page': '#edf1f4',
+              'bg-card': '#ffffff',
+              'bg-input': '#f1f3f7',
+              'text-dark': '#1a202c',
+              'text-muted': '#64748b',
+              'border-color': '#e2e8f0',
+            },
+            fontFamily: {
+              sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+              inter: ['"Inter"', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      :root {
+        --primary-teal: #006b5d;
+        --primary-teal-hover: #005449;
+        --primary-teal-light: #eaf4f3;
+        --bg-page: #edf1f4;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans Lao", "Inter", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: #1a202c;
+        min-height: 100vh;
+        padding-bottom: 60px;
+      }
+
+      .number-font {
+        font-family: "Inter", sans-serif;
+      }
+
+      .top-nav {
+        background-color: var(--primary-teal);
+        width: 100%;
+        overflow-x: auto;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        min-width: 900px;
+      }
+
+      .nav-item {
+        flex: 1;
+        text-align: center;
+        padding: 16px 10px;
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 3.5px solid transparent;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .nav-item svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+      }
+
+      .nav-item:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-item.active {
+        color: #ffffff;
+        border-bottom-color: #ffffff;
+        font-weight: 600;
+      }
+
+      .nav-divider {
+        width: 1px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 4px;
+      }
+
+      .main-content {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .scan-laser {
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #10b981, transparent);
+        animation: scan 2s infinite ease-in-out;
+      }
+
+      @keyframes scan {
+        0%, 100% { top: 10%; }
+        50% { top: 90%; }
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background-color: #1a202c;
+        color: #ffffff;
+        padding: 14px 24px;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        z-index: 1000;
+        opacity: 0;
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* Top Module Nav Button */
+      .top-module-btn {
+        flex: 1;
+        background-color: #007a6c;
+        color: #ffffff;
+        padding: 12px 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.2s ease;
+      }
+      .top-module-btn:last-child {
+        border-right: none;
+      }
+      .top-module-btn:hover {
+        background-color: #006357;
+      }
+    </style>
+  </head>
+  <body class="bg-[#edf1f4]">
+    <div class="flex min-h-screen">
+      <!-- 1. LEFT SIDEBAR NAVIGATION -->
+      <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+        <div class="space-y-6">
+          <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
+              <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+              <span class="text-xs font-extrabold text-white">MeBank</span>
+            </div>
+          </div>
+
+          <nav class="space-y-1">
+            <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="home" class="w-4 h-4"></i>
+              <span>ໜ້າຫຼັກ</span>
+            </a>
+            <a href="payment.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>ປະຫວັດທຸລະກຳ</span>
+            </a>
+            <a href="termdeposit.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="credit-card" class="w-4 h-4"></i>
+              <span>ບັນຊີຝາກປະຈຳ</span>
+            </a>
+            <a href="report.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+              <span>ລາຍງານ</span>
+            </a>
+
+            <div class="pt-3 border-t border-teal-600/40">
+              <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+              <a href="#" onclick="showToast('ຕັ້ງຄ່າລະບົບ')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+                <span>ຕັ້ງຄ່າ</span>
+              </a>
+              <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>ຊ່ວຍ</span>
+              </a>
+              <a href="index.html" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>ອອກຈາກລະບົບ</span>
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+          <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">CASHBACK 10%</div>
+          <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+          <div class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
+            <i data-lucide="train" class="w-4 h-4"></i>
+            <span>MePom 10% Off</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. CENTER MAIN CONTENT -->
+      <main class="flex-1 p-5 space-y-5 overflow-y-auto">
+        <!-- Top 6 Module Buttons Header Bar -->
+        <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-6 border border-teal-600/50">
+          <a href="rtgs.html" class="top-module-btn">
+            <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+            <span>ໂອນເງິນ</span>
+          </a>
+          <a href="bill.html" class="top-module-btn">
+            <i data-lucide="receipt" class="w-5 h-5"></i>
+            <span>ຊໍາລະບິນ</span>
+          </a>
+          <a href="exchange.html" class="top-module-btn">
+            <i data-lucide="repeat" class="w-5 h-5"></i>
+            <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+          </a>
+          <a href="termdeposit.html" class="top-module-btn">
+            <i data-lucide="wallet" class="w-5 h-5"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="qrcode.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+            <span>ຄິວອາໂຄດ</span>
+          </a>
+          <a href="payment.html" class="top-module-btn">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span>ປະຫວັດ</span>
+          </a>
+        </div>/></svg>
+          <span>ຕະຫຼາດແແລກປ່ຽນ</span>
+        </a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-xl font-bold text-primary-teal flex items-center gap-2">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-2 2h2v3h-2zm3 3h3v2h-3zm-3-1h1v1h-1zm3-3h1v1h-1zm-2 1h1v1h-1zm-1-1h1v1h-1zm4 4h1v1h-1zm-1 0h1v1h-1zm-2-5h2v2h-2zm4 2h2v2h-2z"/></svg>
+          ລະບົບຮັບ-ຈ່າຍດ້ວຍ LAO QR Code
+        </h1>
+        <span class="text-xs bg-emerald-100 text-emerald-700 font-semibold px-3 py-1.5 rounded-full border border-emerald-200">
+          ● ມາດຕະຖານ LAPNet Standard QR
+        </span>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-gray-100">
+        <!-- Dual Mode Switcher -->
+        <div class="bg-gray-100 p-1.5 rounded-2xl flex gap-2 mb-8">
+          <button id="qrTabGen" onclick="switchMode('receive')" class="flex-1 py-3 rounded-xl text-sm font-bold bg-primary-teal text-white transition-all flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            ຮັບເງິນ (Receive Payment QR)
+          </button>
+          <button id="qrTabScan" onclick="switchMode('scan')" class="flex-1 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-primary-teal transition-all flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M4 4h3v2H5v2H3V5c0-.55.45-1 1-1zm16 0c.55 0 1 .45 1 1v3h-2V6h-2V4h3zM4 20c-.55 0-1-.45-1-1v-3h2v2h2v2H4zm16 0h-3v-2h2v-2h2v3c0 .55-.45 1-1 1zM7 7h10v10H7z"/></svg>
+            ສະແກນ QR (Scan & Pay)
+          </button>
+        </div>
+
+        <!-- Mode 1: Receive Payment QR Generator -->
+        <div id="receiveSection" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <!-- Left: QR Display Card -->
+          <div class="bg-gradient-to-br from-teal-600 to-teal-800 p-6 rounded-3xl text-white text-center space-y-4 relative overflow-hidden">
+            <div class="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold tracking-wide">
+              LAO QR PAYMENT
+            </div>
+            
+            <!-- Styled Simulated SVG QR Code -->
+            <div class="bg-white p-6 rounded-2xl max-w-[260px] mx-auto relative border border-teal-200">
+              <svg viewBox="0 0 200 200" class="w-full h-full text-gray-900 fill-current">
+                <!-- Outer position markers -->
+                <rect x="10" y="10" width="50" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="8"/>
+                <rect x="25" y="25" width="20" height="20" rx="4"/>
+                
+                <rect x="140" y="10" width="50" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="8"/>
+                <rect x="155" y="25" width="20" height="20" rx="4"/>
+                
+                <rect x="10" y="140" width="50" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="8"/>
+                <rect x="25" y="155" width="20" height="20" rx="4"/>
+
+                <!-- QR Data Matrix pattern elements -->
+                <rect x="75" y="15" width="12" height="12"/>
+                <rect x="95" y="15" width="12" height="12"/>
+                <rect x="115" y="30" width="12" height="12"/>
+                
+                <rect x="15" y="75" width="12" height="12"/>
+                <rect x="35" y="75" width="12" height="12"/>
+                <rect x="75" y="75" width="12" height="12"/>
+                <rect x="115" y="75" width="12" height="12"/>
+                <rect x="155" y="75" width="12" height="12"/>
+
+                <rect x="75" y="95" width="12" height="12"/>
+                <rect x="95" y="115" width="12" height="12"/>
+                <rect x="135" y="95" width="12" height="12"/>
+                <rect x="175" y="115" width="12" height="12"/>
+
+                <rect x="75" y="145" width="12" height="12"/>
+                <rect x="115" y="145" width="12" height="12"/>
+                <rect x="145" y="145" width="12" height="12"/>
+                <rect x="165" y="165" width="12" height="12"/>
+              </svg>
+              <!-- Center Bank Icon -->
+              <div class="absolute inset-0 m-auto w-10 h-10 bg-primary-teal border-2 border-white rounded-full flex items-center justify-center text-white font-bold text-xs">
+                BCEL
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <h3 class="text-sm font-bold text-white">ສົມພອນ ໄຊຍະວົງ (SOMPHONE)</h3>
+              <p class="text-xs text-teal-100 number-font">101-2884-001</p>
+              <p id="qrDisplayAmt" class="text-xl font-extrabold text-amber-300 number-font mt-2">150,000 LAK</p>
+            </div>
+          </div>
+
+          <!-- Right: Controls -->
+          <div class="space-y-5">
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ເລືອກບັນຊີຮັບເງິນ</label>
+              <select class="w-full bg-bg-input border border-gray-200 rounded-xl p-3 text-sm font-semibold text-gray-800 outline-none">
+                <option>ບັນຊີ ກີບ LAK - 101-2884-001</option>
+                <option>ບັນຊີ ບາດ THB - 202-4910-455</option>
+                <option>ບັນຊີ ໂດລາ USD - 303-8812-881</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ກຳນົດຈຳນວນເງິນ (Amount - Optional)</label>
+              <input id="qrAmountInput" type="number" value="150000" oninput="updateQrAmount()" class="w-full bg-bg-input border border-gray-200 rounded-xl p-3 text-base font-bold text-gray-900 number-font outline-none focus:ring-2 focus:ring-primary-teal" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ໝາຍເຫດ (Note)</label>
+              <input type="text" value="ຊໍາລະຄ່າສິນຄ້າ" class="w-full bg-bg-input border border-gray-200 rounded-xl p-3 text-sm font-semibold text-gray-800 outline-none" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <button onclick="showToast('ດາວໂຫລດຮູບ QR Code ສຳເລັດ ✓')" class="bg-primary-teal hover:bg-primary-teal-hover text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                ດາວໂຫລດ QR
+              </button>
+              <button onclick="showToast('ຄັດລອກ Pay Link ສຳເລັດແລ້ວ!')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 border border-gray-300">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                ຄັດລອກ Link
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Scan QR Code (Hidden by default) -->
+        <div id="scanSection" class="hidden space-y-6">
+          <div class="max-w-md mx-auto relative bg-gray-900 rounded-3xl p-8 text-center text-white space-y-4 overflow-hidden border-4 border-gray-800">
+            <div class="w-64 h-64 mx-auto border-2 border-dashed border-emerald-400 rounded-2xl relative flex items-center justify-center bg-black/40">
+              <div class="scan-laser"></div>
+              <p class="text-xs text-emerald-300 font-semibold bg-black/60 px-3 py-1 rounded-full">
+                ວາງ QR Code ໃຫ້ຢູ່ໃນກອບ...
+              </p>
+            </div>
+
+            <div class="flex justify-center gap-4">
+              <button onclick="simulateScan('Coffee Shop Vientiane', 45000)" class="bg-white/10 hover:bg-white/20 text-xs font-bold py-2 px-3 rounded-lg border border-white/20">
+                ☕ ສະແກນຮ້ານກາເຟ (45,000)
+              </button>
+              <button onclick="simulateScan('Minimart Express', 120000)" class="bg-white/10 hover:bg-white/20 text-xs font-bold py-2 px-3 rounded-lg border border-white/20">
+                🛒 ສະແກນມິນິມາດ (120,000)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+      });
+
+      function switchMode(mode) {
+        const tabGen = document.getElementById('qrTabGen');
+        const tabScan = document.getElementById('qrTabScan');
+        const recSec = document.getElementById('receiveSection');
+        const scanSec = document.getElementById('scanSection');
+
+        if(mode === 'receive') {
+          tabGen.className = 'flex-1 py-3 rounded-xl text-sm font-bold bg-primary-teal text-white transition-all flex items-center justify-center gap-2';
+          tabScan.className = 'flex-1 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-primary-teal transition-all flex items-center justify-center gap-2';
+          recSec.classList.remove('hidden');
+          scanSec.classList.add('hidden');
+        } else {
+          tabScan.className = 'flex-1 py-3 rounded-xl text-sm font-bold bg-primary-teal text-white transition-all flex items-center justify-center gap-2';
+          tabGen.className = 'flex-1 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-primary-teal transition-all flex items-center justify-center gap-2';
+          scanSec.classList.remove('hidden');
+          recSec.classList.add('hidden');
+        }
+      }
+
+      function updateQrAmount() {
+        const val = parseFloat(document.getElementById('qrAmountInput').value) || 0;
+        document.getElementById('qrDisplayAmt').innerText = val.toLocaleString() + ' LAK';
+      }
+
+      function simulateScan(merchant, amount) {
+        showToast(`ສະແກນ QR ຂອງ ${merchant} (${amount.toLocaleString()} LAK) ສຳເລັດ!`);
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+    </script>
+  </body>
+</html>

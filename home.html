@@ -115,7 +115,6 @@
         border-radius: 16px;
         font-weight: 600;
         font-size: 14px;
-        border: 1px solid #334155;
         z-index: 1000;
         opacity: 0;
         transition: all 0.4s ease;
@@ -134,12 +133,23 @@
 <body class="bg-[#edf1f4]">
   <div class="flex min-h-screen">
     <!-- 1. LEFT SIDEBAR NAVIGATION -->
-    <aside
-      class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+    <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
       <div class="space-y-6">
         <!-- Logo & Brand Header -->
         <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
-
+          <!-- APB Official Emblem Logo Mockup -->
+          <div class="bg-white p-2.5 rounded-2xl inline-block mx-auto border border-teal-100">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-amber-500 text-white font-extrabold flex items-center justify-center text-xs border-2 border-green-700">
+                🌾
+              </div>
+              <div class="text-left">
+                <h2 class="text-xs font-extrabold text-teal-800 leading-tight">APB BANK</h2>
+                <p class="text-[9px] text-teal-600 font-semibold leading-tight">ທະນາຄານ ສົ່ງເສີມກະສິກຳ</p>
+              </div>
+            </div>
+          </div>
 
           <!-- APB MeBank Badge -->
           <div
@@ -254,7 +264,7 @@
         <div class="bg-[#007a6c] text-white px-4 py-2.5 font-bold text-xs flex justify-between items-center">
           <span class="flex items-center gap-2">
             <i data-lucide="wallet-cards" class="w-4 h-4"></i>
-            ສະຫຼຸບບັນຊີ
+            ສະຫຼຸບບັນຊີ (Account Overview)
           </span>
           <div class="flex items-center gap-3">
             <button onclick="toggleBalanceMask()" class="hover:text-amber-300 text-xs flex items-center gap-1">
@@ -385,15 +395,18 @@
               <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
             </div>
             <div>
-              <h2 class="text-sm font-bold text-gray-900">ບໍລິການໂອນເງິນ </h2>
-              <p class="text-[11px] text-gray-500 font-medium">ເລືອກປະເພດການໂອນເງິນພາຍໃນ, ຂ້າມທະນາຄານ, RTGS ແລະ
-                ໂອນເງິນເດືອນ</p>
+              <h2 class="text-sm font-bold text-gray-900">ບໍລິການໂອນເງິນ (Transfers & Money Movement)</h2>
+              <p class="text-[11px] text-gray-500 font-medium">ເລືອກປະເພດການໂອນເງິນພາຍໃນ, ຂ້າມທະນາຄານ, RTGS ແລະ ໂອນເງິນເດືອນ</p>
             </div>
           </div>
+          <a href="rtgs.html" class="text-xs font-bold text-[#006b5d] hover:underline flex items-center gap-1">
+            <span>ເບິ່ງບໍລິການທັງໝົດ</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </a>
         </div>
 
         <!-- 4 Transfer Service Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Card 1: APB Internal Transfer -->
           <a href="rtgs.html"
             class="group bg-gradient-to-br from-teal-50/70 to-emerald-50/30 p-3 rounded-xl border border-teal-200/80 hover:border-[#006b5d] transition-all flex flex-col justify-between w-full h-[100px]">
@@ -421,8 +434,7 @@
                 <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">LAPNet
-                24/7</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">LAPNet 24/7</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -479,15 +491,17 @@
             </div>
             <div>
               <h2 class="text-sm font-bold text-gray-900">ບໍລິການຊໍາລະບິນ & ສິນເຊື່ອ (Bill Payment & Utilities)</h2>
-              <p class="text-[11px] text-gray-500 font-medium">ຊໍາລະຄ່ານ້ຳ, ຄ່າໄຟ, ເຕີມເງິນໂທລະສັບ, ສິນເຊື່ອ ແລະ
-                ພາສີອາກອນ</p>
+              <p class="text-[11px] text-gray-500 font-medium">ຊໍາລະຄ່ານ້ຳ, ຄ່າໄຟ, ເຕີມເງິນໂທລະສັບ, ສິນເຊື່ອ ແລະ ພາສີອາກອນ</p>
             </div>
           </div>
-
+          <a href="bill.html" class="text-xs font-bold text-[#006b5d] hover:underline flex items-center gap-1">
+            <span>ຊໍາລະບິນທັງໝົດ</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </a>
         </div>
 
         <!-- 12 Bill Payment Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <!-- 1. Top Up Call Balance -->
           <a href="bill.html"
             class="group bg-gradient-to-br from-teal-50/70 to-emerald-50/30 p-3 rounded-xl border border-teal-200/80 hover:border-[#006b5d] transition-all flex flex-col justify-between w-full h-[100px]">
@@ -497,8 +511,7 @@
                 <i data-lucide="smartphone" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">24/7
-                Top Up</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">24/7 Top Up</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -516,8 +529,7 @@
                 <i data-lucide="zap" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">EDL
-                ໄຟຟ້າ</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">EDL ໄຟຟ້າ</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -571,8 +583,7 @@
                 <i data-lucide="file-text" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Easy
-                Tax</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Easy Tax</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -608,8 +619,7 @@
                 <i data-lucide="plane" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Lao
-                Airlines</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Lao Airlines</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -627,8 +637,7 @@
                 <i data-lucide="plane-takeoff" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Lao
-                Skyway</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Lao Skyway</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -646,8 +655,7 @@
                 <i data-lucide="car-front" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Kolao
-                Loan</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Kolao Loan</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -665,8 +673,7 @@
                 <i data-lucide="landmark" class="w-4 h-4"></i>
               </div>
               <span
-                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Krungsri
-                Loan</span>
+                class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Krungsri Loan</span>
             </div>
             <div>
               <h3 class="text-xs font-bold text-gray-900 group-hover:text-[#006b5d] transition-colors truncate">
@@ -710,6 +717,223 @@
               <p class="text-[10px] text-gray-500 font-medium truncate">ເຕີມເງິນເຂົ້າກະເປົາ M-Money</p>
             </div>
           </a>
+        </div>
+      </section>
+
+      <!-- Financial Analytics & Trend Group Section -->
+      <section class="bg-white rounded-2xl p-5 border border-gray-200 space-y-5">
+        <!-- Section Title Group Header -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-teal-50 text-[#006b5d] flex items-center justify-center font-bold">
+              <i data-lucide="line-chart" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-gray-900">ການແນວໂນ້ມ ແລະ ວິເຄາະການເງິນ (Financial Trends & Analytics)
+              </h2>
+              <p class="text-[11px] text-gray-500 font-medium">ສັງລວມກະແສເງິນສົດ ແລະ ພຶດຕິກຳການໃຊ້ຈ່າຍທຸກສະກຸນເງິນ</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span
+              class="text-[10px] font-bold bg-teal-100 text-[#006b5d] px-3 py-1 rounded-full border border-teal-200">
+              ● ອັບເດດສົດ (Real-time Analytics)
+            </span>
+          </div>
+        </div>
+
+        <!-- 1. Mini Sparkline Charts Carousel Cards -->
+        <div class="relative flex items-center gap-2">
+          <button onclick="scrollMiniCharts(-1)"
+            class="w-7 h-7 bg-gray-50 rounded-full border border-gray-200 text-xs font-bold text-gray-600 flex items-center justify-center hover:bg-gray-100">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+
+          <div id="miniChartsContainer" class="flex gap-3 overflow-x-auto scroll-smooth py-1 flex-1 no-scrollbar">
+            <!-- LAK Sparkline Card -->
+            <div class="min-w-[200px] bg-teal-50/50 p-3 rounded-xl border border-teal-100 space-y-2 flex-1">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-700">LAK (ກີບ) Trend</span>
+                <span
+                  class="text-[10px] font-bold bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full number-font">125.4M</span>
+              </div>
+              <svg viewBox="0 0 100 30" class="w-full h-8 text-teal-600 stroke-current fill-none stroke-2">
+                <polyline points="0,25 25,20 50,12 75,18 100,5" />
+              </svg>
+            </div>
+
+            <!-- THB Sparkline Card -->
+            <div class="min-w-[200px] bg-blue-50/50 p-3 rounded-xl border border-blue-100 space-y-2 flex-1">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-700">THB (ບາດ) Trend</span>
+                <span
+                  class="text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full number-font">85.2K</span>
+              </div>
+              <svg viewBox="0 0 100 30" class="w-full h-8 text-blue-600 stroke-current fill-none stroke-2">
+                <polyline points="0,22 30,25 60,15 100,10" />
+              </svg>
+            </div>
+
+            <!-- USD Sparkline Card -->
+            <div class="min-w-[200px] bg-red-50/50 p-3 rounded-xl border border-red-100 space-y-2 flex-1">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-700">USD (ໂດລາ) Trend</span>
+                <span
+                  class="text-[10px] font-bold bg-red-100 text-red-800 px-2 py-0.5 rounded-full number-font">4.5K</span>
+              </div>
+              <svg viewBox="0 0 100 30" class="w-full h-8 text-red-600 stroke-current fill-none stroke-2">
+                <polyline points="0,28 35,18 70,22 100,12" />
+              </svg>
+            </div>
+
+            <!-- CNY Sparkline Card -->
+            <div
+              class="min-w-[200px] bg-purple-50/50 p-3 rounded-xl border border-purple-100 space-y-2 flex-1">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-700">CNY (ຢວນ) Trend</span>
+                <span
+                  class="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full number-font">12.5K</span>
+              </div>
+              <svg viewBox="0 0 100 30" class="w-full h-8 text-purple-600 stroke-current fill-none stroke-2">
+                <polyline points="0,25 40,15 70,20 100,8" />
+              </svg>
+            </div>
+
+            <!-- VND Sparkline Card -->
+            <div class="min-w-[200px] bg-amber-50/50 p-3 rounded-xl border border-amber-100 space-y-2 flex-1">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-700">VND (ດົ່ງ) Trend</span>
+                <span
+                  class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full number-font">35.0M</span>
+              </div>
+              <svg viewBox="0 0 100 30" class="w-full h-8 text-amber-600 stroke-current fill-none stroke-2">
+                <polyline points="0,26 30,22 65,14 100,6" />
+              </svg>
+            </div>
+          </div>
+
+          <button onclick="scrollMiniCharts(1)"
+            class="w-7 h-7 bg-gray-50 rounded-full border border-gray-200 text-xs font-bold text-gray-600 flex items-center justify-center hover:bg-gray-100">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- 2. Main Balance Trend Area Chart Card -->
+        <div class="bg-gray-50/60 rounded-xl p-4 border border-gray-200 space-y-4">
+          <div class="flex justify-between items-center border-b border-gray-200/80 pb-2">
+            <h3 class="text-xs font-bold text-gray-900 flex items-center gap-2">
+              <i data-lucide="activity" class="w-4 h-4 text-teal-700"></i>
+              ຍອດເຫຼືອບັນຊີ ຄວາມທຸກສະກຸນເງິນ ທຽບເທົ່າ (ກີບ) - Consolidated Cashflow Trend
+            </h3>
+            <div class="flex bg-white p-0.5 rounded-lg text-xs font-bold border border-gray-200">
+              <button class="px-3 py-1 bg-[#007a6c] text-white rounded-md">ເດືອນ</button>
+              <button class="px-3 py-1 text-gray-600 hover:text-gray-900">ປີ</button>
+            </div>
+          </div>
+
+          <!-- SVG Area Chart -->
+          <div class="relative h-52 w-full pt-4">
+            <svg viewBox="0 0 500 150" class="w-full h-full">
+              <defs>
+                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#008775" stop-opacity="0.3" />
+                  <stop offset="100%" stop-color="#008775" stop-opacity="0.0" />
+                </linearGradient>
+              </defs>
+
+              <line x1="40" y1="20" x2="480" y2="20" stroke="#e2e8f0" stroke-dasharray="4" />
+              <line x1="40" y1="60" x2="480" y2="60" stroke="#e2e8f0" stroke-dasharray="4" />
+              <line x1="40" y1="100" x2="480" y2="100" stroke="#e2e8f0" stroke-dasharray="4" />
+              <line x1="40" y1="130" x2="480" y2="130" stroke="#cbd5e0" />
+
+              <text x="30" y="24" class="text-[9px] fill-gray-400 number-font" text-anchor="end">400M</text>
+              <text x="30" y="64" class="text-[9px] fill-gray-400 number-font" text-anchor="end">200M</text>
+              <text x="30" y="104" class="text-[9px] fill-gray-400 number-font" text-anchor="end">100M</text>
+              <text x="30" y="134" class="text-[9px] fill-gray-400 number-font" text-anchor="end">0</text>
+
+              <polygon points="60,25 180,120 300,105 420,128 420,130 60,130" fill="url(#chartGradient)" />
+
+              <polyline points="60,25 180,120 300,105 420,128" stroke="#008775" stroke-width="2.5" fill="none" />
+
+              <circle cx="60" cy="25" r="4" fill="#008775" />
+              <text x="60" y="18" class="text-[10px] font-extrabold fill-[#006b5d] number-font"
+                text-anchor="middle">415M</text>
+
+              <circle cx="180" cy="120" r="4" fill="#008775" />
+              <text x="180" y="113" class="text-[9px] font-bold fill-gray-600 number-font"
+                text-anchor="middle">120M</text>
+
+              <circle cx="300" cy="105" r="4" fill="#008775" />
+              <text x="300" y="98" class="text-[9px] font-bold fill-[#006b5d] number-font"
+                text-anchor="middle">195M</text>
+
+              <circle cx="420" cy="128" r="4" fill="#008775" />
+              <text x="420" y="121" class="text-[9px] font-bold fill-[#006b5d] number-font"
+                text-anchor="middle">125.4M</text>
+
+              <text x="60" y="145" class="text-[9px] fill-gray-400 number-font" text-anchor="middle">03/08/24</text>
+              <text x="180" y="145" class="text-[9px] fill-gray-400 number-font" text-anchor="middle">01/09/24</text>
+              <text x="300" y="145" class="text-[9px] fill-gray-400 number-font" text-anchor="middle">30/10/24</text>
+              <text x="420" y="145" class="text-[9px] fill-gray-400 number-font" text-anchor="middle">01/11/24</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3. Monthly Financial Activity Breakdown -->
+        <div class="bg-gray-50/60 rounded-xl p-4 border border-gray-200 space-y-3">
+          <div class="flex justify-between items-center border-b border-gray-200/80 pb-2">
+            <span class="text-xs font-bold text-gray-900 flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-teal-700"></i>
+              ການເຄື່ອນໄຫວທາງການເງິນພາຍໃນເດືອນ (Monthly Financial Activity)
+            </span>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-gray-500 font-bold">ບັນຊີ:</span>
+              <select
+                class="bg-white text-gray-800 border border-gray-300 font-bold text-xs rounded px-2 py-0.5 outline-none number-font">
+                <option>101-2884-001 (LAK)</option>
+                <option>202-4910-455 (THB)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center pt-1">
+            <!-- Col 1: Income vs Expense -->
+            <div class="space-y-2 border-r border-gray-200/80 pr-2">
+              <p class="text-xs font-bold text-teal-800">ລາຍຮັບ / ລາຍຈ່າຍ ເດືອນຜ່ານມາ</p>
+              <div class="h-28 flex items-end justify-center gap-4 border-b border-gray-200 pb-2">
+                <div
+                  class="w-8 bg-emerald-500 rounded-t h-[75%] flex items-center justify-center text-[10px] text-white font-bold">
+                  In</div>
+                <div
+                  class="w-8 bg-rose-500 rounded-t h-[35%] flex items-center justify-center text-[10px] text-white font-bold">
+                  Out</div>
+              </div>
+              <p class="text-[10px] text-gray-500 font-semibold">ລາຍຮັບ 75% | ລາຍຈ່າຍ 35%</p>
+            </div>
+
+            <!-- Col 2: Expenses by Category -->
+            <div class="space-y-2 border-r border-gray-200/80 pr-2">
+              <p class="text-xs font-bold text-teal-800">ລາຍຈ່າຍຕາມປະເພດ</p>
+              <div class="h-28 flex items-end justify-center gap-2 border-b border-gray-200 pb-2 text-[9px] font-bold">
+                <div class="w-5 bg-amber-500 h-[65%] rounded-t text-white">8</div>
+                <div class="w-5 bg-blue-500 h-[35%] rounded-t text-white">2</div>
+                <div class="w-5 bg-emerald-500 h-[35%] rounded-t text-white">2</div>
+                <div class="w-5 bg-purple-500 h-[20%] rounded-t text-white">1</div>
+                <div class="w-5 bg-rose-500 h-[20%] rounded-t text-white">1</div>
+              </div>
+              <p class="text-[10px] text-gray-500 font-semibold">ໂອນເງິນ, ຊໍາລະບິນ, ຊື້ສິນຄ້າ</p>
+            </div>
+
+            <!-- Col 3: Ratio Pie Chart -->
+            <div class="space-y-2">
+              <p class="text-xs font-bold text-teal-800">ອັດຕາສ່ວນລາຍຈ່າຍເປັນ %</p>
+              <div
+                class="w-24 h-24 mx-auto rounded-full border-8 border-amber-500 border-t-teal-600 border-r-blue-500 flex items-center justify-center text-xs font-bold text-gray-800 number-font">
+                13.33%
+              </div>
+              <p class="text-[10px] text-gray-500 font-semibold">ໂອນເງິນ 66.6% | ຊໍາລະ 13.3%</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -881,7 +1105,6 @@
           </table>
         </div>
       </section>
-
     </main>
   </div>
 
@@ -948,12 +1171,12 @@
       <!-- Modal Action Buttons (Download Button & Close Button) -->
       <div class="grid grid-cols-2 gap-3 pt-1">
         <button onclick="downloadQRCode()"
-          class="flex items-center justify-center gap-2 bg-[#006b5d] hover:bg-[#005449] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-all active:scale-95">
+          class="flex items-center justify-center gap-2 bg-[#006b5d] hover:bg-[#005449] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer">
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>ດາວໂຫຼດ QR</span>
         </button>
         <button onclick="closeQRCodeModal()"
-          class="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all active:scale-95">
+          class="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer">
           <i data-lucide="x-circle" class="w-4 h-4"></i>
           <span>ປິດ</span>
         </button>

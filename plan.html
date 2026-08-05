@@ -38,7 +38,7 @@
         animation: flow 2s linear infinite;
       }
       .glow-on-hover:hover {
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
+        border-color: rgba(99, 102, 241, 0.3);
       }
       /* Language toggle styling helper */
       .lang-en .lao-text {
@@ -52,7 +52,6 @@
       .phase-active {
         border-color: rgba(99, 102, 241, 0.6) !important;
         background-color: rgba(248, 250, 252, 0.95) !important;
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.05) !important;
       }
 
       /* Tech stack active tab */
@@ -101,11 +100,11 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
       <div
-        class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-xl border border-slate-200/80 p-4 rounded-2xl shadow-sm"
+        class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-xl border border-slate-200/80 p-4 rounded-2xl"
       >
         <div class="flex items-center space-x-3">
           <div
-            class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/10"
+            class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white"
           >
             MOLSW
           </div>
@@ -200,7 +199,7 @@
         </p>
 
         <div
-          class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto mt-8 bg-white border border-slate-200/85 p-6 rounded-2xl shadow-sm"
+          class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto mt-8 bg-white border border-slate-200/85 p-6 rounded-2xl"
         >
           <div class="text-center border-r border-slate-200 last:border-0">
             <span class="text-slate-555 text-xs uppercase tracking-wider block">
@@ -258,7 +257,7 @@
           >
             <div
               id="global-progress-bar"
-              class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full w-0 transition-all duration-500 ease-out shadow-sm shadow-indigo-500/10"
+              class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full w-0 transition-all duration-500 ease-out"
             ></div>
           </div>
         </div>
@@ -291,7 +290,7 @@
         </h2>
 
         <div
-          class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm relative overflow-hidden flex flex-col items-center"
+          class="bg-white border border-slate-200 rounded-2xl p-8 relative overflow-hidden flex flex-col items-center"
         >
           <div
             class="w-full max-w-4xl mb-8 border-b border-slate-100 pb-6 text-sm text-slate-600 leading-relaxed"
@@ -315,7 +314,7 @@
           <div class="w-full max-w-4xl relative z-10">
             <div class="flex justify-center mb-16 relative">
               <div
-                class="bg-white border border-cyan-300 p-5 rounded-2xl w-60 text-center shadow-sm hover:border-cyan-500 transition-all duration-300 group z-10"
+                class="bg-white border border-cyan-300 p-5 rounded-2xl w-60 text-center hover:border-cyan-500 transition-all duration-300 group z-10"
               >
                 <div
                   class="inline-flex p-2 bg-cyan-50 text-cyan-600 rounded-lg mb-2"
@@ -364,7 +363,7 @@
 
             <div class="flex justify-center mb-16 relative">
               <div
-                class="bg-white border border-indigo-300 p-5 rounded-2xl w-72 text-center shadow-sm hover:border-indigo-500 transition-all duration-300 group z-10"
+                class="bg-white border border-indigo-300 p-5 rounded-2xl w-72 text-center hover:border-indigo-500 transition-all duration-300 group z-10"
               >
                 <div
                   class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2"
@@ -424,7 +423,7 @@
               class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-8 px-4 relative"
             >
               <div
-                class="bg-white border border-indigo-200 p-5 rounded-2xl text-center shadow-sm hover:border-indigo-400 transition-all duration-300 group z-10"
+                class="bg-white border border-indigo-200 p-5 rounded-2xl text-center hover:border-indigo-400 transition-all duration-300 group z-10"
               >
                 <div
                   class="inline-flex p-2 bg-indigo-50 text-indigo-600 rounded-lg mb-2"
@@ -458,7 +457,7 @@
               </div>
 
               <div
-                class="bg-white border border-emerald-200 p-5 rounded-2xl text-center shadow-sm hover:border-emerald-400 transition-all duration-300 group z-10"
+                class="bg-white border border-emerald-200 p-5 rounded-2xl text-center hover:border-emerald-400 transition-all duration-300 group z-10"
               >
                 <div
                   class="inline-flex p-2 bg-emerald-50 text-emerald-650 rounded-lg mb-2"
@@ -558,7 +557,7 @@
           </button>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div id="tech-panel-backend" class="space-y-4">
             <div class="flex items-center justify-between mb-2">
               <h3 class="text-md font-bold text-slate-800">
@@ -958,7 +957,7 @@
           <span class="en-text">3. Database Design & Entity Relationships</span>
         </h2>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div
               class="lg:col-span-4 border-r border-slate-100 pr-0 lg:pr-6 space-y-2 max-h-[500px] overflow-y-auto print:max-h-none print:overflow-visible"
@@ -1122,7 +1121,7 @@
         </h2>
 
         <div
-          class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-x-auto print:overflow-visible"
+          class="bg-white border border-slate-200 rounded-2xl p-6 overflow-x-auto print:overflow-visible"
         >
           <div class="min-w-[760px]">
             <div
@@ -1172,7 +1171,7 @@
                   class="col-span-9 grid grid-cols-9 gap-1 h-8 bg-slate-100/60 rounded-lg p-1"
                 >
                   <div
-                    class="col-span-1 h-full bg-gradient-to-r from-indigo-500 to-indigo-650 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-1 h-full bg-gradient-to-r from-indigo-500 to-indigo-650 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     1 W
                   </div>
@@ -1202,7 +1201,7 @@
                 >
                   <div class="col-span-1"></div>
                   <div
-                    class="col-span-2 h-full bg-gradient-to-r from-purple-500 to-purple-650 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-2 h-full bg-gradient-to-r from-purple-500 to-purple-650 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     2 W
                   </div>
@@ -1232,7 +1231,7 @@
                 >
                   <div class="col-span-3"></div>
                   <div
-                    class="col-span-1 h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-1 h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     1 W
                   </div>
@@ -1262,7 +1261,7 @@
                 >
                   <div class="col-span-4"></div>
                   <div
-                    class="col-span-1 h-full bg-gradient-to-r from-cyan-500 to-cyan-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-1 h-full bg-gradient-to-r from-cyan-500 to-cyan-655 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     1 W
                   </div>
@@ -1292,7 +1291,7 @@
                 >
                   <div class="col-span-5"></div>
                   <div
-                    class="col-span-2 h-full bg-gradient-to-r from-emerald-500 to-emerald-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-2 h-full bg-gradient-to-r from-emerald-500 to-emerald-655 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     2 W
                   </div>
@@ -1322,7 +1321,7 @@
                 >
                   <div class="col-span-7"></div>
                   <div
-                    class="col-span-1 h-full bg-gradient-to-r from-teal-500 to-teal-655 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-1 h-full bg-gradient-to-r from-teal-500 to-teal-655 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     1 W
                   </div>
@@ -1352,7 +1351,7 @@
                 >
                   <div class="col-span-8"></div>
                   <div
-                    class="col-span-1 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-md relative shadow-sm flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
+                    class="col-span-1 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-md relative flex items-center justify-center text-[10px] font-bold text-white tracking-wide"
                   >
                     1 W
                   </div>
@@ -1415,7 +1414,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1501,7 +1500,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1604,7 +1603,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1677,7 +1676,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1785,7 +1784,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1874,7 +1873,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -1946,7 +1945,7 @@
           </div>
 
           <div
-            class="bg-white border border-slate-200 p-6 rounded-2xl relative md:col-span-2 shadow-sm"
+            class="bg-white border border-slate-200 p-6 rounded-2xl relative md:col-span-2"
           >
             <div class="flex items-center justify-between mb-4">
               <span
@@ -3032,7 +3031,7 @@
                 <span class="lao-text">ໂຄງສ້າງ Field & ຂໍ້ມູນ (Schema Fields)</span>
                 <span class="en-text">Fields & Data Types</span>
               </h5>
-              <div class="overflow-x-auto max-h-[300px] border border-slate-200/80 rounded-xl bg-white shadow-sm">
+              <div class="overflow-x-auto max-h-[300px] border border-slate-200/80 rounded-xl bg-white">
                 <table class="w-full text-left text-xs">
                   <thead>
                     <tr class="bg-slate-50 border-b border-slate-200">

@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="lo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ຕະຫຼາດແລກປ່ຽນ - Digital FX Exchange</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary-teal': '#006b5d',
+              'primary-teal-hover': '#005449',
+              'primary-teal-light': '#eaf4f3',
+              'accent-yellow': '#f19e38',
+              'accent-red': '#e53e3e',
+              'accent-green': '#10b981',
+              'bg-page': '#edf1f4',
+              'bg-card': '#ffffff',
+              'bg-input': '#f1f3f7',
+              'text-dark': '#1a202c',
+              'text-muted': '#64748b',
+              'border-color': '#e2e8f0',
+            },
+            fontFamily: {
+              sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+              inter: ['"Inter"', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      :root {
+        --primary-teal: #006b5d;
+        --bg-page: #edf1f4;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans Lao", "Inter", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: #1a202c;
+        min-height: 100vh;
+        padding-bottom: 60px;
+      }
+
+      .number-font {
+        font-family: "Inter", sans-serif;
+      }
+
+      .top-nav {
+        background-color: var(--primary-teal);
+        width: 100%;
+        overflow-x: auto;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        min-width: 900px;
+      }
+
+      .nav-item {
+        flex: 1;
+        text-align: center;
+        padding: 16px 10px;
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 3.5px solid transparent;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .nav-item svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+      }
+
+      .nav-item:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-item.active {
+        color: #ffffff;
+        border-bottom-color: #ffffff;
+        font-weight: 600;
+      }
+
+      .nav-divider {
+        width: 1px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 4px;
+      }
+
+      .main-content {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background-color: #1a202c;
+        color: #ffffff;
+        padding: 14px 24px;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        z-index: 1000;
+        opacity: 0;
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Top Module Nav Button */
+      .top-module-btn {
+        flex: 1;
+        background-color: #007a6c;
+        color: #ffffff;
+        padding: 12px 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.2s ease;
+      }
+      .top-module-btn:last-child {
+        border-right: none;
+      }
+      .top-module-btn:hover {
+        background-color: #006357;
+      }
+    </style>
+  </head>
+  <body class="bg-[#edf1f4]">
+    <div class="flex min-h-screen">
+      <!-- 1. LEFT SIDEBAR NAVIGATION -->
+      <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+        <div class="space-y-6">
+          <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
+              <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+              <span class="text-xs font-extrabold text-white">MeBank</span>
+            </div>
+          </div>
+
+          <nav class="space-y-1">
+            <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="home" class="w-4 h-4"></i>
+              <span>ໜ້າຫຼັກ</span>
+            </a>
+            <a href="payment.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>ປະຫວັດທຸລະກຳ</span>
+            </a>
+            <a href="termdeposit.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="credit-card" class="w-4 h-4"></i>
+              <span>ບັນຊີຝາກປະຈຳ</span>
+            </a>
+            <a href="report.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+              <span>ລາຍງານ</span>
+            </a>
+
+            <div class="pt-3 border-t border-teal-600/40">
+              <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+              <a href="#" onclick="showToast('ຕັ້ງຄ່າລະບົບ')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+                <span>ຕັ້ງຄ່າ</span>
+              </a>
+              <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>ຊ່ວຍ</span>
+              </a>
+              <a href="index.html" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>ອອກຈາກລະບົບ</span>
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+          <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">CASHBACK 10%</div>
+          <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+          <div class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
+            <i data-lucide="train" class="w-4 h-4"></i>
+            <span>MePom 10% Off</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. CENTER MAIN CONTENT -->
+      <main class="flex-1 p-5 space-y-5 overflow-y-auto">
+        <!-- Top 6 Module Buttons Header Bar -->
+        <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-6 border border-teal-600/50">
+          <a href="rtgs.html" class="top-module-btn">
+            <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+            <span>ໂອນເງິນ</span>
+          </a>
+          <a href="bill.html" class="top-module-btn">
+            <i data-lucide="receipt" class="w-5 h-5"></i>
+            <span>ຊໍາລະບິນ</span>
+          </a>
+          <a href="exchange.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+            <i data-lucide="repeat" class="w-5 h-5"></i>
+            <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+          </a>
+          <a href="termdeposit.html" class="top-module-btn">
+            <i data-lucide="wallet" class="w-5 h-5"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="qrcode.html" class="top-module-btn">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+            <span>ຄິວອາໂຄດ</span>
+          </a>
+          <a href="payment.html" class="top-module-btn">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span>ປະຫວັດ</span>
+          </a>
+        </div>
+
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-xl font-bold text-primary-teal flex items-center gap-2">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3zm6 7.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5z"/></svg>
+          ຕະຫຼາດແລກປ່ຽນເງິນຕາ (LFX Exchange Portal)
+        </h1>
+        <span class="text-xs bg-teal-100 text-primary-teal font-semibold px-3 py-1.5 rounded-full border border-teal-200">
+          ● ອັດຕາແລກປ່ຽນທະນາຄານແຫ່ງ ສປປ ລາວ (BOL)
+        </span>
+      </div>
+
+      <!-- Main Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Live Rates Board -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-gray-100 space-y-4">
+            <h3 class="text-sm font-bold text-primary-teal border-b border-gray-100 pb-3 flex justify-between items-center">
+              <span>ອັດຕາແລກປ່ຽນປະຈຳວັນ (Live Exchange Rates)</span>
+              <span class="text-xs text-gray-400 number-font">ອັບເດດ: 05/08/2026 10:15</span>
+            </h3>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="text-gray-400 uppercase font-bold border-b border-gray-100">
+                    <th class="py-2.5">ສະກຸນເງິນ</th>
+                    <th class="py-2.5">ຊື້ (Buy)</th>
+                    <th class="py-2.5">ຂາຍ (Sell)</th>
+                    <th class="py-2.5 text-right">ປ່ຽນແປງ 24h</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 font-semibold text-gray-800">
+                  <tr>
+                    <td class="py-3 flex items-center gap-2">
+                      <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-[10px]">USD</span>
+                      <span>USD/LAK (ໂດລາ)</span>
+                    </td>
+                    <td class="py-3 number-font font-bold text-gray-900">21,850</td>
+                    <td class="py-3 number-font font-bold text-gray-900">21,980</td>
+                    <td class="py-3 text-right text-emerald-600 font-bold number-font">+0.45% ▲</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 flex items-center gap-2">
+                      <span class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">THB</span>
+                      <span>THB/LAK (ບາດ)</span>
+                    </td>
+                    <td class="py-3 number-font font-bold text-gray-900">642.00</td>
+                    <td class="py-3 number-font font-bold text-gray-900">648.00</td>
+                    <td class="py-3 text-right text-emerald-600 font-bold number-font">+0.12% ▲</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 flex items-center gap-2">
+                      <span class="w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center text-[10px]">CNY</span>
+                      <span>CNY/LAK (ຢວນ)</span>
+                    </td>
+                    <td class="py-3 number-font font-bold text-gray-900">3,040</td>
+                    <td class="py-3 number-font font-bold text-gray-900">3,075</td>
+                    <td class="py-3 text-right text-rose-600 font-bold number-font">-0.08% ▼</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 flex items-center gap-2">
+                      <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[10px]">EUR</span>
+                      <span>EUR/LAK (ຢູໂຣ)</span>
+                    </td>
+                    <td class="py-3 number-font font-bold text-gray-900">23,600</td>
+                    <td class="py-3 number-font font-bold text-gray-900">23,820</td>
+                    <td class="py-3 text-right text-emerald-600 font-bold number-font">+0.25% ▲</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Converter / Swap Widget -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 space-y-5">
+          <h3 class="text-sm font-bold text-primary-teal border-b border-gray-100 pb-3">
+            ແລກປ່ຽນເງິນຕາອອນໄລນ໌ (Online FX Swap)
+          </h3>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-500 mb-1">ຈາກສະກຸນ (From)</label>
+              <div class="flex gap-2">
+                <input id="fromAmount" type="number" value="100" oninput="convertCurrency()" class="flex-1 bg-bg-input border border-gray-200 rounded-xl p-3 text-base font-bold text-gray-900 number-font outline-none" />
+                <select id="fromCurrency" onchange="convertCurrency()" class="bg-bg-input border border-gray-200 rounded-xl p-3 text-xs font-bold text-gray-800 outline-none">
+                  <option value="USD">USD</option>
+                  <option value="THB">THB</option>
+                  <option value="LAK">LAK</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button onclick="swapCurrencies()" class="w-10 h-10 bg-teal-50 text-primary-teal rounded-full border border-teal-200 font-bold text-sm hover:bg-teal-100 transition-all">
+                ⇄
+              </button>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-500 mb-1">ເປັນສະກຸນ (To)</label>
+              <div class="flex gap-2">
+                <input id="toAmount" type="text" readonly value="2,185,000" class="flex-1 bg-teal-50/50 border border-teal-100 rounded-xl p-3 text-base font-bold text-primary-teal number-font outline-none" />
+                <select id="toCurrency" onchange="convertCurrency()" class="bg-bg-input border border-gray-200 rounded-xl p-3 text-xs font-bold text-gray-800 outline-none">
+                  <option value="LAK">LAK</option>
+                  <option value="THB">THB</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-3 rounded-xl text-xs space-y-1 text-gray-600 font-medium">
+              <div class="flex justify-between">
+                <span>ອັດຕາແລກປ່ຽນ:</span>
+                <span id="rateInfo" class="font-bold text-gray-800 number-font">1 USD = 21,850 LAK</span>
+              </div>
+              <div class="flex justify-between">
+                <span>ຄ່າທຳນຽມ:</span>
+                <span class="font-bold text-emerald-600">0 LAK (ຟຣີ)</span>
+              </div>
+            </div>
+
+            <button onclick="executeSwap()" class="w-full bg-primary-teal hover:bg-primary-teal-hover text-white font-bold py-3.5 rounded-xl text-sm transition-all">
+              ດຳເນີນການແລກປ່ຽນ (Execute Swap)
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+      });
+
+      const rates = {
+        USD: 21850,
+        THB: 642,
+        LAK: 1
+      };
+
+      function convertCurrency() {
+        const from = document.getElementById('fromCurrency').value;
+        const to = document.getElementById('toCurrency').value;
+        const amt = parseFloat(document.getElementById('fromAmount').value) || 0;
+
+        let result = 0;
+        if(from === to) {
+          result = amt;
+        } else if(from === 'USD' && to === 'LAK') {
+          result = amt * rates.USD;
+        } else if(from === 'THB' && to === 'LAK') {
+          result = amt * rates.THB;
+        } else if(from === 'LAK' && to === 'USD') {
+          result = amt / rates.USD;
+        } else if(from === 'LAK' && to === 'THB') {
+          result = amt / rates.THB;
+        }
+
+        document.getElementById('toAmount').value = result.toLocaleString(undefined, {maximumFractionDigits: 2});
+        document.getElementById('rateInfo').innerText = `1 ${from} = ${(rates[from] / rates[to]).toLocaleString()} ${to}`;
+      }
+
+      function swapCurrencies() {
+        const fromSelect = document.getElementById('fromCurrency');
+        const toSelect = document.getElementById('toCurrency');
+        const temp = fromSelect.value;
+        fromSelect.value = toSelect.value;
+        toSelect.value = temp;
+        convertCurrency();
+      }
+
+      function executeSwap() {
+        showToast('ດຳເນີນການແລກປ່ຽນເງິນຕາສຳເລັດ! 🎉');
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+    </script>
+  </body>
+</html>

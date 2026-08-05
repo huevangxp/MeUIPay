@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="lo">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ບັນຊີຝາກປະຈຳ - APB MeBank</title>
+
+  <!-- Google Fonts for Lao (Noto Sans Lao) & English/Numbers (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'apb-teal': '#006b5d',
+            'apb-teal-dark': '#005449',
+            'apb-teal-light': '#008775',
+            'apb-header': '#007a6c',
+            'bg-page': '#edf1f4',
+            'bg-card': '#ffffff',
+            'text-dark': '#1a202c',
+            'text-muted': '#64748b',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    :root {
+      --apb-teal: #006b5d;
+      --apb-header: #007a6c;
+      --bg-page: #edf1f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans Lao", "Inter", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .number-font {
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Top Module Nav Button */
+    .top-module-btn {
+      flex: 1;
+      background-color: #007a6c;
+      color: #ffffff;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .top-module-btn:last-child {
+      border-right: none;
+    }
+
+    .top-module-btn:hover {
+      background-color: #005449;
+    }
+
+    /* Custom Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #1a202c;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 3000;
+      opacity: 0;
+      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-[#edf1f4]">
+  <div class="flex min-h-screen">
+    <!-- 1. LEFT SIDEBAR NAVIGATION -->
+    <aside
+      class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+      <div class="space-y-6">
+        <!-- Logo Header -->
+        <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
+            <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+            <span class="text-xs font-extrabold text-white">MeBank</span>
+          </div>
+        </div>
+
+        <!-- Main Nav Menu -->
+        <nav class="space-y-1">
+          <a href="index.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>ໜ້າຫຼັກ</span>
+          </a>
+          <a href="payment.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ປະຫວັດທຸລະກຳ</span>
+          </a>
+          <a href="termdeposit.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-800/80 text-white border-l-4 border-amber-400">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="report.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>ລາຍງານ</span>
+          </a>
+
+          <div class="pt-3 border-t border-teal-600/40">
+            <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື</p>
+            <a href="#" onclick="showToast('ຕັ້ງຄ່າລະບົບ')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+              <span>ຕັ້ງຄ່າ</span>
+            </a>
+            <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              <span>ຊ່ວຍ</span>
+            </a>
+            <a href="index.html"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>ອອກຈາກລະບົບ</span>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Sidebar Promo Card Banner -->
+      <div
+        class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+        <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">
+          ສ່ວນຫຼຸດ 10%
+        </div>
+        <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+        <div
+          class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
+          <i data-lucide="train" class="w-4 h-4"></i>
+          <span>MePom ສ່ວນຫຼຸດ 10%</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. CENTER MAIN CONTENT -->
+    <main class="flex-1 p-5 space-y-5 overflow-y-auto">
+      <!-- Top 6 Module Buttons Header Bar -->
+      <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-4 border border-teal-600/50">
+        <a href="rtgs.html" class="top-module-btn">
+          <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+          <span>ໂອນເງິນ</span>
+        </a>
+        <a href="bill.html" class="top-module-btn">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
+          <span>ຊໍາລະບິນ</span>
+        </a>
+        <a href="exchange.html" class="top-module-btn">
+          <i data-lucide="repeat" class="w-5 h-5"></i>
+          <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+        </a>
+        <a href="termdeposit.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span>ບັນຊີຝາກປະຈຳ</span>
+        </a>
+        <a href="qrcode.html" class="top-module-btn">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+          <span>ຄິວອາໂຄດ</span>
+        </a>
+        <a href="payment.html" class="top-module-btn">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          <span>ປະຫວັດ</span>
+        </a>
+      </div>
+
+      <!-- Main Container Card for Term Deposit -->
+      <div class="bg-white rounded-3xl p-6 border border-gray-200 space-y-6">
+        <!-- Top Title & Main Mode Tabs (TD Creation vs TD History) -->
+        <div class="space-y-4">
+          <h1 class="text-xl font-bold text-gray-900">ບັນຊີຝາກປະຈຳ</h1>
+
+          <div class="flex items-center gap-3 border-b border-gray-100 pb-3">
+            <button id="tabTdCreation" onclick="switchTdMode('creation')"
+              class="px-6 py-2.5 rounded-full text-xs font-bold bg-[#006b5d] text-white flex items-center gap-2 transition-all">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>ເປີດບັນຊີຝາກປະຈຳ</span>
+            </button>
+            <button id="tabTdHistory" onclick="switchTdMode('history')"
+              class="px-6 py-2.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-all">
+              <span>ປະຫວັດບັນຊີຝາກປະຈຳ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 1: TD Creation View -->
+        <div id="viewTdCreation" class="space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Left Column -->
+            <div class="space-y-5 bg-[#f8f8f8] p-6 rounded-2xl">
+              <!-- 1. Select Account Card (Teal Card UI) -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700 flex items-center gap-1">
+                  <i data-lucide="credit-card" class="w-4 h-4 text-[#006b5d]"></i>
+                  <span>ເລືອກບັນຊີຕົ້ນທາງ</span>
+                </label>
+
+                <div
+                  class="bg-[#006b5d] rounded-2xl p-5 text-white space-y-4 border border-teal-700 relative overflow-hidden">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-[10px] text-teal-200 font-medium uppercase tracking-wider">ເລກບັນຊີ</p>
+                      <p id="selectedAccNo" class="text-sm font-bold number-font text-white">0000200100108241 LAK <span
+                          class="text-teal-200 font-normal">| ບັນຊີຝາກປະຈຳ</span></p>
+                    </div>
+                  </div>
+
+                  <div class="border-t border-teal-500/40 pt-3 flex items-end justify-between">
+                    <div>
+                      <p class="text-[10px] text-teal-200 font-medium">ຍອດເຫຼືອທີ່ໃຊ້ໄດ້</p>
+                      <div class="flex items-baseline gap-1">
+                        <span id="selectedAccBal"
+                          class="text-2xl font-extrabold number-font tracking-tight">3,293,359.12</span>
+                        <span class="text-xs font-bold text-teal-200">ກີບ</span>
+                      </div>
+                    </div>
+
+                    <!-- Dropdown Button inside card -->
+                    <div class="relative">
+                      <select id="accSelectDropdown" onchange="changeDepositSourceAccount()"
+                        class="bg-white text-gray-900 text-xs font-bold py-2 px-3 pr-8 rounded-xl outline-none appearance-none cursor-pointer border border-teal-200">
+                        <option value="lak">ເລືອກບັນຊີ 0000200100108241 (ກີບ)</option>
+                        <option value="thb">ເລືອກບັນຊີ 1012884002 (ບາດ)</option>
+                        <option value="usd">ເລືອກບັນຊີ 1012884003 (ໂດລາ)</option>
+                      </select>
+                      <i data-lucide="chevron-down"
+                        class="w-4 h-4 text-gray-600 absolute right-2.5 top-2.5 pointer-events-none"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Select Deposit Term Toggle (Short Term vs Long Term) -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700">ເລືອກປະເພດໄລຍະເວລາຝາກ</label>
+                <div class="grid grid-cols-2 gap-3">
+                  <!-- Short Term Card -->
+                  <button id="btnTermShort" onclick="switchTermCategory('short')"
+                    class="p-3.5 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all text-left">
+                    <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+                      <i data-lucide="clock" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold">ໄລຍະສັ້ນ</h4>
+                      <p class="text-[10px] text-teal-100 font-medium">1 - 6 ເດືອນ</p>
+                    </div>
+                  </button>
+
+                  <!-- Long Term Card -->
+                  <button id="btnTermLong" onclick="switchTermCategory('long')"
+                    class="p-3.5 rounded-2xl border border-gray-200 bg-white text-gray-700 flex items-center gap-3 transition-all text-left hover:border-gray-300">
+                    <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                      <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-gray-900">ໄລຍະຍາວ</h4>
+                      <p class="text-[10px] text-gray-400 font-medium">12 - 60 ເດືອນ</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. Select Term Options List -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700">ເລືອກກຳນົດເວລາຝາກ</label>
+                <div id="termOptionsContainer" class="space-y-2">
+                  <!-- 3D -->
+                  <button onclick="selectTermOption(this, '3D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ວັນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-white/20 text-white font-extrabold text-xs flex items-center justify-center number-font">3D</span>
+                    <span class="text-xs font-bold tracking-wider">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ວັນ</span>
+                  </button>
+
+                  <!-- 7D -->
+                  <button onclick="selectTermOption(this, '7D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 7 ວັນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">7D</span>
+                    <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 7 ວັນ</span>
+                  </button>
+
+                  <!-- 14D -->
+                  <button onclick="selectTermOption(this, '14D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 14 ວັນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">14D</span>
+                    <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 14 ວັນ</span>
+                  </button>
+
+                  <!-- 1M -->
+                  <button onclick="selectTermOption(this, '1M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 1 ເດືອນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">1M</span>
+                    <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 1 ເດືອນ</span>
+                  </button>
+
+                  <!-- 3M -->
+                  <button onclick="selectTermOption(this, '3M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ເດືອນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">3M</span>
+                    <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ເດືອນ</span>
+                  </button>
+
+                  <!-- 6M -->
+                  <button onclick="selectTermOption(this, '6M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 6 ເດືອນ')"
+                    class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+                    <span
+                      class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">6M</span>
+                    <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 6 ເດືອນ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-5 bg-[#f8f8f8] p-6 rounded-2xl">
+              <!-- 1. Initial Deposit Amount Input -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700">ຈຳນວນເງິນຝາກເລີ່ມຕົ້ນ</label>
+                <div class="border-2 border-teal-500 rounded-2xl p-4 bg-white space-y-2">
+                  <span class="text-[11px] font-bold text-gray-500 block">ຈຳນວນເງິນຝາກ</span>
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold flex items-center justify-center text-sm">
+                      ₭
+                    </div>
+                    <input type="text" id="inputDepositAmount" placeholder="ປ້ອນຈຳນວນເງິນ" value="1,000,000"
+                      class="w-full text-lg font-bold text-gray-900 outline-none number-font bg-transparent">
+                  </div>
+                </div>
+
+                <!-- Quick Amount Selection Chips -->
+                <div class="flex items-center gap-2 pt-1">
+                  <button onclick="setQuickAmount(500000)"
+                    class="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:border-teal-600 hover:text-teal-700 transition-all">500,000
+                    ₭</button>
+                  <button onclick="setQuickAmount(1000000)"
+                    class="px-3 py-1.5 rounded-xl border border-teal-600 bg-teal-50 text-xs font-bold text-teal-800 transition-all">1,000,000
+                    ₭</button>
+                  <button onclick="setQuickAmount(5000000)"
+                    class="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:border-teal-600 hover:text-teal-700 transition-all">5,000,000
+                    ₭</button>
+                  <button onclick="setQuickAmount(10000000)"
+                    class="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:border-teal-600 hover:text-teal-700 transition-all">10,000,000
+                    ₭</button>
+                </div>
+              </div>
+
+              <!-- 2. Select the Interest Rate -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700">ເລືອກຮູບແບບການຈ່າຍດອກເບ້ຍ</label>
+                <div
+                  class="p-3.5 rounded-2xl border border-emerald-500 bg-emerald-50/60 text-emerald-900 flex items-center gap-3">
+                  <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                  </div>
+                  <span class="text-xs font-bold">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດສັນຍາ</span>
+                </div>
+              </div>
+
+              <!-- 3. Select the contract type upon maturity -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-gray-700">ເລືອກເງື່ອນໄຂເມື່ອຄົບກຳນົດສັນຍາ</label>
+                <div
+                  class="p-3.5 rounded-2xl border border-emerald-500 bg-emerald-50/60 text-emerald-900 flex items-center gap-3">
+                  <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                  </div>
+                  <span class="text-xs font-bold tracking-wider">ປິດບັນຊີອັດໂຕໂນມັດເມື່ອຄົບກຳນົດ</span>
+                </div>
+              </div>
+
+              <!-- 4. Warning Note Banner -->
+              <div class="p-3.5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-800 flex items-start gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-amber-400 text-white font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                  !
+                </div>
+                <div class="text-xs font-semibold">
+                  <span class="font-bold">ໝາຍເຫດ:</span> ທ່ານສາມາດຖອນເງິນໄດ້ເມື່ອຮອດກຳນົດສັນຍາຝາກປະຈຳ.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Navigation / Action Bar -->
+          <div class="border-t border-gray-100 pt-6 flex flex-col items-center gap-4">
+            <!-- Step Indicator Dots -->
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-2 rounded-full bg-[#006b5d]"></span>
+              <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3">
+              <button onclick="window.history.back()"
+                class="px-6 py-2.5 rounded-full bg-rose-400 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                <span>ກັບຄືນ</span>
+              </button>
+              <button onclick="openTdConfirmModal()"
+                class="px-6 py-2.5 rounded-full bg-[#006b5d] hover:bg-[#005449] text-white text-xs font-bold flex items-center gap-1.5 transition-all">
+                <span>ຕໍ່ໄປ</span>
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: TD History View (Initially Hidden) -->
+        <div id="viewTdHistory" class="hidden space-y-4">
+          <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+            <h3 class="text-sm font-bold text-gray-900">ປະຫວັດບັນຊີຝາກປະຈຳ</h3>
+            <span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">2
+              ບັນຊີ ຝາກຢູ່</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="text-[11px] text-gray-400 font-semibold border-b border-gray-100 bg-gray-50/50">
+                  <th class="py-2.5 px-3">ເລກບັນຊີຝາກປະຈຳ</th>
+                  <th class="py-2.5 px-3">ໄລຍະເວລາ</th>
+                  <th class="py-2.5 px-3">ວັນທີເປີດ</th>
+                  <th class="py-2.5 px-3">ວັນທີຄົບກຳນົດ</th>
+                  <th class="py-2.5 px-3 text-right">ເງິນຕົ້ນ</th>
+                  <th class="py-2.5 px-3 text-center">ສະຖານະ</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 text-gray-700 font-medium">
+                <tr class="hover:bg-teal-50/30 transition-colors">
+                  <td class="py-3 px-3 font-bold text-gray-900 number-font">0000200100108241</td>
+                  <td class="py-3 px-3"><span
+                      class="bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded-full text-[10px]">3 ເດືອນ</span>
+                  </td>
+                  <td class="py-3 px-3 number-font">01/06/2026</td>
+                  <td class="py-3 px-3 number-font font-bold text-emerald-600">01/09/2026</td>
+                  <td class="py-3 px-3 text-right font-extrabold text-[#006b5d] number-font text-sm">10,000,000.00 LAK
+                  </td>
+                  <td class="py-3 px-3 text-center"><span
+                      class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-emerald-200">ກຳລັງຝາກ</span>
+                  </td>
+                </tr>
+                <tr class="hover:bg-teal-50/30 transition-colors">
+                  <td class="py-3 px-3 font-bold text-gray-900 number-font">0000200100109912</td>
+                  <td class="py-3 px-3"><span
+                      class="bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full text-[10px]">6 ເດືອນ</span>
+                  </td>
+                  <td class="py-3 px-3 number-font">15/01/2026</td>
+                  <td class="py-3 px-3 number-font font-bold text-emerald-600">15/07/2026</td>
+                  <td class="py-3 px-3 text-right font-extrabold text-[#006b5d] number-font text-sm">25,000,000.00 LAK
+                  </td>
+                  <td class="py-3 px-3 text-center"><span
+                      class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full text-[10px] font-bold border border-gray-200">ຄົບກຳນົດແລ້ວ</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- TD Confirmation Modal -->
+  <div id="tdModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 border border-gray-100 relative">
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 rounded-full bg-teal-100 text-[#006b5d] flex items-center justify-center mx-auto">
+          <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-base font-bold text-gray-900">ຢືນຢັນການເປີດບັນຊີຝາກປະຈຳ</h3>
+        <p class="text-xs text-gray-500">ກະລຸນາກວດສອບຂໍ້ມູນກ່ອນດຳເນີນການ</p>
+      </div>
+
+      <div class="bg-gray-50 rounded-2xl p-4 space-y-2.5 text-xs font-semibold text-gray-700">
+        <div class="flex justify-between border-b border-gray-200/60 pb-2">
+          <span class="text-gray-400">ບັນຊີຕົ້ນທາງ:</span>
+          <span id="confirmAccNo" class="font-bold text-gray-900 number-font">0000200100108241</span>
+        </div>
+        <div class="flex justify-between border-b border-gray-200/60 pb-2">
+          <span class="text-gray-400">ໄລຍະເວລາ:</span>
+          <span id="confirmTerm" class="font-bold text-[#006b5d]">3 ວັນ</span>
+        </div>
+        <div class="flex justify-between border-b border-gray-200/60 pb-2">
+          <span class="text-gray-400">ຈຳນວນເງິນຝາກ:</span>
+          <span id="confirmAmount" class="font-extrabold text-emerald-600 number-font text-sm">1,000,000 LAK</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-400">ເງື່ອນໄຂເມື່ອຄົບກຳນົດ:</span>
+          <span class="font-bold text-gray-900">ປິດບັນຊີອັດໂຕໂນມັດເມື່ອຄົບກຳນົດ</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="closeTdModal()"
+          class="flex-1 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:bg-gray-50">ຍົກເລີກ</button>
+        <button onclick="processTdSubmit()"
+          class="flex-1 py-3 rounded-xl bg-[#006b5d] text-white text-xs font-bold hover:bg-[#005449]">ຢືນຢັນເປີດບັນຊີ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+    <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+  </div>
+
+  <script>
+    let selectedTermCode = '3D';
+    let selectedTermLabel = 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ວັນ';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    function switchTdMode(mode) {
+      const creationTab = document.getElementById('tabTdCreation');
+      const historyTab = document.getElementById('tabTdHistory');
+      const creationView = document.getElementById('viewTdCreation');
+      const historyView = document.getElementById('viewTdHistory');
+
+      if (mode === 'creation') {
+        creationTab.className = 'px-6 py-2.5 rounded-full text-xs font-bold bg-[#006b5d] text-white flex items-center gap-2 transition-all';
+        historyTab.className = 'px-6 py-2.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-all';
+        creationView.classList.remove('hidden');
+        historyView.classList.add('hidden');
+      } else {
+        historyTab.className = 'px-6 py-2.5 rounded-full text-xs font-bold bg-[#006b5d] text-white flex items-center gap-2 transition-all';
+        creationTab.className = 'px-6 py-2.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-all';
+        historyView.classList.remove('hidden');
+        creationView.classList.add('hidden');
+      }
+    }
+
+    function switchTermCategory(cat) {
+      const btnShort = document.getElementById('btnTermShort');
+      const btnLong = document.getElementById('btnTermLong');
+      const container = document.getElementById('termOptionsContainer');
+
+      if (cat === 'short') {
+        btnShort.className = 'p-3.5 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all text-left';
+        btnLong.className = 'p-3.5 rounded-2xl border border-gray-200 bg-white text-gray-700 flex items-center gap-3 transition-all text-left hover:border-gray-300';
+        container.innerHTML = `
+          <button onclick="selectTermOption(this, '3D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ວັນ')" class="term-option-btn w-full p-3 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-white/20 text-white font-extrabold text-xs flex items-center justify-center number-font">3D</span>
+            <span class="text-xs font-bold tracking-wider">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ວັນ</span>
+          </button>
+          <button onclick="selectTermOption(this, '7D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 7 ວັນ')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">7D</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 7 ວັນ</span>
+          </button>
+          <button onclick="selectTermOption(this, '14D', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 14 ວັນ')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">14D</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 14 ວັນ</span>
+          </button>
+          <button onclick="selectTermOption(this, '1M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 1 ເດືອນ')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">1M</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 1 ເດືອນ</span>
+          </button>
+          <button onclick="selectTermOption(this, '3M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ເດືອນ')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">3M</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 3 ເດືອນ</span>
+          </button>
+          <button onclick="selectTermOption(this, '6M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 6 ເດືອນ')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">6M</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 6 ເດືອນ</span>
+          </button>
+        `;
+      } else {
+        btnLong.className = 'p-3.5 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all text-left';
+        btnShort.className = 'p-3.5 rounded-2xl border border-gray-200 bg-white text-gray-700 flex items-center gap-3 transition-all text-left hover:border-gray-300';
+        container.innerHTML = `
+          <button onclick="selectTermOption(this, '12M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 12 ເດືອນ (ດອກເບ້ຍ 6.5%/ປີ)')" class="term-option-btn w-full p-3 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-white/20 text-white font-extrabold text-xs flex items-center justify-center number-font">12M</span>
+            <span class="text-xs font-bold tracking-wider">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 12 ເດືອນ (ດອກເບ້ຍ 6.5%/ປີ)</span>
+          </button>
+          <button onclick="selectTermOption(this, '24M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 24 ເດືອນ (ດອກເບ້ຍ 7.2%/ປີ)')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">24M</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 24 ເດືອນ (ດອກເບ້ຍ 7.2%/ປີ)</span>
+          </button>
+          <button onclick="selectTermOption(this, '36M', 'ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 36 ເດືອນ (ດອກເບ້ຍ 7.8%/ປີ)')" class="term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font">36M</span>
+            <span class="text-xs font-bold tracking-wider text-gray-800">ຈ່າຍດອກເບ້ຍເມື່ອຮອດກຳນົດ 36 ເດືອນ (ດອກເບ້ຍ 7.8%/ປີ)</span>
+          </button>
+        `;
+      }
+    }
+
+    function selectTermOption(btn, code, label) {
+      document.querySelectorAll('.term-option-btn').forEach(b => {
+        b.className = 'term-option-btn w-full p-3 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:border-teal-500 flex items-center gap-3 transition-all';
+        const badge = b.querySelector('span');
+        badge.className = 'w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center number-font';
+      });
+
+      btn.className = 'term-option-btn w-full p-3 rounded-2xl border-2 border-[#006b5d] bg-[#006b5d] text-white flex items-center gap-3 transition-all';
+      const badge = btn.querySelector('span');
+      badge.className = 'w-8 h-8 rounded-full bg-white/20 text-white font-extrabold text-xs flex items-center justify-center number-font';
+
+      selectedTermCode = code;
+      selectedTermLabel = label;
+    }
+
+    function changeDepositSourceAccount() {
+      const val = document.getElementById('accSelectDropdown').value;
+      const accNo = document.getElementById('selectedAccNo');
+      const accBal = document.getElementById('selectedAccBal');
+
+      if (val === 'lak') {
+        accNo.innerHTML = '0000200100108241 LAK <span class="text-teal-200 font-normal">| ບັນຊີຝາກປະຈຳ</span>';
+        accBal.innerText = '3,293,359.12';
+      } else if (val === 'thb') {
+        accNo.innerHTML = '1012884002 THB <span class="text-teal-200 font-normal">| ບັນຊີຝາກປະຈຳ</span>';
+        accBal.innerText = '154,200.00';
+      } else {
+        accNo.innerHTML = '1012884003 USD <span class="text-teal-200 font-normal">| ບັນຊີຝາກປະຈຳ</span>';
+        accBal.innerText = '8,450.50';
+      }
+    }
+
+    function setQuickAmount(amt) {
+      document.getElementById('inputDepositAmount').value = amt.toLocaleString();
+    }
+
+    function openTdConfirmModal() {
+      const amt = document.getElementById('inputDepositAmount').value;
+      document.getElementById('confirmTerm').innerText = `${selectedTermCode} (${selectedTermLabel})`;
+      document.getElementById('confirmAmount').innerText = `${amt} LAK`;
+      document.getElementById('tdModal').classList.remove('hidden');
+      document.getElementById('tdModal').classList.add('flex');
+    }
+
+    function closeTdModal() {
+      document.getElementById('tdModal').classList.add('hidden');
+      document.getElementById('tdModal').classList.remove('flex');
+    }
+
+    function processTdSubmit() {
+      closeTdModal();
+      showToast('ເປີດບັນຊີຝາກປະຈຳ ສຳເລັດແລ້ວ! ✓');
+      setTimeout(() => {
+        switchTdMode('history');
+      }, 1000);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+
+</html>

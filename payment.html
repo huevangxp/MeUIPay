@@ -1,0 +1,1897 @@
+<!doctype html>
+<html lang="lo">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ປະຫວັດການໂອນເງິນ - Digital Banking</title>
+
+  <!-- Google Fonts for Lao (Noto Sans Lao) & English/Numbers (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'apb-teal': '#006b5d',
+            'apb-teal-dark': '#005449',
+            'apb-teal-light': '#008775',
+            'apb-header': '#007a6c',
+            'primary-teal': '#006b5d',
+            'primary-teal-hover': '#005449',
+            'primary-teal-light': '#eaf4f3',
+            'accent-yellow': '#f19e38',
+            'accent-yellow-hover': '#d98826',
+            'accent-red': '#e53e3e',
+            'accent-red-light': '#fef2f2',
+            'accent-green': '#10b981',
+            'accent-green-light': '#ecfdf5',
+            'bg-page': '#edf1f4',
+            'bg-card': '#ffffff',
+            'bg-input': '#f1f3f7',
+            'bg-input-hover': '#e2e8f0',
+            'text-dark': '#1a202c',
+            'text-muted': '#64748b',
+            'border-color': '#e2e8f0',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-teal: #006b5d;
+      --primary-teal-hover: #005449;
+      --primary-teal-light: #eaf4f3;
+      --accent-yellow: #f19e38;
+      --accent-yellow-hover: #d98826;
+      --accent-red: #e53e3e;
+      --accent-red-light: #fef2f2;
+      --accent-green: #10b981;
+      --accent-green-light: #ecfdf5;
+      --bg-page: #edf1f4;
+      --bg-card: #ffffff;
+      --bg-input: #f1f3f7;
+      --bg-input-hover: #e2e8f0;
+      --text-dark: #1a202c;
+      --text-muted: #64748b;
+      --text-light: #ffffff;
+      --border-color: #e2e8f0;
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans Lao", "Inter", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    .number-font {
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Top Module Nav Button */
+    .top-module-btn {
+      flex: 1;
+      background-color: #007a6c;
+      color: #ffffff;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .top-module-btn:last-child {
+      border-right: none;
+    }
+
+    .top-module-btn:hover {
+      background-color: #005449;
+    }
+
+    /* Custom Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #1a202c;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 3000;
+      opacity: 0;
+      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Modern Component Layout Helpers */
+    .custom-select-wrapper, .date-picker-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Tabs & Components */
+    .tabs-wrapper {
+      background-color: #f1f3f7;
+      border-radius: 18px;
+      padding: 6px;
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+
+    .tab-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 10px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-teal);
+      background-color: #eaf4f3;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-normal);
+    }
+
+    .tab-item.active {
+      background-color: var(--primary-teal);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .custom-select, .date-input, .filter-input {
+      width: 100%;
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dark);
+      outline: none;
+    }
+
+    .download-btn {
+      background-color: var(--primary-teal);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      height: 42px;
+      width: 100%;
+    }
+
+    .download-btn:hover {
+      background-color: var(--primary-teal-hover);
+    }
+
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background-color: #ffffff;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .transaction-item:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    /* Drawer Simulator */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 101;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .drawer-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-container {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      background-color: #ffffff;
+      border-left: 1px solid var(--border-color);
+      z-index: 102;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s ease;
+    }
+
+    .drawer-overlay.show + .drawer-container,
+    .drawer-container.open {
+      right: 0;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border-color);
+      border-top: 3px solid var(--primary-teal);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="bg-[#edf1f4]">
+  <div class="flex min-h-screen">
+    <!-- 1. LEFT SIDEBAR NAVIGATION -->
+    <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+      <div class="space-y-6">
+        <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
+            <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+            <span class="text-xs font-extrabold text-white">MeBank</span>
+          </div>
+        </div>
+
+        <nav class="space-y-1">
+          <a href="index.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>ໜ້າຫຼັກ</span>
+          </a>
+          <a href="payment.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-800/80 text-white border-l-4 border-amber-400">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ປະຫວັດທຸລະກຳ</span>
+          </a>
+          <a href="termdeposit.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="report.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>ລາຍງານ</span>
+          </a>
+
+          <div class="pt-3 border-t border-teal-600/40">
+            <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+            <a href="#" onclick="showToast('ຕັ້ງຄ່າລະບົບ')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+              <span>ຕັ້ງຄ່າ</span>
+            </a>
+            <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              <span>ຊ່ວຍ</span>
+            </a>
+            <a href="index.html"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>ອອກຈາກລະບົບ</span>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <div
+        class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+        <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">
+          CASHBACK 10%</div>
+        <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+        <div
+          class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
+          <i data-lucide="train" class="w-4 h-4"></i>
+          <span>MePom 10% Off</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. CENTER MAIN CONTENT -->
+    <main class="flex-1 p-5 space-y-5 overflow-y-auto">
+      <!-- Top 6 Module Buttons Header Bar -->
+      <div class="bg-[#007a6c] rounded-2xl border border-teal-700 overflow-hidden flex flex-wrap mb-6">
+        <a href="rtgs.html" class="top-module-btn">
+          <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+          <span>ໂອນເງິນ</span>
+        </a>
+        <a href="bill.html" class="top-module-btn">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
+          <span>ຊໍາລະບິນ</span>
+        </a>
+        <a href="exchange.html" class="top-module-btn">
+          <i data-lucide="repeat" class="w-5 h-5"></i>
+          <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+        </a>
+        <a href="termdeposit.html" class="top-module-btn">
+          <i data-lucide="wallet" class="w-5 h-5"></i>
+          <span>ບັນຊີຝາກປະຈຳ</span>
+        </a>
+        <a href="qrcode.html" class="top-module-btn">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+          <span>ຄິວອາໂຄດ</span>
+        </a>
+        <a href="payment.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          <span>ປະຫວັດ</span>
+        </a>
+      </div>
+      <!-- Page Title matching the mockup style -->
+      <h1 class="page-title" style="
+          margin-bottom: 20px;
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--primary-teal);
+        ">
+        ປະຫວັດການໂອນ
+      </h1>
+
+      <!-- Main card container enclosing both list view and detail view -->
+      <section class="card-container">
+        <!-- LIST AND FILTERS VIEW -->
+        <div id="listSection">
+          <!-- Dashboard Stats Widgets Removed -->
+
+          <!-- Tabs Menu -->
+          <div class="tabs-wrapper">
+            <button class="tab-item active" id="tab-0" onclick="switchTab(0)">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>ປະຫວັດ</span>
+            </button>
+            <button class="tab-item" id="tab-1" onclick="switchTab(1)">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+              <span>ປະຫວັດໂອນເງິນເດືອນ</span>
+            </button>
+            <button class="tab-item" id="tab-2" onclick="switchTab(2)">
+              <i data-lucide="clock" class="w-4 h-4"></i>
+              <span>ປະຫວັດຕັ້ງເວລາໂອນ</span>
+            </button>
+          </div>
+
+          <!-- Filters Grid (Redesigned 5-column layout) -->
+          <div class="filters-grid bg-white p-6 rounded-2xl">
+            <!-- Search field (Moved from transactions header to filters grid) -->
+            <div class="filter-group" id="searchFilterGroup">
+              <label class="filter-label">ຄົ້ນຫາ</label>
+              <div style="position: relative">
+                <input type="text" class="filter-input bg-white" id="searchInput" oninput="applyFilters()"
+                  placeholder="ຄົ້ນຫາ" />
+              </div>
+            </div>
+
+            <!-- Select Transfer Type -->
+            <div class="filter-group" id="typeFilterGroup">
+              <label class="filter-label">ເລືອກປະເພດການໂອນ</label>
+              <div class="custom-select-wrapper relative">
+                <select class="custom-select appearance-none pr-9 bg-white" id="typeSelect" onchange="applyFilters()">
+                  <option value="all">ເລືອກ</option>
+                  <option value="internal">ໂອນພາຍໃນທະນາຄານ</option>
+                  <option value="external">ໂອນຕ່າງທະນາຄານ</option>
+                  <option value="other">ອື່ນໆ</option>
+                </select>
+                <i data-lucide="chevron-down"
+                  class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="filter-group" id="startDateFilterGroup">
+              <label class="filter-label">ວັນທີເລີ່ມ</label>
+              <div class="date-picker-wrapper relative">
+                <input type="text" class="date-input number-font pr-9 bg-white" id="startDate" value="11/11/2025"
+                  placeholder="DD/MM/YYYY" />
+                <i data-lucide="calendar"
+                  class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="filter-group" id="endDateFilterGroup">
+              <label class="filter-label">ວັນທີສິ້ນສຸດ</label>
+              <div class="date-picker-wrapper relative">
+                <input type="text" class="date-input number-font pr-9 bg-white" id="endDate" value="11/11/2025"
+                  placeholder="DD/MM/YYYY" />
+                <i data-lucide="calendar"
+                  class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- Search Button (Row 1 Col 5) -->
+            <div class="filter-group" id="searchBtnFilterGroup">
+              <button class="download-btn" onclick="applyFilters()">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                <span>ຄົ້ນຫາ</span>
+              </button>
+            </div>
+
+            <!-- Select Category Group (Row 2 Col 1) -->
+            <div class="filter-group" id="groupFilterGroup">
+              <label class="filter-label">ເລືອກໝວດຜູ້ມັດ</label>
+              <div class="custom-select-wrapper relative">
+                <select class="custom-select appearance-none pr-9 bg-white" id="groupSelect" onchange="applyFilters()">
+                  <option value="all">ເລືອກ</option>
+                  <option value="debit">Debit</option>
+                  <option value="classic">Classic</option>
+                </select>
+                <i data-lucide="chevron-down"
+                  class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- Select Account (Row 2 Col 2) -->
+            <div class="filter-group" id="accountFilterGroup">
+              <label class="filter-label">ເລືອກບັນຊີ</label>
+              <div class="custom-select-wrapper relative">
+                <select class="custom-select appearance-none pr-9 bg-white" id="accountSelect"
+                  onchange="applyFilters()">
+                  <option value="all">ເລືອກ</option>
+                  <option value="bcel">ບັນຊີ ກີບ LAK (101-***-299)</option>
+                  <option value="ldb">ບັນຊີ ບາດ THB (202-***-455)</option>
+                  <option value="apb">ບັນຊີ ໂດລາ USD (303-***-881)</option>
+                </select>
+                <i data-lucide="chevron-down"
+                  class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- Download Button (Row 2 Col 3-5) -->
+            <div class="download-btn-container" style="grid-column: span 3" id="downloadBtnFilterGroup">
+              <button class="download-btn" onclick="triggerDownload()">
+                <i data-lucide="file-down" class="w-4 h-4"></i>
+                <span>ດາວໂຫລດໃບຢັ້ງຢືນປະຫວັດທຸລະກຳ</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Transactions list container -->
+          <div class="transactions-section">
+            <div class="transactions-header">
+              <h2 class="transactions-title my-4 font-bold" id="sectionTitle">ຫົວຂໍ້ທຸລະກຳ</h2>
+            </div>
+
+            <!-- Transaction List -->
+            <div class="transaction-list bg-white rounded-2xl p-6" id="transactionList">
+              <!-- Rendered by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+              <i data-lucide="file-x" class="w-12 h-12 text-slate-300 mx-auto mb-2"></i>
+              <div class="empty-state-title">ບໍ່ພົບຂໍ້ມູນທຸລະກຳ</div>
+              <div>ກະລຸນາປ່ຽນເງື່ອນໄຂການຄົ້ນຫາຂອງທ່ານ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INLINE TRANSACTION DETAIL VIEW (Replaces List when clicking a row) -->
+        <div id="detailView" class="detail-card-wrapper" style="display: none">
+          <!-- Top row (Back button and Download Cert) -->
+          <div class="detail-header-row">
+            <button type="button" class="back-arrow-btn" onclick="hideDetailView()">
+              <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <button type="button" class="cert-download-btn" onclick="triggerDownloadCert()">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>ດາວໂຫລດໃບຢັ້ງຢືນ</span>
+            </button>
+          </div>
+
+          <!-- Fields display -->
+          <div class="detail-fields-grid">
+            <div class="detail-field-box">
+              <span class="detail-field-label" id="detailFieldTitleLabel">ຈຳນວນຊຸດ:</span>
+              <span class="detail-field-value number-font" id="detailBatchName">batch47262408</span>
+            </div>
+
+            <div class="detail-field-box">
+              <span class="detail-field-label">ຈາກລາຍເລກບັນຊີ:</span>
+              <span class="detail-field-value number-font" id="detailSrcAccount">0000200100108241 LAK</span>
+            </div>
+
+            <div class="detail-field-box">
+              <span class="detail-field-label">ຄຳອະທິບາຍ:</span>
+              <span class="detail-field-value" id="detailDescription">test for individual multi payment</span>
+            </div>
+
+            <div class="detail-status-row">
+              <div class="detail-status-block success-bg" id="detailStatusBlock">
+                <span class="detail-status-badge-label">Batch status:</span>
+                <span class="detail-status-badge-val" id="detailStatusText">ສຳເລັດ</span>
+              </div>
+              <div class="detail-field-box">
+                <span class="detail-field-label">ສ້າງວັນທີ:</span>
+                <span class="detail-field-value number-font" id="detailCreatedDate">26/05/2026 14:41</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats summary pills -->
+          <div class="detail-stats-row" id="detailStatsRow">
+            <div class="detail-stat-pill total">
+              <span class="detail-stat-pill-lbl">ລວມ:</span>
+              <span class="detail-stat-pill-val number-font" id="detailStatTotal">2</span>
+            </div>
+            <div class="detail-stat-pill success">
+              <span class="detail-stat-pill-lbl">ສຳເລັດ:</span>
+              <span class="detail-stat-pill-val number-font" id="detailStatSuccess">2</span>
+            </div>
+            <div class="detail-stat-pill failed">
+              <span class="detail-stat-pill-lbl">ລົ້ມເຫຼວ:</span>
+              <span class="detail-stat-pill-val number-font" id="detailStatFailed">0</span>
+            </div>
+          </div>
+
+          <!-- Recipient header & list -->
+          <div class="destinations-container">
+            <h3 class="destinations-title" id="detailDestHeader">
+              2 ລາຍລະອຽດທະນາຄານປາຍທາງ
+            </h3>
+            <div class="destinations-list" id="detailDestList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- SIMULATOR SIDE DRAWER -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeSimulator()"></div>
+    <div class="drawer-container" id="drawerContainer">
+      <div class="form-loading-overlay" id="formLoadingOverlay">
+        <div class="spinner"></div>
+        <span style="font-weight: 700; font-size: 14px; color: var(--primary-teal)">ກຳລັງປະມວນຜົນທຸລະກຳ...</span>
+      </div>
+
+      <div class="drawer-header">
+        <h3 class="drawer-title flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-5 h-5 text-teal-600"></i>
+          <span>ຈຳລອງການໂອນເງິນ</span>
+        </h3>
+        <button type="button" class="close-drawer-btn" onclick="closeSimulator()">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="drawer-form">
+        <div class="form-group">
+          <label class="form-label">ປະເພດທຸລະກຳ</label>
+          <div class="form-type-select">
+            <button type="button" class="form-type-btn active" id="simTypeBtn0" onclick="setSimType(0)">
+              ທົ່ວໄປ
+            </button>
+            <button type="button" class="form-type-btn" id="simTypeBtn1" onclick="setSimType(1)">
+              ຈ່າຍເງິນຫຼາຍລາຍການ
+            </button>
+            <button type="button" class="form-type-btn" id="simTypeBtn2" onclick="setSimType(2)">
+              ຕັ້ງເວລາໂອນ
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ບັນຊີຕົ້ນທາງ</label>
+          <div class="custom-select-wrapper relative">
+            <select class="custom-select appearance-none pr-9" id="simSrcAccount">
+              <option value="bcel">ບັນຊີ ກີບ LAK (101-***-299)</option>
+              <option value="ldb">ບັນຊີ ບາດ THB (202-***-455)</option>
+              <option value="apb">ບັນຊີ ໂດລາ USD (303-***-881)</option>
+            </select>
+            <i data-lucide="chevron-down"
+              class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ຄຳອະທິບາຍ</label>
+          <input type="text" class="form-input" id="simDescription" placeholder="ຄຳອະທິບາຍການໂອນ"
+            value="ໂອນເງິນທົດສອບ" />
+        </div>
+
+        <div class="form-group" id="simDateRow" style="display: none">
+          <label class="form-label">ຕັ້ງເວລາໂອນ (ຕົວຢ່າງ: ທຸກໆວັນທີ 10 ຂອງເດືອນ)</label>
+          <input type="text" class="form-input" id="simScheduledDate" placeholder="ວັນທີໂອນ"
+            value="ທຸກໆວັນທີ 15 ຂອງເດືອນ" />
+        </div>
+
+        <!-- Single Payment form fields -->
+        <div id="simSingleFields">
+          <div class="form-group" style="margin-bottom: 12px">
+            <label class="form-label">ທະນາຄານປາຍທາງ</label>
+            <div class="custom-select-wrapper relative">
+              <select class="custom-select appearance-none pr-9" id="simDestBank">
+                <option value="BCEL">BCEL (ທະນາຄານການຄ້າຕ່າງປະເທດລາວ)</option>
+                <option value="LDB">LDB (ທະນາຄານພັດທະນາລາວ)</option>
+                <option value="APB">APB (ທະນາຄານສົ່ງເສີມກະສິກຳ)</option>
+                <option value="JDB">JDB (ທະນາຄານຮ່ວມພັດທະນາ)</option>
+              </select>
+              <i data-lucide="chevron-down"
+                class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px">
+            <label class="form-label">ເລກບັນຊີປາຍທາງ</label>
+            <input type="text" class="form-input number-font" id="simDestAccount" placeholder="ເລກບັນຊີ 15 ຫຼັກ"
+              value="101-1200-998822" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px">
+            <label class="form-label">ຊື່ຜູ້ຮັບ</label>
+            <input type="text" class="form-input" id="simDestName" placeholder="ຊື່ ແລະ ນາມສະກຸນ"
+              value="ທ້າວ ຄຳສະຫວັນ" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px">
+            <label class="form-label">ຈຳນວນເງິນ (ກີບ)</label>
+            <input type="number" class="form-input number-font" id="simAmount" placeholder="ຈຳນວນເງິນ" value="150000" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px">
+            <label class="form-label">ສະຖານະການໂອນ</label>
+            <div class="custom-select-wrapper relative">
+              <select class="custom-select appearance-none pr-9" id="simStatus">
+                <option value="complete">ສຳເລັດ (Success)</option>
+                <option value="failed">ລົ້ມເຫຼວ (Failed)</option>
+              </select>
+              <i data-lucide="chevron-down"
+                class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bulk/Multiple Payment fields -->
+        <div id="simBulkFields" style="display: none">
+          <div class="form-group">
+            <label class="form-label">ລາຍການບັນຊີປາຍທາງ</label>
+            <div class="bulk-entries-container" id="simBulkEntries">
+              <!-- Dynamic rows -->
+            </div>
+            <button type="button" class="add-entry-btn" onclick="addBulkEntryRow()">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>ເພີ່ມບັນຊີປາຍທາງ</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="submit-form-btn" onclick="submitSimulation()">
+          <span>ຢືນຢັນການໂອນເງິນ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Popup Toast Notification -->
+    <div class="toast" id="downloadToast">
+      <i data-lucide="check-circle" class="w-5 h-5 text-amber-400"></i>
+      <span id="toastMessage">ກຳລັງດາວໂຫລດໄຟລ໌ PDF ປະຫວັດທຸລະກຳ...</span>
+    </div>
+
+    <!-- Scripting for Dynamic Behaviors -->
+    <script>
+      // Updated detailed Mock database of transactions with Lao values & failed cases.
+      const mockDatabase = [
+        // TAB 0: ປະຫວັດ (General History)
+        [
+          {
+            type: "ໂອນພາຍໃນ",
+            description: "ໂອນຈ່າຍຄ່ານ້ຳ 800,000,000",
+            id: "20250128628873",
+            date: "11/11/2025",
+            time: "14:43:57",
+            amount: "- 8,000,000,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-2244-123",
+            destName: "ລັດວິສາຫະກິດນ້ຳປະປາລາວ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883901",
+            group: "debit",
+          },
+          {
+            type: "ໂອນພາຍໃນ",
+            description: "ໂອນຈ່າຍຄ່ານ້ຳ 800,000,000",
+            id: "20250128628873",
+            date: "11/11/2025",
+            time: "14:43:57",
+            amount: "+ 400,000,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-2244-123",
+            destName: "ລັດວິສາຫະກິດນ້ຳປະປາລາວ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883902",
+            group: "classic",
+          },
+          {
+            type: "ໂອນພາຍໃນ",
+            description: "ໂອນຈ່າຍຄ່ານ້ຳ 800,000,000",
+            id: "20250128628873",
+            date: "11/11/2025",
+            time: "14:43:57",
+            amount: "- 14,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-2244-123",
+            destName: "ລັດວິສາຫະກິດນ້ຳປະປາລາວ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883903",
+            isFee: true,
+            group: "debit",
+          },
+          {
+            type: "ໂອນພາຍໃນ",
+            description: "ໂອນຈ່າຍຄ່ານ້ຳ 800,000,000",
+            id: "20250128628873",
+            date: "11/11/2025",
+            time: "14:43:57",
+            amount: "- 8,000,000,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-2244-123",
+            destName: "ລັດວິສາຫະກິດນ້ຳປະປາລາວ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883904",
+            group: "classic",
+          },
+          {
+            type: "ໂອນພາຍໃນ",
+            description: "ໂອນຈ່າຍຄ່ານ້ຳ 800,000,000",
+            id: "20250128628873",
+            date: "11/11/2025",
+            time: "14:43:57",
+            amount: "- 8,000,000,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-2244-123",
+            destName: "ລັດວິສາຫະກິດນ້ຳປະປາລາວ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883905",
+            group: "groupB",
+          },
+        ],
+        // TAB 1: ປະຫວັດຈ່າຍເງິນຫຼາຍລາຍການ (Bulk/Multiple History)
+        [
+          {
+            isBatch: true,
+            batchName: "batch75644223",
+            sourceAccount: "0000200100108241 LAK",
+            description: "test for individual multi payment",
+            date: "26/05/2026",
+            time: "14:41",
+            total: 2,
+            success: 2,
+            failed: 0,
+            status: "COMPLETED",
+            account: "bcel",
+            typeCategory: "internal",
+            successAmount: "20,000",
+            failedAmount: "0",
+            totalAmount: "20,000",
+            recipients: [
+              {
+                name: "test 2",
+                account: "0000100110010826 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883916",
+                time: "07:41",
+              },
+              {
+                name: "test 1",
+                account: "06090000000005 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883917",
+                time: "07:41",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch47262408",
+            sourceAccount: "0000200100108241 LAK",
+            description: "test for individual multi payment",
+            date: "26/05/2026",
+            time: "14:41",
+            total: 2,
+            success: 2,
+            failed: 0,
+            status: "COMPLETED",
+            account: "bcel",
+            typeCategory: "internal",
+            successAmount: "20,000",
+            failedAmount: "0",
+            totalAmount: "20,000",
+            recipients: [
+              {
+                name: "test 2",
+                account: "0000100110010826 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883916",
+                time: "07:41",
+              },
+              {
+                name: "test 1",
+                account: "06090000000005 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883917",
+                time: "07:41",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch18821069",
+            sourceAccount: "0000200100108241 LAK",
+            description: "test multi payment from individual",
+            date: "26/05/2026",
+            time: "14:33",
+            total: 2,
+            success: 1,
+            failed: 1,
+            status: "COMPLETED",
+            account: "bcel",
+            typeCategory: "internal",
+            successAmount: "10,000",
+            failedAmount: "10,000",
+            totalAmount: "20,000",
+            recipients: [
+              {
+                name: "test 2",
+                account: "0000100110010826 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883916",
+                time: "07:41",
+              },
+              {
+                name: "test 1",
+                account: "06090000000005 LAK",
+                amount: "10,000",
+                status: "failed",
+                cbsRef: "2025121883917",
+                time: "07:41",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch29663328",
+            sourceAccount: "0000200100108241 LAK",
+            description: "test multi payment from individual",
+            date: "26/05/2026",
+            time: "14:33",
+            total: 2,
+            success: 1,
+            failed: 1,
+            status: "COMPLETED",
+            account: "bcel",
+            typeCategory: "internal",
+            successAmount: "10,000",
+            failedAmount: "10,000",
+            totalAmount: "20,000",
+            recipients: [
+              {
+                name: "test 2",
+                account: "0000100110010826 LAK",
+                amount: "10,000",
+                status: "complete",
+                cbsRef: "2025121883916",
+                time: "07:41",
+              },
+              {
+                name: "test 1",
+                account: "06090000000005 LAK",
+                amount: "10,000",
+                status: "failed",
+                cbsRef: "2025121883917",
+                time: "07:41",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch32365751",
+            sourceAccount: "0000200200208455 LAK",
+            description: "test",
+            date: "18/05/2026",
+            time: "14:52",
+            total: 1,
+            success: 0,
+            failed: 1,
+            status: "FAILED",
+            account: "ldb",
+            typeCategory: "internal",
+            successAmount: "0",
+            failedAmount: "2,500,000",
+            totalAmount: "2,500,000",
+            recipients: [
+              {
+                name: "ນາງ ສິຣິພອນ ສີວິໄລ",
+                account: "202-8877-182 LAK",
+                amount: "2,500,000",
+                status: "failed",
+                cbsRef: "2025121883921",
+                time: "14:52",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch29911801",
+            sourceAccount: "0000200200208455 LAK",
+            description: "test",
+            date: "18/05/2026",
+            time: "14:52",
+            total: 1,
+            success: 0,
+            failed: 1,
+            status: "FAILED",
+            account: "ldb",
+            typeCategory: "internal",
+            successAmount: "0",
+            failedAmount: "450,000",
+            totalAmount: "450,000",
+            recipients: [
+              {
+                name: "ຮ້ານ ສະດວກຊື້ ວຽງຈັນ",
+                account: "202-3322-811 LAK",
+                amount: "450,000",
+                status: "failed",
+                cbsRef: "2025121883922",
+                time: "14:52",
+              },
+            ],
+          },
+          {
+            isBatch: true,
+            batchName: "batch14401495",
+            sourceAccount: "0000200300308881 LAK",
+            description: "Test (Salary)",
+            date: "18/05/2026",
+            time: "13:35",
+            total: 3,
+            success: 3,
+            failed: 0,
+            status: "COMPLETED",
+            account: "apb",
+            typeCategory: "internal",
+            successAmount: "13,500,000",
+            failedAmount: "0",
+            totalAmount: "13,500,000",
+            recipients: [
+              {
+                name: "ທ້າວ ສົມພອນ ສົມບູນ",
+                account: "303-0011-223 LAK",
+                amount: "4,500,000",
+                status: "complete",
+                cbsRef: "2025121883931",
+                time: "13:35",
+              },
+              {
+                name: "ນາງ ບົວວັນ ແກ້ວອຸດົມ",
+                account: "303-0011-224 LAK",
+                amount: "4,500,000",
+                status: "complete",
+                cbsRef: "2025121883932",
+                time: "13:35",
+              },
+              {
+                name: "ທ້າວ ວິໄຊ ພົມມະຈັນ",
+                account: "303-0011-225 LAK",
+                amount: "4,500,000",
+                status: "complete",
+                cbsRef: "2025121883933",
+                time: "13:35",
+              },
+            ],
+          },
+        ],
+        // TAB 2: ປະຫວັດຕັ້ງເວລາໂອນ (Scheduled History)
+        [
+          {
+            type: "ໂອນຕັ້ງເວລາ",
+            description: "ໂອນຈ່າຍຄ່າເຊົ່າຫ້ອງການ ປະຈຳເດືອນ",
+            id: "TXN-SCHED-01",
+            date: "ທຸກໆວັນທີ 01 ຂອງເດືອນ",
+            time: "08:00:00",
+            amount: "- 4,500,000",
+            account: "bcel",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "101-0020-00108241",
+            destAccount: "101-0988-372",
+            destName: "ບໍລິສັດ ວຽງຈັນ ອາຄານ ເຊົ່າ",
+            destBank: "BCEL",
+            fee: "0",
+            cbsRef: "2025121883941",
+          },
+          {
+            type: "ໂອນຕັ້ງເວລາ",
+            description: "ໂອນເງິນຝາກປະຢັດປະຈຳເດືອນ",
+            id: "TXN-SCHED-02",
+            date: "ທຸກໆວັນທີ 05 ຂອງເດືອນ",
+            time: "10:30:00",
+            amount: "- 2,000,000",
+            account: "ldb",
+            typeCategory: "internal",
+            status: "complete",
+            senderAccount: "202-0030-00208455",
+            destAccount: "202-7711-203",
+            destName: "ບັນຊີຝາກປະຢັດ ທະນາຄານພັດທະນາລາວ",
+            destBank: "LDB",
+            fee: "0",
+            cbsRef: "2025121883942",
+          },
+          {
+            type: "ໂອນຕັ້ງເວລາ",
+            description: "ໂອນຄ່າປະກັນໄພລາຍເດືອນ",
+            id: "TXN-SCHED-03",
+            date: "ທຸກໆວັນທີ 12 ຂອງເດືອນ",
+            time: "15:00:00",
+            amount: "- 1,200,000",
+            account: "apb",
+            typeCategory: "internal",
+            status: "failed",
+            senderAccount: "303-0040-00308881",
+            destAccount: "303-4455-829",
+            destName: "ບໍລິສັດ ປະກັນໄພ ແຫ່ງຊາດ",
+            destBank: "APB",
+            fee: "0",
+            cbsRef: "2025121883943",
+          },
+        ],
+      ];
+
+      let currentActiveTab = 0; // Default is General History
+      let simulatorType = 0; // 0 = General, 1 = Bulk, 2 = Scheduled
+      let bulkRowCount = 0;
+
+      // Switch Active Sub-Tab
+      function switchTab(tabIndex) {
+        currentActiveTab = tabIndex;
+
+        // Toggle active states on UI buttons
+        const tabs = document.querySelectorAll(".tab-item");
+        tabs.forEach((tab, index) => {
+          if (index === tabIndex) {
+            tab.classList.add("active");
+          } else {
+            tab.classList.remove("active");
+          }
+        });
+
+        // Update title based on tab
+        const titles = [
+          "ຫົວຂໍ້ທຸລະກຳ",
+          "ປະຫວັດຈ່າຍເງິນຫຼາຍ",
+          "ປະຫວັດຕັ້ງເວລາໂອນ",
+        ];
+        document.getElementById("sectionTitle").textContent = titles[tabIndex];
+
+        // Hide specific elements for Multi-payment (Tab 1) and Scheduled (Tab 2)
+        const typeGroup = document.getElementById("typeFilterGroup");
+        const groupGroup = document.getElementById("groupFilterGroup");
+        const downloadGroup = document.getElementById("downloadBtnFilterGroup");
+        const filtersGrid = document.querySelector(".filters-grid");
+
+        if (tabIndex === 0) {
+          if (typeGroup) typeGroup.style.display = "flex";
+          if (groupGroup) groupGroup.style.display = "flex";
+          if (downloadGroup) downloadGroup.style.display = "block";
+          if (filtersGrid) filtersGrid.classList.remove("tabs-1-2");
+        } else {
+          if (typeGroup) typeGroup.style.display = "none";
+          if (groupGroup) groupGroup.style.display = "none";
+          if (downloadGroup) downloadGroup.style.display = "none";
+          if (filtersGrid) filtersGrid.classList.add("tabs-1-2");
+        }
+
+        // Ensure list is shown, hide details
+        hideDetailView();
+
+        // Render updated lists
+        applyFilters();
+      }
+
+      // Parse date in format DD/MM/YYYY into JS Date object
+      function parseDate(dStr) {
+        if (!dStr) return null;
+        const parts = dStr.trim().split("/");
+        if (parts.length === 3) {
+          const day = parseInt(parts[0], 10);
+          const month = parseInt(parts[1], 10) - 1;
+          const year = parseInt(parts[2], 10);
+          if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+            return new Date(year, month, day);
+          }
+        }
+        return null;
+      }
+
+      // Format number to currency string with commas
+      function formatMoney(value) {
+        return parseFloat(value.toString().replace(/,/g, "")).toLocaleString();
+      }
+
+      // Calculate statistics dynamically
+      function calculateStats(transactions) {
+        let totalAmt = 0;
+        let successAmt = 0;
+        let failedAmt = 0;
+
+        let totalCount = transactions.length;
+        let successCount = 0;
+        let failedCount = 0;
+
+        transactions.forEach((item) => {
+          if (item.isBatch) {
+            const tAmt = parseFloat(item.totalAmount.replace(/,/g, ""));
+            const sAmt = parseFloat(item.successAmount.replace(/,/g, ""));
+            const fAmt = parseFloat(item.failedAmount.replace(/,/g, ""));
+
+            totalAmt += tAmt;
+            successAmt += sAmt;
+            failedAmt += fAmt;
+
+            successCount += item.success;
+            failedCount += item.failed;
+          } else {
+            const amtStr = item.amount.replace(/[-\s,]/g, "");
+            const amt = parseFloat(amtStr);
+
+            if (!isNaN(amt)) {
+              totalAmt += amt;
+              if (item.status === "complete") {
+                successAmt += amt;
+                successCount++;
+              } else {
+                failedAmt += amt;
+                failedCount++;
+              }
+            }
+          }
+        });
+
+        // Set counts (if elements exist)
+        const statTotalCount = document.getElementById("statTotalCount");
+        const statSuccessCount = document.getElementById("statSuccessCount");
+        const statFailedCount = document.getElementById("statFailedCount");
+        const statTotalVal = document.getElementById("statTotalVal");
+        const statSuccessVal = document.getElementById("statSuccessVal");
+        const statFailedVal = document.getElementById("statFailedVal");
+
+        if (
+          statTotalCount &&
+          statSuccessCount &&
+          statFailedCount &&
+          statTotalVal &&
+          statSuccessVal &&
+          statFailedVal
+        ) {
+          if (currentActiveTab === 1) {
+            statTotalCount.textContent = `${transactions.length} ບັນຊີລາຍການ`;
+            statSuccessCount.textContent = `${successCount} ບັນຊີສຳເລັດ`;
+            statFailedCount.textContent = `${failedCount} ບັນຊີລົ້ມເຫຼວ`;
+          } else {
+            statTotalCount.textContent = `${totalCount} ລາຍການ`;
+            statSuccessCount.textContent = `${successCount} ລາຍການ`;
+            statFailedCount.textContent = `${failedCount} ລາຍການ`;
+          }
+
+          // Set values
+          statTotalVal.textContent = `${formatMoney(totalAmt)} ກີບ`;
+          statSuccessVal.textContent = `${formatMoney(successAmt)} ກີບ`;
+          statFailedVal.textContent = `${formatMoney(failedAmt)} ກີບ`;
+        }
+      }
+
+      // Apply drop down selects, date range inputs, and search text query filters
+      function applyFilters() {
+        const accountValue = document.getElementById("accountSelect").value;
+        const typeValue = document.getElementById("typeSelect").value;
+        const groupValue = document.getElementById("groupSelect").value;
+        const searchQuery = document
+          .getElementById("searchInput")
+          .value.toLowerCase()
+          .trim();
+
+        const startStr = document.getElementById("startDate").value;
+        const endStr = document.getElementById("endDate").value;
+
+        const startDate = parseDate(startStr);
+        const endDate = parseDate(endStr);
+
+        const rawTransactions = mockDatabase[currentActiveTab];
+
+        // Perform filtering
+        const filteredTransactions = rawTransactions.filter((item) => {
+          // Account select check
+          if (accountValue !== "all" && item.account !== accountValue) {
+            return false;
+          }
+          // Type category check (only on Tab 0)
+          if (
+            currentActiveTab === 0 &&
+            typeValue !== "all" &&
+            item.typeCategory !== typeValue
+          ) {
+            return false;
+          }
+          // Group select check (only on Tab 0)
+          if (
+            currentActiveTab === 0 &&
+            groupValue !== "all" &&
+            item.group !== groupValue
+          ) {
+            return false;
+          }
+          // Date range check (ignore if dates are at their mockup defaults "11/11/2025")
+          const isDefaultDate =
+            startStr === "11/11/2025" && endStr === "11/11/2025";
+          if (!isDefaultDate && (startDate || endDate)) {
+            const itemDate = parseDate(item.date);
+            if (itemDate) {
+              if (startDate && itemDate < startDate) return false;
+              if (endDate && itemDate > endDate) return false;
+            }
+          }
+          // Text search query check
+          if (searchQuery !== "") {
+            const matchType =
+              item.type && item.type.toLowerCase().includes(searchQuery);
+            const matchDesc =
+              item.description &&
+              item.description.toLowerCase().includes(searchQuery);
+            const matchId =
+              item.id && item.id.toLowerCase().includes(searchQuery);
+            const matchBatchName =
+              item.batchName &&
+              item.batchName.toLowerCase().includes(searchQuery);
+            const matchSrc =
+              item.sourceAccount &&
+              item.sourceAccount.toLowerCase().includes(searchQuery);
+
+            if (
+              !matchType &&
+              !matchDesc &&
+              !matchId &&
+              !matchBatchName &&
+              !matchSrc
+            ) {
+              return false;
+            }
+          }
+          return true;
+        });
+
+        calculateStats(filteredTransactions);
+        renderTransactions(filteredTransactions);
+      }
+
+      // Render standard Transaction Elements list
+      function renderTransactions(list) {
+        const container = document.getElementById("transactionList");
+        const emptyState = document.getElementById("emptyState");
+
+        container.innerHTML = "";
+
+        if (list.length === 0) {
+          emptyState.style.display = "flex";
+          return;
+        }
+
+        emptyState.style.display = "none";
+
+        list.forEach((item, index) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "transaction-item fade-in";
+          itemDiv.style.animationDelay = `${index * 0.04}s`;
+          itemDiv.onclick = () => showDetailView(item);
+
+          if (item.isBatch) {
+            itemDiv.innerHTML = `
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-2xl flex items-center justify-center bg-indigo-50 text-indigo-700 border border-indigo-100 flex-shrink-0">
+                                <i data-lucide="layers" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-slate-800 text-sm">${item.batchName}</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${item.status.toUpperCase() === "FAILED" ? "bg-rose-100 text-rose-700 border border-rose-200" : "bg-indigo-50 text-indigo-700 border border-indigo-200"}">
+                                        ${item.status}
+                                    </span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-medium">ບັນຊີຕົ້ນທາງ: <span class="font-mono text-slate-700">${item.sourceAccount}</span></span>
+                                <span class="text-xs text-slate-400">${item.description}</span>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span class="text-[10px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200">ລວມ: ${item.total} ບັນຊີ</span>
+                                    <span class="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200">ສຳເລັດ: ${item.success}</span>
+                                    ${item.failed > 0 ? `<span class="text-[10px] font-bold bg-rose-50 text-rose-700 px-2 py-0.5 rounded border border-rose-200">ລົ້ມເຫຼວ: ${item.failed}</span>` : ""}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right flex flex-col items-end gap-1">
+                            <span class="font-bold text-base font-inter text-rose-600">
+                                – ${formatMoney(item.totalAmount)} <span class="text-xs font-semibold text-slate-400">₭</span>
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-[11px] text-slate-400 font-mono">
+                                <i data-lucide="clock" class="w-3 h-3 text-slate-400"></i> ${item.date} ${item.time}
+                            </span>
+                        </div>
+                    `;
+          } else {
+            const isNegative = item.amount.includes("-");
+            const isFailed = item.status === "failed" || item.status === "FAILED";
+            const numericAmt = item.amount.replace(/[-\s]/g, "");
+            const signChar = isNegative ? "–" : "+";
+
+            itemDiv.innerHTML = `
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-2xl flex items-center justify-center ${item.isFee ? "bg-amber-50 text-amber-600 border border-amber-200" : isNegative ? "bg-rose-50 text-rose-600 border border-rose-100" : "bg-emerald-50 text-emerald-600 border border-emerald-100"} flex-shrink-0">
+                                ${item.isFee ? '<span class="text-xs font-black tracking-wider">FEE</span>' : `<i data-lucide="${isNegative ? "arrow-up-right" : "arrow-down-left"}" class="w-5 h-5"></i>`}
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-slate-800 text-sm">${item.type}</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${isFailed ? "bg-rose-100 text-rose-700 border border-rose-200" : "bg-teal-50 text-teal-700 border border-teal-200"}">
+                                        ${isFailed ? "ລົ້ມເຫຼວ" : "ສຳເລັດ"}
+                                    </span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-medium">${item.description}</span>
+                                <div class="flex items-center gap-2.5 mt-1 text-[11px] text-slate-400 font-mono">
+                                    <span class="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 text-slate-600 font-semibold">
+                                        ID: ${item.id}
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 text-slate-400">
+                                        <i data-lucide="calendar" class="w-3 h-3 text-slate-400"></i> ${item.date} ${item.time}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right flex flex-col items-end gap-1">
+                            <span class="font-bold text-base font-inter ${isFailed || isNegative ? "text-rose-600" : "text-emerald-600"}">
+                                ${signChar} ${formatMoney(numericAmt)} <span class="text-xs font-semibold text-slate-400">₭</span>
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">LAK</span>
+                        </div>
+                    `;
+          }
+
+          container.appendChild(itemDiv);
+        });
+
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      }
+
+      // NAVIGATION - SHOW DETAILED VIEW INLINE (Replicating screenshot layout)
+      function showDetailView(item) {
+        document.getElementById("listSection").style.display = "none";
+
+        const detailView = document.getElementById("detailView");
+        const titleLabel = document.getElementById("detailFieldTitleLabel");
+        const batchName = document.getElementById("detailBatchName");
+        const srcAcc = document.getElementById("detailSrcAccount");
+        const desc = document.getElementById("detailDescription");
+        const statusBlock = document.getElementById("detailStatusBlock");
+        const statusText = document.getElementById("detailStatusText");
+        const createdDate = document.getElementById("detailCreatedDate");
+        const statsRow = document.getElementById("detailStatsRow");
+        const destHeader = document.getElementById("detailDestHeader");
+        const destList = document.getElementById("detailDestList");
+
+        // Set date
+        createdDate.textContent = `${item.date} ${item.time}`;
+        srcAcc.textContent =
+          item.senderAccount || item.sourceAccount || "ບໍ່ລະບຸ LAK";
+        desc.textContent = item.description || "ບໍ່ມີຄຳອະທິບາຍ";
+
+        const isSuccess =
+          item.status === "complete" ||
+          item.status === "ສຳເລັດ" ||
+          item.status === "complate";
+
+        if (isSuccess) {
+          statusBlock.className = "detail-status-block success-bg";
+          statusText.textContent = "ສຳເລັດ";
+        } else {
+          statusBlock.className = "detail-status-block failed-bg";
+          statusText.textContent = "ຫຼົ້ມເຫຼວ";
+        }
+
+        if (item.isBatch) {
+          // Batch payment details
+          titleLabel.textContent = "ຈຳນວນຊຸດ:";
+          batchName.textContent = item.batchName;
+
+          // Stats Row
+          statsRow.style.display = "grid";
+          document.getElementById("detailStatTotal").textContent = item.total;
+          document.getElementById("detailStatSuccess").textContent =
+            item.success;
+          document.getElementById("detailStatFailed").textContent = item.failed;
+
+          // Recipients List
+          destHeader.style.display = "block";
+          destHeader.textContent = `${item.total} ລາຍລະອຽດທະນາຄານປາຍທາງ`;
+
+          destList.innerHTML = "";
+          item.recipients.forEach((r, idx) => {
+            const row = document.createElement("div");
+            row.className = "destination-item-row";
+
+            const rSuccess =
+              r.status === "complete" ||
+              r.status === "ສຳເລັດ" ||
+              r.status === "SUCCESS";
+
+            row.innerHTML = `
+              <div class="destination-num-circle">${idx + 1}</div>
+              <div class="destination-info-col">
+                <span class="destination-acc-title number-font">${r.account}</span>
+                <div class="destination-meta-row">
+                  <span class="destination-amt-badge ${rSuccess ? "" : "failed"} number-font">${formatMoney(r.amount)}.00</span>
+                  <span class="destination-desc-txt">ເບື້ອງໃນການໂອນ: ${item.description}</span>
+                  <span class="destination-ref-txt">ການອ້າງອີງ CBS: ${r.cbsRef || "2025" + Math.floor(100000000 + Math.random() * 900000000)}</span>
+                </div>
+              </div>
+              <div class="destination-status-col">
+                <span class="destination-date number-font">${item.date} ${r.time || item.time}</span>
+                <span class="destination-badge ${rSuccess ? "success" : "failed"}">
+                  ${rSuccess ? "SUCCESS" : "FAILED"}
+                </span>
+              </div>
+            `;
+            destList.appendChild(row);
+          });
+        } else {
+          // Single payment details
+          titleLabel.textContent = "ປະເພດທຸລະກຳ:";
+          batchName.textContent = item.type;
+
+          // Hide stats row
+          statsRow.style.display = "none";
+
+          // Recipient list shows just 1 recipient
+          destHeader.style.display = "block";
+          destHeader.textContent = "ລາຍລະອຽດທະນາຄານປາຍທາງ";
+
+          destList.innerHTML = "";
+          const row = document.createElement("div");
+          row.className = "destination-item-row";
+
+          const rSuccess =
+            item.status === "complete" ||
+            item.status === "ສຳເລັດ" ||
+            item.status === "SUCCESS";
+
+          row.innerHTML = `
+            <div class="destination-num-circle">1</div>
+            <div class="destination-info-col">
+              <span class="destination-acc-title number-font">${item.destAccount || "00000000000000 LAK"}</span>
+              <div class="destination-meta-row">
+                <span class="destination-amt-badge ${rSuccess ? "" : "failed"} number-font">${item.amount.replace(/[-\s]/g, "")}.00</span>
+                <span class="destination-desc-txt">ຊື່ຜູ້ຮັບ: ${item.destName || "ບໍ່ລະບຸ"} (${item.destBank || "ທະນາຄານ"})</span>
+                <span class="destination-ref-txt">ການອ້າງອີງ CBS: ${item.cbsRef || "2025121883901"}</span>
+              </div>
+            </div>
+            <div class="destination-status-col">
+              <span class="destination-date number-font">${item.date} ${item.time}</span>
+              <span class="destination-badge ${rSuccess ? "success" : "failed"}">
+                ${rSuccess ? "SUCCESS" : "FAILED"}
+              </span>
+            </div>
+          `;
+          destList.appendChild(row);
+        }
+
+        detailView.style.display = "block";
+      }
+
+      function hideDetailView() {
+        document.getElementById("detailView").style.display = "none";
+        document.getElementById("listSection").style.display = "block";
+      }
+
+      function triggerDownloadCert() {
+        showToast("ກຳລັງດາວໂຫລດໃບຢັ້ງຢືນການໂອນເງິນ...");
+      }
+
+      // Trigger Mock PDF generation download action with Toast
+      function triggerDownload() {
+        showToast("ກຳລັງດາວໂຫລດໄຟລ໌ PDF ປະຫວັດທຸລະກຳ...");
+      }
+
+      // Display custom styled notification Toast
+      function showToast(message) {
+        const toast = document.getElementById("downloadToast");
+        const msgNode = document.getElementById("toastMessage");
+        msgNode.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+
+      // -------------------------------------------------------------
+      // TRANSFER SIMULATOR CONTROLS
+      // -------------------------------------------------------------
+      function openSimulator() {
+        document.getElementById("drawerOverlay").classList.add("show");
+        document.getElementById("drawerContainer").classList.add("open");
+
+        // Reset rows for bulk transfer simulation
+        if (bulkRowCount === 0) {
+          addBulkEntryRow();
+          addBulkEntryRow();
+        }
+      }
+
+      function closeSimulator() {
+        document.getElementById("drawerOverlay").classList.remove("show");
+        document.getElementById("drawerContainer").classList.remove("open");
+      }
+
+      function setSimType(typeIdx) {
+        simulatorType = typeIdx;
+
+        for (let i = 0; i < 3; i++) {
+          const btn = document.getElementById(`simTypeBtn${i}`);
+          if (i === typeIdx) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        }
+
+        const singleFields = document.getElementById("simSingleFields");
+        const bulkFields = document.getElementById("simBulkFields");
+        const dateRow = document.getElementById("simDateRow");
+
+        if (typeIdx === 1) {
+          singleFields.style.display = "none";
+          bulkFields.style.display = "block";
+          dateRow.style.display = "none";
+        } else if (typeIdx === 2) {
+          singleFields.style.display = "block";
+          bulkFields.style.display = "none";
+          dateRow.style.display = "flex";
+        } else {
+          singleFields.style.display = "block";
+          bulkFields.style.display = "none";
+          dateRow.style.display = "none";
+        }
+      }
+
+      // Bulk Add Recipient inputs
+      function addBulkEntryRow() {
+        bulkRowCount++;
+        const container = document.getElementById("simBulkEntries");
+        const row = document.createElement("div");
+        row.className = "bulk-entry-row";
+        row.id = `bulkRow_${bulkRowCount}`;
+        row.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <input type="text" class="form-input" placeholder="ຊື່ຜູ້ຮັບ" id="bulkName_${bulkRowCount}" value="ຜູ້ຮັບທີ ${bulkRowCount}" />
+            <input type="text" class="form-input number-font" placeholder="ເລກບັນຊີ" id="bulkAcc_${bulkRowCount}" value="101-2000-88${bulkRowCount}22" />
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <input type="number" class="form-input number-font" placeholder="ຈຳນວນເງິນ" id="bulkAmt_${bulkRowCount}" value="${500000 * bulkRowCount}" />
+            <select class="custom-select" id="bulkStatus_${bulkRowCount}" style="padding:10px; font-size:12px;">
+              <option value="complete">ສຳເລັດ</option>
+              <option value="failed" ${bulkRowCount % 2 === 0 ? "selected" : ""}>ລົ້ມເຫຼວ</option>
+            </select>
+          </div>
+          <button type="button" class="remove-entry-btn" onclick="removeBulkEntryRow(${bulkRowCount})">
+            <i data-lucide="trash-2" class="w-4 h-4 text-red-500"></i>
+          </button>
+        `;
+        container.appendChild(row);
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function removeBulkEntryRow(rowId) {
+        const row = document.getElementById(`bulkRow_${rowId}`);
+        if (row) {
+          row.remove();
+        }
+      }
+
+      // Handle simulation submit logic
+      function submitSimulation() {
+        const loading = document.getElementById("formLoadingOverlay");
+        loading.classList.add("show");
+
+        setTimeout(() => {
+          loading.classList.remove("show");
+
+          const now = new Date();
+          const dStr = `${String(now.getDate()).padStart(2, "0")}/${String(now.getMonth() + 1).padStart(2, "0")}/${now.getFullYear()}`;
+          const tStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+          const srcVal = document.getElementById("simSrcAccount").value;
+          const descVal = document.getElementById("simDescription").value;
+
+          if (simulatorType === 1) {
+            const rows = document.querySelectorAll(".bulk-entry-row");
+            if (rows.length === 0) {
+              alert("ກະລຸນາເພີ່ມລາຍການບັນຊີປາຍທາງຢ່າງໜ້ອຍ 1 ລາຍການ");
+              return;
+            }
+
+            let total = 0;
+            let success = 0;
+            let failed = 0;
+            let totalAmountVal = 0;
+            let successAmountVal = 0;
+            let failedAmountVal = 0;
+            const recipients = [];
+
+            rows.forEach((row) => {
+              const id = row.id.split("_")[1];
+              const name = document.getElementById(`bulkName_${id}`).value;
+              const acc = document.getElementById(`bulkAcc_${id}`).value;
+              const amt =
+                parseFloat(document.getElementById(`bulkAmt_${id}`).value) || 0;
+              const status = document.getElementById(`bulkStatus_${id}`).value;
+
+              total++;
+              totalAmountVal += amt;
+
+              if (status === "complete") {
+                success++;
+                successAmountVal += amt;
+              } else {
+                failed++;
+                failedAmountVal += amt;
+              }
+
+              recipients.push({
+                name: name,
+                account: acc + " LAK",
+                amount: amt.toString(),
+                status: status,
+                cbsRef:
+                  "2025" + Math.floor(100000000 + Math.random() * 900000000),
+                time: tStr,
+              });
+            });
+
+            const newBatch = {
+              isBatch: true,
+              batchName: `batch${Math.floor(10000000 + Math.random() * 90000000)}`,
+              sourceAccount:
+                srcVal === "bcel"
+                  ? "0000200100108241 LAK"
+                  : srcVal === "ldb"
+                    ? "0000200200208455 LAK"
+                    : "0000200300308881 LAK",
+              description: descVal,
+              date: dStr,
+              time: tStr,
+              total: total,
+              success: success,
+              failed: failed,
+              status:
+                failed === 0
+                  ? "complate"
+                  : success === 0
+                    ? "FAILED"
+                    : "complate",
+              account: srcVal,
+              typeCategory: "internal",
+              successAmount: successAmountVal.toString(),
+              failedAmount: failedAmountVal.toString(),
+              totalAmount: totalAmountVal.toString(),
+              recipients: recipients,
+            };
+
+            mockDatabase[1].unshift(newBatch);
+            switchTab(1); // switch to bulk payments tab
+          } else if (simulatorType === 2) {
+            const schedDateVal =
+              document.getElementById("simScheduledDate").value;
+            const destAccVal = document.getElementById("simDestAccount").value;
+            const destNameVal = document.getElementById("simDestName").value;
+            const destBankVal = document.getElementById("simDestBank").value;
+            const amtVal =
+              parseFloat(document.getElementById("simAmount").value) || 0;
+            const statusVal = document.getElementById("simStatus").value;
+
+            const newItem = {
+              type: "ໂອນຕັ້ງເວລາ",
+              description: descVal,
+              id: `TXN-SCHED-${Math.floor(1000 + Math.random() * 9000)}`,
+              date: schedDateVal,
+              time: tStr,
+              amount: `- ${formatMoney(amtVal)}`,
+              account: srcVal,
+              typeCategory: "internal",
+              status: statusVal,
+              senderAccount:
+                srcVal === "bcel"
+                  ? "0000200100108241"
+                  : srcVal === "ldb"
+                    ? "0000200200208455"
+                    : "0000200300308881",
+              destAccount: destAccVal,
+              destName: destNameVal,
+              destBank: destBankVal,
+              fee: "0",
+              cbsRef:
+                "2025" + Math.floor(100000000 + Math.random() * 900000000),
+            };
+
+            mockDatabase[2].unshift(newItem);
+            switchTab(2); // switch to scheduled tab
+          } else {
+            const destAccVal = document.getElementById("simDestAccount").value;
+            const destNameVal = document.getElementById("simDestName").value;
+            const destBankVal = document.getElementById("simDestBank").value;
+            const amtVal =
+              parseFloat(document.getElementById("simAmount").value) || 0;
+            const statusVal = document.getElementById("simStatus").value;
+
+            const newItem = {
+              type: "ໂອນພາຍໃນທະນາຄານ",
+              description: descVal,
+              id: `TXN-${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+              date: dStr,
+              time: tStr,
+              amount: `- ${formatMoney(amtVal)}`,
+              account: srcVal,
+              typeCategory: "internal",
+              status: statusVal,
+              senderAccount:
+                srcVal === "bcel"
+                  ? "0000200100108241"
+                  : srcVal === "ldb"
+                    ? "0000200200208455"
+                    : "0000200300308881",
+              destAccount: destAccVal,
+              destName: destNameVal,
+              destBank: destBankVal,
+              fee: "0",
+              cbsRef:
+                "2025" + Math.floor(100000000 + Math.random() * 900000000),
+            };
+
+            mockDatabase[0].unshift(newItem);
+            switchTab(0); // switch to general history tab
+          }
+
+          closeSimulator();
+          showToast("ສ້າງທຸລະກຳຈຳລອງສຳເລັດແລ້ວ!");
+        }, 1200);
+      }
+
+      // Initial Load render and binding
+      window.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+        // Bind date fields events for live filtering
+        document
+          .getElementById("startDate")
+          .addEventListener("input", applyFilters);
+        document
+          .getElementById("endDate")
+          .addEventListener("input", applyFilters);
+
+        switchTab(0); // Set General History as active initially
+      });
+    </script>
+    </main>
+  </div>
+</body>
+
+</html>

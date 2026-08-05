@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="lo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ໂອນເງິນ - Digital Banking</title>
+
+    <!-- Google Fonts for Lao (Noto Sans Lao) & English/Numbers (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary-teal': '#006b5d',
+              'primary-teal-hover': '#005449',
+              'primary-teal-light': '#eaf4f3',
+              'accent-yellow': '#f19e38',
+              'accent-yellow-hover': '#d98826',
+              'accent-red': '#e53e3e',
+              'accent-red-light': '#fef2f2',
+              'accent-green': '#10b981',
+              'accent-green-light': '#ecfdf5',
+              'bg-page': '#edf1f4',
+              'bg-card': '#ffffff',
+              'bg-input': '#f1f3f7',
+              'bg-input-hover': '#e2e8f0',
+              'text-dark': '#1a202c',
+              'text-muted': '#64748b',
+              'text-light': '#ffffff',
+              'border-color': '#e2e8f0',
+            },
+            fontFamily: {
+              sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+              inter: ['"Inter"', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      :root {
+        --primary-teal: #006b5d;
+        --primary-teal-hover: #005449;
+        --primary-teal-light: #eaf4f3;
+        --accent-yellow: #f19e38;
+        --accent-red: #e53e3e;
+        --accent-green: #10b981;
+        --bg-page: #edf1f4;
+        --bg-card: #ffffff;
+        --bg-input: #f1f3f7;
+        --text-dark: #1a202c;
+        --text-muted: #64748b;
+        --border-color: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans Lao", "Inter", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding-bottom: 60px;
+      }
+
+      .number-font {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Top Navigation Bar */
+      .top-nav {
+        background-color: var(--primary-teal);
+        width: 100%;
+        overflow-x: auto;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        min-width: 900px;
+      }
+
+      .nav-item {
+        flex: 1;
+        text-align: center;
+        padding: 16px 10px;
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 3.5px solid transparent;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .nav-item svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-item:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-item:hover svg {
+        transform: translateY(-2px);
+      }
+
+      .nav-item.active {
+        color: #ffffff;
+        border-bottom-color: #ffffff;
+        font-weight: 600;
+      }
+
+      .nav-divider {
+        width: 1px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 4px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .card-container {
+        background: #ffffff;
+        border-radius: 28px;
+        border: 1px solid var(--border-color);
+        padding: 28px;
+      }
+
+      .bank-card-chip {
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+      }
+
+      .bank-card-chip:hover {
+        border-color: var(--primary-teal);
+        background-color: var(--primary-teal-light);
+      }
+
+      .bank-card-chip.selected {
+        border-color: var(--primary-teal);
+        background-color: var(--primary-teal-light);
+      }
+
+      .preset-chip {
+        background-color: var(--bg-input);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .preset-chip:hover {
+        background-color: var(--primary-teal-light);
+        color: var(--primary-teal);
+        border-color: var(--primary-teal);
+      }
+
+      /* Modal styling */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        background: #ffffff;
+        border-radius: 24px;
+        max-width: 460px;
+        width: 90%;
+        padding: 28px;
+        border: 1px solid var(--border-color);
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-card {
+        transform: translateY(0);
+      }
+
+      /* Toast Notifications */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background-color: #1a202c;
+        color: #ffffff;
+        padding: 14px 24px;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        z-index: 1000;
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Top Module Nav Button */
+      .top-module-btn {
+        flex: 1;
+        background-color: #007a6c;
+        color: #ffffff;
+        padding: 12px 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.2s ease;
+      }
+      .top-module-btn:last-child {
+        border-right: none;
+      }
+      .top-module-btn:hover {
+        background-color: #006357;
+      }
+    </style>
+  </head>
+  <body class="bg-[#edf1f4]">
+    <div class="flex min-h-screen">
+      <!-- 1. LEFT SIDEBAR NAVIGATION -->
+      <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+        <div class="space-y-6">
+          <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
+              <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+              <span class="text-xs font-extrabold text-white">MeBank</span>
+            </div>
+          </div>
+
+          <nav class="space-y-1">
+            <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="home" class="w-4 h-4"></i>
+              <span>ໜ້າຫຼັກ</span>
+            </a>
+            <a href="payment.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>ປະຫວັດທຸລະກຳ</span>
+            </a>
+            <a href="termdeposit.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="credit-card" class="w-4 h-4"></i>
+              <span>ບັນຊີຝາກປະຈຳ</span>
+            </a>
+            <a href="report.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+              <span>ລາຍງານ</span>
+            </a>
+
+            <div class="pt-3 border-t border-teal-600/40">
+              <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+              <a href="#" onclick="showToast('ຕັ້ງຄ່າລະບົບ')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+                <span>ຕັ້ງຄ່າ</span>
+              </a>
+              <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>ຊ່ວຍ</span>
+              </a>
+              <a href="index.html" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>ອອກຈາກລະບົບ</span>
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+          <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">CASHBACK 10%</div>
+          <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+          <div class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
+            <i data-lucide="train" class="w-4 h-4"></i>
+            <span>MePom 10% Off</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. CENTER MAIN CONTENT -->
+      <main class="flex-1 p-5 space-y-5 overflow-y-auto">
+        <!-- Top 6 Module Buttons Header Bar -->
+        <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-6 border border-teal-600/50">
+          <a href="rtgs.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+            <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+            <span>ໂອນເງິນ</span>
+          </a>
+          <a href="bill.html" class="top-module-btn">
+            <i data-lucide="receipt" class="w-5 h-5"></i>
+            <span>ຊໍາລະບິນ</span>
+          </a>
+          <a href="exchange.html" class="top-module-btn">
+            <i data-lucide="repeat" class="w-5 h-5"></i>
+            <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+          </a>
+          <a href="termdeposit.html" class="top-module-btn">
+            <i data-lucide="wallet" class="w-5 h-5"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="qrcode.html" class="top-module-btn">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+            <span>ຄິວອາໂຄດ</span>
+          </a>
+          <a href="payment.html" class="top-module-btn">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span>ປະຫວັດ</span>
+          </a>
+        </div>
+
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-xl font-bold text-primary-teal flex items-center gap-2">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M19 14l4-4-4-4v3H3v2h16v3M5 10l-4 4 4 4v-3h16v-2H5v-3z" />
+          </svg>
+          ບໍລິການໂອນເງິນ (Transfer Portal)
+        </h1>
+        <span class="text-xs bg-teal-100 text-primary-teal font-semibold px-3 py-1.5 rounded-full border border-teal-200">
+          ● ລະບົບໂອນເງິນດ່ວນ 24/7 (Real-time Fast Pay)
+        </span>
+      </div>
+
+      <section class="card-container">
+        <!-- Transfer Type Tabs -->
+        <div class="bg-gray-100 p-1.5 rounded-2xl flex gap-2 mb-6">
+          <button id="typeTab1" onclick="switchTransferType('internal')" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all bg-primary-teal text-white">
+            ໂອນພາຍໃນທະນາຄານ (Internal Transfer)
+          </button>
+          <button id="typeTab2" onclick="switchTransferType('interbank')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:text-primary-teal">
+            ໂອນຕ່າງທະນາຄານ / LAPNet RTGS
+          </button>
+          <button id="typeTab3" onclick="switchTransferType('swift')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:text-primary-teal">
+            ໂອນຕ່າງປະເທດ (International SWIFT)
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Left Column: Form Controls -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Source Account Selector -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ເລືອກບັນຊີຕົ້ນທາງ (Source Account)</label>
+              <select id="sourceAccount" onchange="updateAccountBalance()" class="w-full bg-bg-input border border-gray-200 rounded-xl p-3.5 text-sm font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-primary-teal">
+                <option value="bcel_lak">ບັນຊີ ກີບ LAK - 101-2884-001 (ຍອດເຫຼືອ: 125,450,000 LAK)</option>
+                <option value="ldb_thb">ບັນຊີ ບາດ THB - 202-4910-455 (ຍອດເຫຼືອ: 85,200 THB)</option>
+                <option value="apb_usd">ບັນຊີ ໂດລາ USD - 303-8812-881 (ຍອດເຫຼືອ: 4,500 USD)</option>
+              </select>
+            </div>
+
+            <!-- Recipient Bank Selection Grid (Shows for Interbank) -->
+            <div id="bankSelectionSection" class="hidden">
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ເລືອກທະນາຄານປາຍທາງ (Recipient Bank)</label>
+              <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                <div onclick="selectBank(this, 'BCEL')" class="bank-card-chip selected">
+                  <div class="w-10 h-10 rounded-full bg-teal-700 text-white font-bold text-xs flex items-center justify-center">BCEL</div>
+                  <span class="text-xs font-bold">BCEL</span>
+                </div>
+                <div onclick="selectBank(this, 'LDB')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">LDB</div>
+                  <span class="text-xs font-bold">LDB Bank</span>
+                </div>
+                <div onclick="selectBank(this, 'APB')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-green-600 text-white font-bold text-xs flex items-center justify-center">APB</div>
+                  <span class="text-xs font-bold">APB Bank</span>
+                </div>
+                <div onclick="selectBank(this, 'JDB')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-red-600 text-white font-bold text-xs flex items-center justify-center">JDB</div>
+                  <span class="text-xs font-bold">JDB Bank</span>
+                </div>
+                <div onclick="selectBank(this, 'STB')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center">STB</div>
+                  <span class="text-xs font-bold">ST Bank</span>
+                </div>
+                <div onclick="selectBank(this, 'MARUHAN')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center">MJBL</div>
+                  <span class="text-xs font-bold">Maruhan</span>
+                </div>
+                <div onclick="selectBank(this, 'BIC')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">BIC</div>
+                  <span class="text-xs font-bold">BIC Bank</span>
+                </div>
+                <div onclick="selectBank(this, 'LVB')" class="bank-card-chip">
+                  <div class="w-10 h-10 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">LVB</div>
+                  <span class="text-xs font-bold">LaoViet</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recipient Account & Lookup -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ເລກບັນຊີປາຍທາງ / ເບີໂທລະສັບ (Account No / Phone)</label>
+              <div class="flex gap-2">
+                <input id="recipientAcc" type="text" value="101-9921-554" placeholder="ປ້ອນເລກບັນຊີ ຫຼື ເບີໂທ" class="flex-1 bg-bg-input border border-gray-200 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-primary-teal number-font" />
+                <button onclick="verifyAccount()" class="bg-primary-teal hover:bg-primary-teal-hover text-white font-bold px-5 py-3 rounded-xl text-sm transition-all">
+                  ກວດສອບຊື່
+                </button>
+              </div>
+              <div id="verifiedNameBox" class="mt-2.5 p-3 rounded-xl bg-teal-50 border border-teal-200 flex items-center gap-2 text-xs font-bold text-primary-teal">
+                <svg class="w-4 h-4 fill-current text-emerald-500" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                ຊື່ບັນຊີ: <span id="verifiedName">ສົມພອນ ໄຊຍະວົງ (SOMPHONE XAYAVONG)</span>
+              </div>
+            </div>
+
+            <!-- Transfer Amount & Presets -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">ຈຳນວນເງິນໂອນ (Amount)</label>
+                <span class="text-xs font-bold text-primary-teal number-font" id="accountCurrencyLabel">LAK</span>
+              </div>
+              <div class="relative">
+                <input id="transferAmount" type="number" value="500000" oninput="calculateSummary()" class="w-full bg-bg-input border border-gray-200 rounded-xl px-4 py-3.5 text-lg font-bold text-gray-900 outline-none focus:ring-2 focus:ring-primary-teal number-font" />
+              </div>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <button onclick="setAmount(50000)" class="preset-chip">50,000</button>
+                <button onclick="setAmount(100000)" class="preset-chip">100,000</button>
+                <button onclick="setAmount(500000)" class="preset-chip">500,000</button>
+                <button onclick="setAmount(1000000)" class="preset-chip">1,000,000</button>
+                <button onclick="setAmount(5000000)" class="preset-chip">5,000,000</button>
+              </div>
+            </div>
+
+            <!-- Transfer Remark -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ເນື້ອໃນການໂອນ (Memo / Remark)</label>
+              <input id="transferRemark" type="text" value="ຄ່າສິນຄ້າ ແລະ ບໍລິການ" placeholder="ລະບຸເນື້ອໃນ" class="w-full bg-bg-input border border-gray-200 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-primary-teal" />
+            </div>
+          </div>
+
+          <!-- Right Column: Summary Card & Action Button -->
+          <div class="space-y-6">
+            <div class="bg-teal-50/70 border border-teal-100 rounded-2xl p-6 space-y-4">
+              <h3 class="text-sm font-bold text-primary-teal flex items-center gap-2 border-b border-teal-200/60 pb-3">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-1 15H6v-2h12v2m0-3H6v-2h12v2m0-3H6V7h12v2"/></svg>
+                ສະຫຼຸບລາຍການ (Transfer Summary)
+              </h3>
+
+              <div class="flex justify-between text-xs font-medium text-gray-600">
+                <span>ຈຳນວນເງິນໂອນ:</span>
+                <span id="sumAmount" class="font-bold text-gray-900 number-font">500,000 LAK</span>
+              </div>
+              <div class="flex justify-between text-xs font-medium text-gray-600">
+                <span>ຄ່າທຳນຽມ (Fee):</span>
+                <span id="sumFee" class="font-bold text-emerald-600 number-font">0 LAK (ຟຣີ)</span>
+              </div>
+              <div class="flex justify-between text-xs font-medium text-gray-600">
+                <span>ປະເພດການໂອນ:</span>
+                <span id="sumType" class="font-bold text-gray-800">ໂອນພາຍໃນທະນາຄານ</span>
+              </div>
+
+              <div class="border-t border-teal-200/60 pt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-gray-800">ຍອດຮວມຫັກທັງໝົດ:</span>
+                <span id="sumTotal" class="text-base font-extrabold text-primary-teal number-font">500,000 LAK</span>
+              </div>
+            </div>
+
+            <button onclick="openConfirmModal()" class="w-full bg-primary-teal hover:bg-primary-teal-hover text-white font-bold py-4 px-6 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              ຢືນຢັນການໂອນເງິນ (Proceed Transfer)
+            </button>
+
+            <div class="text-center">
+              <p class="text-xs text-gray-400 font-medium">🔒 ປອດໄພດ້ວຍລະບົບການຮັກສາຄວາມປອດໄພ 256-bit SSL Encryption</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Confirmation & Receipt Modal -->
+    <div id="confirmModal" class="modal-overlay">
+      <div class="modal-card space-y-5">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+          <h3 class="text-base font-bold text-primary-teal flex items-center gap-2">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L9 14.17l7.59-7.59L18 8l-9 9z"/></svg>
+            ຢືນຢັນທຸລະກຳ (Transfer Confirmation)
+          </h3>
+          <button onclick="closeConfirmModal()" class="text-gray-400 hover:text-gray-600 font-bold text-xl">✕</button>
+        </div>
+
+        <div id="modalStep1" class="space-y-4">
+          <div class="bg-gray-50 p-4 rounded-xl space-y-2 text-xs">
+            <div class="flex justify-between">
+              <span class="text-gray-500">ຜູ້ໂອນ:</span>
+              <span class="font-bold text-gray-800">ບັນຊີ 101-2884-001 (BCEL)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">ຜູ້ຮັບ:</span>
+              <span id="modalReceiverName" class="font-bold text-gray-800">ສົມພອນ ໄຊຍະວົງ</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">ເລກບັນຊີ:</span>
+              <span id="modalReceiverAcc" class="font-bold text-gray-800 number-font">101-9921-554</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">ຈຳນວນເງິນ:</span>
+              <span id="modalAmount" class="font-extrabold text-primary-teal text-sm number-font">500,000 LAK</span>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1 text-center">ປ້ອນລະຫັດຜ່ານ PIN (Enter 6-Digit PIN)</label>
+            <div class="flex justify-center gap-2 my-2">
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="1" />
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="2" />
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="3" />
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="4" />
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="5" />
+              <input type="password" maxlength="1" class="w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary-teal" value="6" />
+            </div>
+          </div>
+
+          <button onclick="processTransferSubmit()" class="w-full bg-primary-teal hover:bg-primary-teal-hover text-white font-bold py-3 rounded-xl text-sm transition-all">
+            ໂອນເງິນດຽວນີ້ (Confirm Payment)
+          </button>
+        </div>
+
+        <!-- Step 2: Receipt View (Hidden until submit) -->
+        <div id="modalStep2" class="hidden space-y-4 text-center">
+          <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+            ✓
+          </div>
+          <h4 class="text-base font-bold text-gray-900">ໂອນເງິນສຳເລັດ (Transfer Successful)</h4>
+          <p class="text-xs text-gray-500">ເລກອ້າງອີງ: <span class="font-bold text-gray-700 number-font">FT202608059912</span></p>
+
+          <div class="bg-gray-50 p-4 rounded-xl text-xs space-y-2 text-left border border-gray-200">
+            <div class="flex justify-between">
+              <span class="text-gray-500">ວັນທີ/ເວລາ:</span>
+              <span class="font-bold text-gray-800 number-font">05/08/2026 10:15:32</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">ຈຳນວນເງິນ:</span>
+              <span id="receiptAmt" class="font-bold text-primary-teal text-sm number-font">500,000 LAK</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">ຜູ້ຮັບເງິນ:</span>
+              <span id="receiptReceiver" class="font-bold text-gray-800">ສົມພອນ ໄຊຍະວົງ</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="downloadReceipt()" class="flex-1 bg-primary-teal text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              ດາວໂຫລດໃບຢັ້ງຢືນ
+            </button>
+            <button onclick="closeConfirmModal()" class="flex-1 bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl text-xs">
+              ອັດໜ້າຕ່າງ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+      <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+    </div>
+
+    <script>
+      let currentType = 'internal';
+
+      function switchTransferType(type) {
+        currentType = type;
+        const tab1 = document.getElementById('typeTab1');
+        const tab2 = document.getElementById('typeTab2');
+        const tab3 = document.getElementById('typeTab3');
+        const bankSec = document.getElementById('bankSelectionSection');
+
+        tab1.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:text-primary-teal';
+        tab2.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:text-primary-teal';
+        tab3.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:text-primary-teal';
+
+        if(type === 'internal') {
+          tab1.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all bg-primary-teal text-white';
+          bankSec.classList.add('hidden');
+        } else if(type === 'interbank') {
+          tab2.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all bg-primary-teal text-white';
+          bankSec.classList.remove('hidden');
+        } else {
+          tab3.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all bg-primary-teal text-white';
+          bankSec.classList.remove('hidden');
+        }
+        calculateSummary();
+      }
+
+      function selectBank(el, bankName) {
+        document.querySelectorAll('.bank-card-chip').forEach(chip => chip.classList.remove('selected'));
+        el.classList.add('selected');
+        showToast(`ເລືອກທະນາຄານ ${bankName}`);
+      }
+
+      function setAmount(val) {
+        document.getElementById('transferAmount').value = val;
+        calculateSummary();
+      }
+
+      function verifyAccount() {
+        const acc = document.getElementById('recipientAcc').value;
+        showToast('ກວດສອບຊື່ບັນຊີສຳເລັດ ✓');
+      }
+
+      function calculateSummary() {
+        const amt = parseFloat(document.getElementById('transferAmount').value) || 0;
+        const fee = currentType === 'internal' ? 0 : 3000;
+        const total = amt + fee;
+
+        document.getElementById('sumAmount').innerText = amt.toLocaleString() + ' LAK';
+        document.getElementById('sumFee').innerText = fee === 0 ? '0 LAK (ຟຣີ)' : fee.toLocaleString() + ' LAK';
+        document.getElementById('sumTotal').innerText = total.toLocaleString() + ' LAK';
+        document.getElementById('sumType').innerText = currentType === 'internal' ? 'ໂອນພາຍໃນທະນາຄານ' : 'ໂອນຂ້າມທະນາຄານ RTGS';
+      }
+
+      function openConfirmModal() {
+        const amt = parseFloat(document.getElementById('transferAmount').value) || 0;
+        const acc = document.getElementById('recipientAcc').value;
+        const name = document.getElementById('verifiedName').innerText;
+
+        document.getElementById('modalReceiverName').innerText = name;
+        document.getElementById('modalReceiverAcc').innerText = acc;
+        document.getElementById('modalAmount').innerText = amt.toLocaleString() + ' LAK';
+
+        document.getElementById('modalStep1').classList.remove('hidden');
+        document.getElementById('modalStep2').classList.add('hidden');
+        document.getElementById('confirmModal').classList.add('active');
+      }
+
+      function closeConfirmModal() {
+        document.getElementById('confirmModal').classList.remove('active');
+      }
+
+      function processTransferSubmit() {
+        const amt = parseFloat(document.getElementById('transferAmount').value) || 0;
+        const name = document.getElementById('verifiedName').innerText;
+
+        document.getElementById('receiptAmt').innerText = amt.toLocaleString() + ' LAK';
+        document.getElementById('receiptReceiver').innerText = name;
+
+        document.getElementById('modalStep1').classList.add('hidden');
+        document.getElementById('modalStep2').classList.remove('hidden');
+        showToast('ໂອນເງິນສຳເລັດແລ້ວ! 🎉');
+      }
+
+      function downloadReceipt() {
+        showToast('ກຳລັງດາວໂຫລດໃບຢັ້ງຢືນ (PDF Downloaded)...');
+      }
+    </script>
+      </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+      });
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+
+      function updateAccountBalance() {
+        const acc = document.getElementById('sourceAccount').value;
+        const label = document.getElementById('accountCurrencyLabel');
+        if(acc.includes('thb')) label.innerText = 'THB';
+        else if(acc.includes('usd')) label.innerText = 'USD';
+        else label.innerText = 'LAK';
+      }
+    </script>
+  </body>
+</html>
