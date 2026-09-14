@@ -1,0 +1,1795 @@
+<!doctype html>
+<html lang="lo">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ຕັ້ງຄ່າລະບົບ (Settings) - APB MeBank Digital Banking</title>
+
+  <!-- Google Fonts for Lao (Noto Sans Lao) & English/Numbers (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'apb-teal': '#006b5d',
+            'apb-teal-dark': '#005449',
+            'apb-teal-light': '#008775',
+            'apb-header': '#007a6c',
+            'brand-teal': '#00bba7',
+            'brand-teal-dark': '#00a190',
+            'bg-page': '#edf1f4',
+            'bg-card': '#ffffff',
+            'text-dark': '#1a202c',
+            'text-muted': '#64748b',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style type="text/tailwindcss">
+    :root {
+      --apb-teal: #006b5d;
+      --apb-header: #007a6c;
+      --brand-teal: #00bba7;
+      --bg-page: #edf1f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans Lao", "Inter", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: #1a202c;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-mode {
+      background-color: #0f172a;
+      color: #f1f5f9;
+    }
+
+    .number-font {
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f3f7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--apb-teal);
+      border-radius: 4px;
+    }
+
+    /* Top Module Nav Button */
+    .top-module-btn {
+      flex: 1;
+      background-color: #007a6c;
+      color: #ffffff;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .top-module-btn:last-child {
+      border-right: none;
+    }
+
+    .top-module-btn:hover {
+      background-color: #006357;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #1a202c;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Tab button active & inactive styles matching top image */
+    .setting-nav-btn.active {
+      background-color: #00bba7 !important;
+      color: #ffffff !important;
+      border-color: #00bba7 !important;
+      box-shadow: 0 4px 14px rgba(0, 187, 167, 0.25);
+    }
+
+    .setting-nav-btn {
+      background-color: #ffffff;
+      color: #00bba7;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .setting-nav-btn:hover:not(.active) {
+      background-color: #f0fdfa;
+      border-color: #ccfbf1;
+    }
+
+    /* Dark Mode Overrides */
+    body.dark-mode .settings-main-card {
+      background-color: #1e293b;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    body.dark-mode .settings-right-panel {
+      background-color: #0f172a;
+      border-color: #334155;
+    }
+    body.dark-mode .setting-nav-btn:not(.active) {
+      background-color: #1e293b;
+      color: #2dd4bf;
+      border-color: #334155;
+    }
+    body.dark-mode .setting-nav-btn:hover:not(.active) {
+      background-color: #334155;
+    }
+    body.dark-mode .text-dark-theme {
+      color: #f8fafc !important;
+    }
+    body.dark-mode .text-sub-dark-theme {
+      color: #94a3b8 !important;
+    }
+    body.dark-mode .card-dark-theme {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f8fafc !important;
+    }
+    body.dark-mode .twofa-row:not(.bg-\[\#00bba7\]) {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#edf1f4]">
+  <div class="flex min-h-screen">
+    <!-- 1. LEFT SIDEBAR NAVIGATION (Matching index.html) -->
+    <aside
+      class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+      <div class="space-y-6">
+        <!-- Logo & Brand Header -->
+        <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+          <div class="bg-white p-2.5 rounded-2xl inline-block mx-auto border border-teal-100 shadow-sm">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-amber-500 text-white font-extrabold flex items-center justify-center text-xs border-2 border-green-700">
+                🌾
+              </div>
+              <div class="text-left">
+                <h2 class="text-xs font-extrabold text-teal-800 leading-tight">APB BANK</h2>
+                <p class="text-[9px] text-teal-600 font-semibold leading-tight">ທະນາຄານ ສົ່ງເສີມກະສິກຳ</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center shadow-inner">
+            <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+            <span class="text-xs font-extrabold text-white">MeBank</span>
+          </div>
+        </div>
+
+        <!-- Main Nav Menu -->
+        <nav class="space-y-1">
+          <a href="index.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>ໜ້າຫຼັກ</span>
+          </a>
+          <a href="payment.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ປະຫວັດທຸລະກຳ</span>
+          </a>
+          <a href="termdeposit.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="report.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>ລາຍງານ</span>
+          </a>
+
+          <div class="pt-3 border-t border-teal-600/40">
+            <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+            <a href="setting.html"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-800/80 text-white border-l-4 border-amber-400 shadow-sm">
+              <i data-lucide="settings" class="w-4 h-4 text-amber-300"></i>
+              <span>ຕັ້ງຄ່າ</span>
+            </a>
+            <a href="#" onclick="showToast('ສູນບໍລິການລູກຄ້າ APB ໂທ: 1555')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 transition-all">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              <span>ຊ່ວຍເຫຼືອ</span>
+            </a>
+            <a href="index.html" onclick="return confirm('ທ່ານຕ້ອງການອອກຈາກລະບົບແທ້ບໍ່?')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-red-600/60 transition-all">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>ອອກຈາກລະບົບ</span>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Promo Badge in Sidebar -->
+      <div
+        class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3.5 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden shadow-md">
+        <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">
+          CASHBACK 10%
+        </div>
+        <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+        <div
+          class="w-full h-14 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5 shadow-sm">
+          <i data-lucide="train" class="w-4 h-4"></i>
+          <span>MePom 10% Off</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. FULL PAGE MAIN DASHBOARD CONTENT (Matching index.html layout) -->
+    <main class="flex-1 p-5 space-y-5 overflow-y-auto w-full">
+      <!-- Top 6 Module Buttons Header Bar -->
+      <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-6 border border-teal-600/50 shadow-sm">
+        <a href="rtgs.html" class="top-module-btn">
+          <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+          <span>ໂອນເງິນ</span>
+        </a>
+        <a href="bill.html" class="top-module-btn">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
+          <span>ຊໍາລະບິນ</span>
+        </a>
+        <a href="exchange.html" class="top-module-btn">
+          <i data-lucide="repeat" class="w-5 h-5"></i>
+          <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+        </a>
+        <a href="termdeposit.html" class="top-module-btn">
+          <i data-lucide="wallet" class="w-5 h-5"></i>
+          <span>ບັນຊີຝາກປະຈຳ</span>
+        </a>
+        <a href="qrcode.html" class="top-module-btn">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+          <span>ຄິວອາໂຄດ</span>
+        </a>
+        <a href="payment.html" class="top-module-btn">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          <span>ປະຫວັດ</span>
+        </a>
+      </div>
+
+      <!-- MAIN SETTING CARD (Designed exactly like the provided image) -->
+      <div
+        class="settings-main-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-gray-100 w-full space-y-8 transition-colors">
+
+        <!-- TOP PROFILE & THEME SECTION (Exact match to image header) -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-6 sm:gap-8">
+          <!-- Profile Photo Frame -->
+          <div
+            class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl border border-gray-200 p-1.5 bg-white shadow-sm shrink-0 overflow-hidden">
+            <img src="profile_vantha.jpg" alt="MR VANTHAVISITH VIVONGKONE" class="w-full h-full object-cover rounded-xl"
+              onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80'" />
+          </div>
+
+          <!-- User Details & Mode Switchers -->
+          <div class="space-y-2.5 flex-1">
+            <!-- Full Name -->
+            <h2 class="text-lg sm:text-xl font-black text-gray-900 tracking-wide text-dark-theme" id="profileName">
+              ທ່ານ ທຳມະວົງສາ ວຽງຄຳ
+            </h2>
+
+            <!-- Email -->
+            <p class="text-xs sm:text-sm font-semibold text-gray-800 text-sub-dark-theme" id="profileEmail">
+              ອີເມວ: vantha@gmail.com
+            </p>
+
+            <!-- Phone Number -->
+            <p class="text-xs sm:text-sm font-bold text-gray-900 text-dark-theme flex items-center gap-1.5">
+              <span>ເບີໂທ:</span>
+              <span class="number-font" id="profileTel">2054116066</span>
+            </p>
+
+            <!-- Date of Birth -->
+            <p class="text-xs sm:text-sm font-bold text-gray-900 text-dark-theme flex items-center gap-1.5">
+              <span>ວັນເດືອນປີເກີດ:</span>
+              <span class="number-font" id="profileDob">16/10/2000</span>
+            </p>
+
+            <!-- Mode Switch Buttons: Light Mode (Active) & Dark Mode (Inactive) -->
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <!-- Light Mode Button (Active in screenshot: Teal background #00bba7 with white text) -->
+              <button id="btnLightMode" onclick="setThemeMode('light')"
+                class="px-5 py-2.5 rounded-xl bg-[#00bba7] text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all">
+                <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                <span>ໂໝດສະຫວ່າງ</span>
+              </button>
+
+              <!-- Dark Mode Button (White background with teal border #00bba7 and teal text) -->
+              <button id="btnDarkMode" onclick="setThemeMode('dark')"
+                class="px-5 py-2.5 rounded-xl bg-white border-2 border-[#00bba7] text-[#00bba7] font-bold text-xs flex items-center gap-2 hover:bg-teal-50/50 transition-all">
+                <i data-lucide="moon" class="w-4 h-4"></i>
+                <span>ໂໝດມືດ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM TWO-COLUMN SECTION (Tabs on left, Content on right) -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-4 items-start">
+
+          <!-- LEFT COLUMN: Setting Category Tabs (Exact labels from image) -->
+          <div class="md:col-span-4 lg:col-span-3 space-y-2.5">
+            <!-- Tab 1: ປ່ຽນພາສາ (Change Language - Active by default) -->
+            <button onclick="switchTab('language')" id="tab-language"
+              class="setting-nav-btn active w-full px-4 py-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between">
+              <span>ປ່ຽນພາສາ</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 opacity-70"></i>
+            </button>
+
+            <!-- Tab 2: ປ່ຽນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບ (Change Login Password) -->
+            <button onclick="switchTab('password')" id="tab-password"
+              class="setting-nav-btn w-full px-4 py-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between">
+              <span>ປ່ຽນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບ</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 opacity-70"></i>
+            </button>
+
+            <!-- Tab 3: ປ່ຽນລະຫັດຜ່ານທຸລະກຳ TPIN (Change Transaction PIN) -->
+            <button onclick="switchTab('tpin')" id="tab-tpin"
+              class="setting-nav-btn w-full px-4 py-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between">
+              <span>ປ່ຽນລະຫັດຜ່ານທຸລະກຳ TPIN</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 opacity-70"></i>
+            </button>
+
+            <!-- Tab 4: ຄຳຖາມ (Questions / FAQ / Security Questions) -->
+            <button onclick="switchTab('questions')" id="tab-questions"
+              class="setting-nav-btn w-full px-4 py-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between">
+              <span>ຄຳຖາມ</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 opacity-70"></i>
+            </button>
+
+            <!-- Tab 5: ການຕັ້ງຄ່າຄວາມປອດໄພ 2FA (2FA Security Settings) -->
+            <button onclick="switchTab('2fa')" id="tab-2fa"
+              class="setting-nav-btn w-full px-4 py-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between">
+              <span>ການຕັ້ງຄ່າຄວາມປອດໄພ 2FA</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 opacity-70"></i>
+            </button>
+          </div>
+
+          <!-- RIGHT COLUMN: Active Setting Content Container -->
+          <div
+            class="md:col-span-8 lg:col-span-9 settings-right-panel bg-[#f8fafc] rounded-2xl p-6 sm:p-8 border border-gray-100 min-h-[460px] flex flex-col justify-between transition-colors">
+
+            <!-- 1. TAB CONTENT: ປ່ຽນພາສາ (Language) -->
+            <div id="content-language" class="tab-pane space-y-5 w-full">
+              <h3 class="text-base font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                <i data-lucide="globe" class="w-4 h-4 text-[#00bba7]"></i>
+                <span>ປ່ຽນພາສາ</span>
+              </h3>
+
+              <!-- Primary Selected Language Box (Teal highlight matching mockup) -->
+              <div class="space-y-3">
+                <p class="text-xs font-semibold text-gray-500 text-sub-dark-theme">
+                  ເລືອກພາສາທີ່ຕ້ອງການສະແດງຜົນໃນລະບົບ APB MeBank:
+                </p>
+
+                <!-- Language Selection Grid -->
+                <div class="space-y-3">
+                  <!-- Lao (Active) -->
+                  <div onclick="selectLanguage('lo')" id="langOption-lo"
+                    class="p-4 rounded-xl bg-[#00bba7] text-white flex items-center justify-between cursor-pointer shadow-sm hover:opacity-95 transition-all">
+                    <div class="flex items-center gap-3">
+                      <span class="text-2xl">🇱🇦</span>
+                      <div>
+                        <h4 class="text-sm font-extrabold">ພາສາລາວ</h4>
+                        <p class="text-[11px] text-teal-100 font-medium">ພາສາຫຼັກຂອງລະບົບ - ກຳລັງໃຊ້ງານ</p>
+                      </div>
+                    </div>
+                    <div id="check-lo" class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                    </div>
+                  </div>
+
+                  <!-- English -->
+                  <div onclick="selectLanguage('en')" id="langOption-en"
+                    class="p-4 rounded-xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/40 transition-all">
+                    <div class="flex items-center gap-3">
+                      <span class="text-2xl">🇬🇧</span>
+                      <div>
+                        <h4 class="text-sm font-extrabold text-dark-theme">English (US)</h4>
+                        <p class="text-[11px] text-gray-500 text-sub-dark-theme">English interface and numerals</p>
+                      </div>
+                    </div>
+                    <div id="check-en"
+                      class="w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                    </div>
+                  </div>
+
+                  <!-- Chinese -->
+                  <div onclick="selectLanguage('zh')" id="langOption-zh"
+                    class="p-4 rounded-xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/40 transition-all">
+                    <div class="flex items-center gap-3">
+                      <span class="text-2xl">🇨🇳</span>
+                      <div>
+                        <h4 class="text-sm font-extrabold text-dark-theme">中文 (简体)</h4>
+                        <p class="text-[11px] text-gray-500 text-sub-dark-theme">Chinese simplified language</p>
+                      </div>
+                    </div>
+                    <div id="check-zh"
+                      class="w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                    </div>
+                  </div>
+
+                  <!-- Vietnamese -->
+                  <div onclick="selectLanguage('vi')" id="langOption-vi"
+                    class="p-4 rounded-xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/40 transition-all">
+                    <div class="flex items-center gap-3">
+                      <span class="text-2xl">🇻🇳</span>
+                      <div>
+                        <h4 class="text-sm font-extrabold text-dark-theme">Tiếng Việt (Vietnamese)</h4>
+                        <p class="text-[11px] text-gray-500 text-sub-dark-theme">Vietnamese interface and numerals</p>
+                      </div>
+                    </div>
+                    <div id="check-vi"
+                      class="w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. TAB CONTENT: ປ່ຽນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບ (Change Login Password) -->
+            <div id="content-password" class="tab-pane hidden space-y-6 w-full">
+              <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                <h3 class="text-base font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                  <i data-lucide="lock" class="w-4 h-4 text-[#00bba7]"></i>
+                  <span>ປ່ຽນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບ (Change Login Password)</span>
+                </h3>
+                <span class="text-[11px] font-bold text-gray-500 text-sub-dark-theme">ແນະນຳປ່ຽນລະຫັດຜ່ານທຸກ 90
+                  ວັນ</span>
+              </div>
+
+              <!-- Full width grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <!-- Left column: inputs -->
+                <div class="space-y-4">
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-gray-700 text-sub-dark-theme">ລະຫັດຜ່ານປະຈຸບັນ (Current
+                      Password)</label>
+                    <div class="relative">
+                      <input type="password" id="currentPwdInput" placeholder="ປ້ອນລະຫັດຜ່ານປະຈຸບັນ"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleFieldVisibility('currentPwdInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ ລະຫັດຜ່ານ">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-gray-700 text-sub-dark-theme">ລະຫັດຜ່ານໃໝ່ (New
+                      Password)</label>
+                    <div class="relative">
+                      <input type="password" id="newPwdInput" placeholder="ຢ່າງໜ້ອຍ 8 ຕົວອັກສອນ"
+                        oninput="checkStrength(this.value)"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleFieldVisibility('newPwdInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ ລະຫັດຜ່ານ">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+
+                    <!-- Strength Meter -->
+                    <div class="space-y-1 pt-1">
+                      <div class="flex items-center justify-between text-[10px] font-bold">
+                        <span class="text-gray-400">ຄວາມປອດໄພຂອງລະຫັດ:</span>
+                        <span id="strengthText" class="text-gray-400">ຍັງບໍ່ໄດ້ປ້ອນ</span>
+                      </div>
+                      <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div id="strengthBarFill" class="h-2 rounded-full transition-all duration-300 w-0 bg-red-500">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-gray-700 text-sub-dark-theme">ຢືນຢັນລະຫັດຜ່ານໃໝ່ (Confirm
+                      Password)</label>
+                    <div class="relative">
+                      <input type="password" id="confirmPwdInput" placeholder="ປ້ອນລະຫັດຜ່ານໃໝ່ອີກຄັ້ງ"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleFieldVisibility('confirmPwdInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ ລະຫັດຜ່ານ">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Submit button in column -->
+                  <div class="pt-2">
+                    <button type="button" onclick="handleSavePassword()"
+                      class="w-full py-3 rounded-xl bg-[#00bba7] hover:bg-[#00a190] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all">
+                      <i data-lucide="check-circle" class="w-4 h-4"></i>
+                      <span>ຢືນຢັນປ່ຽນລະຫັດຜ່ານ</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Right column: Guidelines & Tips -->
+                <div
+                  class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm flex flex-col justify-between space-y-4">
+                  <div class="space-y-3">
+                    <h4 class="text-xs font-extrabold text-gray-900 text-dark-theme flex items-center gap-1.5">
+                      <i data-lucide="shield-check" class="w-4 h-4 text-[#00bba7]"></i>
+                      <span>ເງື່ອນໄຂຄວາມປອດໄພຂອງລະຫັດຜ່ານ</span>
+                    </h4>
+                    <ul class="space-y-2 text-xs text-gray-600 text-sub-dark-theme">
+                      <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0"></i>
+                        <span>ຄວາມຍາວຢ່າງໜ້ອຍ 8 ຕົວອັກສອນຂຶ້ນໄປ</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0"></i>
+                        <span>ປະກອບມີຕົວອັກສອນໃຫຍ່ (A-Z) ແລະ ຕົວອັກສອນນ້ອຍ (a-z)</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0"></i>
+                        <span>ປະກອບມີຕົວເລກ (0-9) ຢ່າງໜ້ອຍ 1 ຕົວ</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0"></i>
+                        <span>ປະກອບມີສັນຍະລັກພິເສດ (!@#$%^&*) ເພື່ອຄວາມປອດໄພສູງສຸດ</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="p-3 bg-teal-50 rounded-xl border border-teal-100 text-[11px] text-teal-800 font-medium">
+                    💡 ຫຼັງຈາກປ່ຽນລະຫັດຜ່ານສຳເລັດ ທ່ານຈະຕ້ອງເຂົ້າສູ່ລະບົບໃໝ່ດ້ວຍລະຫັດຜ່ານໃໝ່ໃນທຸກອຸປະກອນ
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- 3. TAB CONTENT: ປ່ຽນລະຫັດຜ່ານທຸລະກຳ TPIN (Change Transaction PIN) -->
+            <div id="content-tpin" class="tab-pane hidden space-y-6 w-full">
+              <div class="border-b border-gray-100 pb-3 flex items-center justify-between">
+                <div>
+                  <h3 class="text-base font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                    <i data-lucide="key-round" class="w-4 h-4 text-[#00bba7]"></i>
+                    <span>ປ່ຽນລະຫັດຜ່ານທຸລະກຳ TPIN (Transaction PIN)</span>
+                  </h3>
+                  <span class="text-[11px] font-bold text-gray-500 text-sub-dark-theme">
+                    ລະຫັດ TPIN 6 ຫຼັກ ສຳລັບຢັ້ງຢືນການໂອນເງິນ ແລະ ທຸລະກຳການເງິນ
+                  </span>
+                </div>
+                <span
+                  class="text-[11px] font-bold text-[#00bba7] bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
+                  ລະຫັດ 6 ຫຼັກ
+                </span>
+              </div>
+
+              <!-- Full width grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full items-start">
+                <!-- Left column: TPIN inputs -->
+                <div class="space-y-4">
+                  <!-- Current TPIN -->
+                  <div class="space-y-1.5">
+                    <label
+                      class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center justify-between">
+                      <span>ລະຫັດ TPIN ປະຈຸບັນ (Current TPIN)</span>
+                      <span class="text-[10px] text-gray-400 font-semibold">ຕົວເລກ 6 ຫຼັກ</span>
+                    </label>
+                    <div class="relative">
+                      <input type="password" id="currentTpinInput" placeholder="ປ້ອນລະຫັດ TPIN ປະຈຸບັນ 6 ຫຼັກ"
+                        maxlength="6" inputmode="numeric" pattern="[0-9]*"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6)"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold tracking-widest text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleTpinVisibility('currentTpinInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ TPIN">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- New TPIN -->
+                  <div class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                      <label class="text-xs font-bold text-gray-700 text-sub-dark-theme">ລະຫັດ TPIN ໃໝ່ (New
+                        TPIN)</label>
+                      <span id="tpinLengthText" class="text-[10px] text-gray-400 font-bold">0/6 ຫຼັກ</span>
+                    </div>
+                    <div class="relative">
+                      <input type="password" id="newTpinInput" placeholder="ປ້ອນລະຫັດ TPIN ໃໝ່ 6 ຫຼັກ" maxlength="6"
+                        inputmode="numeric" pattern="[0-9]*" oninput="checkTpinInput(this)"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold tracking-widest text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleTpinVisibility('newTpinInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ TPIN">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Confirm New TPIN -->
+                  <div class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                      <label class="text-xs font-bold text-gray-700 text-sub-dark-theme">ຢືນຢັນລະຫັດ TPIN ໃໝ່ (Confirm
+                        New TPIN)</label>
+                      <span id="tpinMatchStatus" class="text-[10px] font-bold"></span>
+                    </div>
+                    <div class="relative">
+                      <input type="password" id="confirmTpinInput" placeholder="ປ້ອນລະຫັດ TPIN ໃໝ່ອີກຄັ້ງ" maxlength="6"
+                        inputmode="numeric" pattern="[0-9]*" oninput="checkTpinMatch()"
+                        class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-3 text-xs font-bold tracking-widest text-gray-800 outline-none focus:border-[#00bba7] focus:ring-1 focus:ring-[#00bba7] shadow-sm">
+                      <button type="button" onclick="toggleTpinVisibility('confirmTpinInput', this)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                        title="ສະແດງ/ເຊື່ອງ TPIN">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Submit button in column -->
+                  <div class="pt-2">
+                    <button type="button" onclick="handleSaveTpin()"
+                      class="w-full py-3 rounded-xl bg-[#00bba7] hover:bg-[#00a190] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all">
+                      <i data-lucide="check-circle" class="w-4 h-4"></i>
+                      <span>ຢືນຢັນປ່ຽນລະຫັດ TPIN</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Right Column: Information & Options -->
+                <div class="space-y-4 w-full">
+                  <!-- Info Card -->
+                  <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-3 card-dark-theme">
+                    <h4 class="text-xs font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                      <i data-lucide="shield-check" class="w-4 h-4 text-[#00bba7]"></i>
+                      <span>ກົດລະບຽບການຕັ້ງລະຫັດ TPIN</span>
+                    </h4>
+                    <ul class="space-y-2 text-xs text-gray-600 text-sub-dark-theme">
+                      <li class="flex items-start gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0 mt-0.5"></i>
+                        <span>ຕ້ອງເປັນຕົວເລກ 6 ຫຼັກເທົ່ານັ້ນ (0-9)</span>
+                      </li>
+                      <li class="flex items-start gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0 mt-0.5"></i>
+                        <span>ຫ້າມໃຊ້ຕົວເລກລຽງກັນ (ເຊັ່ນ: 123456 ຫຼື 654321)</span>
+                      </li>
+                      <li class="flex items-start gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0 mt-0.5"></i>
+                        <span>ຫ້າມໃຊ້ຕົວເລກຊ້ຳກັນເກີນ 3 ຕົວ (ເຊັ່ນ: 111111 ຫຼື 888888)</span>
+                      </li>
+                      <li class="flex items-start gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00bba7] shrink-0 mt-0.5"></i>
+                        <span>ຫ້າມຕັ້ງເປັນວັນເດືອນປີເກີດ ຫຼື ເບີໂທລະສັບຂອງທ່ານ</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Tip notice -->
+                  <div
+                    class="p-3.5 bg-teal-50 rounded-xl border border-teal-100 text-[11px] text-teal-800 font-medium flex items-start gap-2">
+                    <i data-lucide="info" class="w-4 h-4 text-[#00bba7] shrink-0 mt-0.5"></i>
+                    <span>ລະຫັດ TPIN ໃຊ້ສຳລັບຢັ້ງຢືນການເຮັດທຸລະກຳການເງິນ, ໂອນເງິນ ແລະ ຊຳລະຄ່າບໍລິການຕ່າງໆ</span>
+                  </div>
+
+                  <!-- Quick Actions -->
+                  <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-3 card-dark-theme">
+                    <h4 class="text-xs font-extrabold text-gray-900 text-dark-theme">ຕົວເລືອກເພີ່ມເຕີມ</h4>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                      <button onclick="showToast('ສົ່ງລະຫັດ OTP ສຳລັບຕັ້ງ TPIN ໃໝ່ແລ້ວ')"
+                        class="flex-1 py-2.5 px-3 rounded-xl border border-[#00bba7] text-[#00bba7] hover:bg-teal-50 font-bold text-xs text-center transition-all">
+                        ລືມລະຫັດ TPIN? ຕັ້ງຄ່າໃໝ່
+                      </button>
+                      <button onclick="showToast('ລັອກລະຫັດ TPIN ຊົ່ວຄາວແລ້ວ')"
+                        class="flex-1 py-2.5 px-3 rounded-xl border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs text-center transition-all">
+                        ລັອກ TPIN ຊົ່ວຄາວ
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. TAB CONTENT: ຄຳຖາມ (Questions / Security Q&A) -->
+            <div id="content-questions" class="tab-pane hidden space-y-6 w-full">
+              <div class="border-b border-gray-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 class="text-base font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-[#00bba7]"></i>
+                    <span>ຄຳຖາມຄວາມປອດໄພ & ສູນຊ່ວຍເຫຼືອ (Security Questions)</span>
+                  </h3>
+                  <span class="text-[11px] font-bold text-gray-500 text-sub-dark-theme">
+                    ໃຊ້ສຳລັບກູ້ຄືນລະຫັດຜ່ານ ແລະ ຢັ້ງຢືນຕົວຕົນ
+                  </span>
+                </div>
+                <!-- Add Question Button with Popup -->
+                <button onclick="openAddQuestionModal()"
+                  class="px-4 py-2.5 rounded-xl bg-[#00bba7] hover:bg-[#00a190] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                  <span>+ ເພີ່ມຄຳຖາມ (Add Question)</span>
+                </button>
+              </div>
+
+              <!-- Full width questions list (1 row per question, full width) -->
+              <div id="questionsGridContainer" class="space-y-4 w-full">
+                <!-- Question 1 -->
+                <div
+                  class="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200/90 shadow-sm space-y-4 w-full hover:border-teal-300/70 transition-all card-dark-theme">
+                  <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                    <div class="flex items-center gap-2.5">
+                      <span
+                        class="text-xs font-black text-[#00bba7] bg-teal-50 px-3 py-1 rounded-full border border-teal-200 shadow-sm">
+                        ຄຳຖາມທີ 1
+                      </span>
+                      <span class="text-[11px] font-bold text-gray-400">ຈຳເປັນຕ້ອງມີ</span>
+                    </div>
+                    <span
+                      class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100 flex items-center gap-1">
+                      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                      <span>ປົກປ້ອງດ້ວຍການເຂົ້າລະຫັດ</span>
+                    </span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full items-end">
+                    <div class="space-y-1.5">
+                      <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+                        <i data-lucide="help-circle" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                        <span>ເລືອກຄຳຖາມຄວາມປອດໄພ</span>
+                      </label>
+                      <select
+                        class="w-full bg-gray-50 hover:bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs font-bold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-2 focus:ring-teal-100/50 transition-all">
+                        <option selected>ຊື່ໂຮງຮຽນປະຖົມຂອງທ່ານແມ່ນຫຍັງ?</option>
+                        <option>ສັດລ້ຽງໂຕທຳອິດຂອງທ່ານຊື່ຫຍັງ?</option>
+                        <option>ເມືອງເກີດຂອງມານດາຂອງທ່ານແມ່ນຢູ່ໃສ?</option>
+                        <option>ຊື່ເພື່ອນສະໜິດສະໄໝເດັກນ້ອຍຂອງທ່ານແມ່ນໃຜ?</option>
+                      </select>
+                    </div>
+                    <div class="space-y-1.5">
+                      <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+                          <i data-lucide="key-round" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                          <span>ຄຳຕອບຂອງທ່ານ</span>
+                        </label>
+                        <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1">
+                          <i data-lucide="lock" class="w-2.5 h-2.5 text-amber-500"></i> ເຊື່ອງໄວ້
+                        </span>
+                      </div>
+                      <div class="relative">
+                        <input type="password" id="answerInput1" placeholder="ປ້ອນຄຳຕອບຂອງທ່ານ"
+                          value="ປະຖົມສົມບູນ ວຽງຈັນ"
+                          class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-2.5 text-xs font-semibold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-2 focus:ring-teal-100/50 transition-all shadow-sm">
+                        <button type="button" onclick="toggleAnswerVisibility('answerInput1', this)"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                          title="ສະແດງ/ເຊື່ອງ ຄຳຕອບ">
+                          <i data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div
+                  class="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200/90 shadow-sm space-y-4 w-full hover:border-teal-300/70 transition-all card-dark-theme">
+                  <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                    <div class="flex items-center gap-2.5">
+                      <span
+                        class="text-xs font-black text-[#00bba7] bg-teal-50 px-3 py-1 rounded-full border border-teal-200 shadow-sm">
+                        ຄຳຖາມທີ 2
+                      </span>
+                      <span class="text-[11px] font-bold text-gray-400">ຈຳເປັນຕ້ອງມີ</span>
+                    </div>
+                    <span
+                      class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100 flex items-center gap-1">
+                      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                      <span>ປົກປ້ອງດ້ວຍການເຂົ້າລະຫັດ</span>
+                    </span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full items-end">
+                    <div class="space-y-1.5">
+                      <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+                        <i data-lucide="help-circle" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                        <span>ເລືອກຄຳຖາມຄວາມປອດໄພ</span>
+                      </label>
+                      <select
+                        class="w-full bg-gray-50 hover:bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs font-bold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-2 focus:ring-teal-100/50 transition-all">
+                        <option>ອາຫານທີ່ທ່ານມັກທີ່ສຸດແມ່ນຫຍັງ?</option>
+                        <option selected>ຊື່ເພື່ອນສະໜິດສະໄໝເດັກນ້ອຍຂອງທ່ານແມ່ນໃຜ?</option>
+                        <option>ຍີ່ຫໍ້ລົດຄັນທຳອິດຂອງທ່ານແມ່ນຫຍັງ?</option>
+                        <option>ຊື່ຖະໜົນທີ່ທ່ານເຄີຍອາໄສຕອນເດັກນ້ອຍ?</option>
+                      </select>
+                    </div>
+                    <div class="space-y-1.5">
+                      <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+                          <i data-lucide="key-round" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                          <span>ຄຳຕອບຂອງທ່ານ</span>
+                        </label>
+                        <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1">
+                          <i data-lucide="lock" class="w-2.5 h-2.5 text-amber-500"></i> ເຊື່ອງໄວ້
+                        </span>
+                      </div>
+                      <div class="relative">
+                        <input type="password" id="answerInput2" placeholder="ປ້ອນຄຳຕອບຂອງທ່ານ" value="ສົມພອນ"
+                          class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-2.5 text-xs font-semibold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-2 focus:ring-teal-100/50 transition-all shadow-sm">
+                        <button type="button" onclick="toggleAnswerVisibility('answerInput2', this)"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                          title="ສະແດງ/ເຊື່ອງ ຄຳຕອບ">
+                          <i data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- 5. TAB CONTENT: ການຕັ້ງຄ່າຄວາມປອດໄພ 2FA (2FA Security) -->
+            <div id="content-2fa" class="tab-pane hidden space-y-6 w-full">
+              <!-- Top Title & Badge Header -->
+              <div class="border-b border-gray-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 class="text-base font-extrabold text-gray-900 text-dark-theme flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-[#00bba7]"></i>
+                    <span>ການຕັ້ງຄ່າຄວາມປອດໄພ 2FA (Two-Factor Authentication)</span>
+                  </h3>
+                  <span class="text-[11px] font-bold text-gray-500 text-sub-dark-theme">
+                    ເລືອກຮູບແບບການຢັ້ງຢືນຕົວຕົນສອງຊັ້ນສຳລັບການເຂົ້າສູ່ລະບົບ ແລະ ການເຮັດທຸລະກຳ
+                  </span>
+                </div>
+                <span
+                  class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5 shadow-sm">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>ປອດໄພສູງສຸດ</span>
+                </span>
+              </div>
+
+              <!-- Two Sub-Tabs: TPIN Login & TPIN Transaction -->
+              <div class="space-y-4 w-full">
+                <div
+                  class="bg-gray-100 p-1.5 rounded-2xl flex items-center gap-2 w-full border border-gray-200/80 shadow-inner card-dark-theme">
+                  <button type="button" id="subtab-btn-login" onclick="switch2faSubTab('login')"
+                    class="flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all bg-[#00bba7] text-white shadow-sm">
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                    <span>TPIN Login</span>
+                  </button>
+                  <button type="button" id="subtab-btn-tx" onclick="switch2faSubTab('transaction')"
+                    class="flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all text-gray-600 hover:text-gray-900 hover:bg-white/80">
+                    <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                    <span>TPIN Transaction</span>
+                  </button>
+                </div>
+
+                <!-- Sub-tab 1: TPIN Login Method List -->
+                <div id="subtab-panel-login" class="space-y-3 w-full">
+                  <p class="text-xs font-semibold text-gray-500 text-sub-dark-theme flex items-center gap-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                    <span>ເລືອກວິທີການຢັ້ງຢືນຕົວຕົນເມື່ອເຂົ້າສູ່ລະບົບ (TPIN Login Authentication):</span>
+                  </p>
+
+                  <div class="space-y-2.5 w-full">
+                    <!-- SMS -->
+                    <div onclick="select2faMethod('login', 'sms')" id="opt-login-sms"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">SMS</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານລະຫັດ OTP ທາງຂໍ້ຄວາມ SMS
+                            ໄປຍັງເບີມືຖື</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- QUESTION -->
+                    <div onclick="select2faMethod('login', 'question')" id="opt-login-question"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">QUESTION</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານການຕອບຄຳຖາມຄວາມປອດໄພ
+                            Security Question</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- SMS,EMAIL -->
+                    <div onclick="select2faMethod('login', 'sms_email')" id="opt-login-sms_email"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">SMS,EMAIL</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ສົ່ງລະຫັດ OTP ທັງຜ່ານຂໍ້ຄວາມ SMS ແລະ
+                            Email ພ້ອມກັນ</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div onclick="select2faMethod('login', 'email')" id="opt-login-email"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">EMAIL</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານລະຫັດ OTP
+                            ທາງອີເມວບັນຊີຂອງທ່ານ</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- TPIN (Selected by default) -->
+                    <div onclick="select2faMethod('login', 'tpin')" id="opt-login-tpin"
+                      class="twofa-row p-4 rounded-2xl bg-[#00bba7] text-white flex items-center justify-between cursor-pointer shadow-md transition-all hover:opacity-95">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide">TPIN</h4>
+                          <p class="text-[11px] text-teal-100 font-medium">ຢັ້ງຢືນຜ່ານລະຫັດລັບ TPIN 6 ຫຼັກ ທີ່ຕັ້ງໄວ້ -
+                            ກຳລັງໃຊ້ງານ</p>
+                        </div>
+                      </div>
+                      <div class="chk-icon w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sub-tab 2: TPIN Transaction Method List -->
+                <div id="subtab-panel-transaction" class="hidden space-y-3 w-full">
+                  <p class="text-xs font-semibold text-gray-500 text-sub-dark-theme flex items-center gap-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                    <span>ເລືອກວິທີການຢັ້ງຢືນຕົວຕົນເມື່ອໂອນເງິນ ຫຼື ເຮັດທຸລະກຳ (TPIN Transaction Authentication):</span>
+                  </p>
+
+                  <div class="space-y-2.5 w-full">
+                    <!-- SMS -->
+                    <div onclick="select2faMethod('transaction', 'sms')" id="opt-tx-sms"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">SMS</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານລະຫັດ OTP ທາງຂໍ້ຄວາມ SMS
+                            ໄປຍັງເບີມືຖື</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- QUESTION -->
+                    <div onclick="select2faMethod('transaction', 'question')" id="opt-tx-question"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">QUESTION</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານການຕອບຄຳຖາມຄວາມປອດໄພ
+                            Security Question</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- SMS,EMAIL -->
+                    <div onclick="select2faMethod('transaction', 'sms_email')" id="opt-tx-sms_email"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">SMS,EMAIL</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ສົ່ງລະຫັດ OTP ທັງຜ່ານຂໍ້ຄວາມ SMS ແລະ
+                            Email ພ້ອມກັນ</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div onclick="select2faMethod('transaction', 'email')" id="opt-tx-email"
+                      class="twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide text-dark-theme">EMAIL</h4>
+                          <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຢັ້ງຢືນຜ່ານລະຫັດ OTP
+                            ທາງອີເມວບັນຊີຂອງທ່ານ</p>
+                        </div>
+                      </div>
+                      <div
+                        class="chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-[#00bba7]"></i>
+                      </div>
+                    </div>
+
+                    <!-- TPIN (Selected by default) -->
+                    <div onclick="select2faMethod('transaction', 'tpin')" id="opt-tx-tpin"
+                      class="twofa-row p-4 rounded-2xl bg-[#00bba7] text-white flex items-center justify-between cursor-pointer shadow-md transition-all hover:opacity-95">
+                      <div class="flex items-center gap-3.5">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0">
+                          <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm font-black tracking-wide">TPIN</h4>
+                          <p class="text-[11px] text-teal-100 font-medium">ຢັ້ງຢືນຜ່ານລະຫັດລັບ TPIN 6 ຫຼັກ ທີ່ຕັ້ງໄວ້ -
+                            ກຳລັງໃຊ້ງານ</p>
+                        </div>
+                      </div>
+                      <div class="chk-icon w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                        <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Save/Action Bar inside Panel -->
+            <div class="pt-6 mt-6 border-t border-gray-200/70 flex items-center justify-between">
+              <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1">
+                <i data-lucide="shield" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                <span>ລະບົບຄວາມປອດໄພມາດຕະຖານ APB MeBank</span>
+              </span>
+              <button onclick="handleFooterSave()"
+                class="px-5 py-2 rounded-xl bg-[#00bba7] hover:bg-[#00a190] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>ບັນທຶກການຕັ້ງຄ່າ</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD QUESTION WITH PASSWORD POPUP MODAL -->
+  <div id="addQuestionModal"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div
+      class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200 card-dark-theme border border-gray-100 dark:border-gray-700">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center">
+            <i data-lucide="help-circle" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-gray-900 text-dark-theme">ເພີ່ມຄຳຖາມຄວາມປອດໄພ</h3>
+            <p class="text-[11px] text-gray-500 text-sub-dark-theme">ຕັ້ງຄຳຖາມ ແລະ ຢັ້ງຢືນດ້ວຍລະຫັດຜ່ານບັນຊີ</p>
+          </div>
+        </div>
+        <button onclick="closeAddQuestionModal()"
+          class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-all">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="space-y-3.5 text-xs">
+        <!-- 1. Question selection / custom -->
+        <div class="space-y-1">
+          <label class="font-bold text-gray-700 text-sub-dark-theme">ເລືອກຄຳຖາມຄວາມປອດໄພ (Select Question)</label>
+          <select id="modalQuestionSelect" onchange="handleQuestionSelectChange(this)"
+            class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 outline-none font-bold text-gray-800 text-dark-theme focus:border-[#00bba7]">
+            <option value="ຊື່ຮູບເງົາທີ່ທ່ານມັກທີ່ສຸດແມ່ນຫຍັງ?">ຊື່ຮູບເງົາທີ່ທ່ານມັກທີ່ສຸດແມ່ນຫຍັງ?</option>
+            <option value="ສະຖານທີ່ທ່ອງທ່ຽວທີ່ທ່ານຢາກໄປທີ່ສຸດແມ່ນບ່ອນໃດ?">ສະຖານທີ່ທ່ອງທ່ຽວທີ່ທ່ານຢາກໄປທີ່ສຸດແມ່ນບ່ອນໃດ?
+            </option>
+            <option value="ອາຫານເຊົ້າທີ່ທ່ານມັກກິນທີ່ສຸດແມ່ນຫຍັງ?">ອາຫານເຊົ້າທີ່ທ່ານມັກກິນທີ່ສຸດແມ່ນຫຍັງ?</option>
+            <option value="ຊື່ປຶ້ມຫົວທຳອິດທີ່ທ່ານອ່ານແມ່ນຫຍັງ?">ຊື່ປຶ້ມຫົວທຳອິດທີ່ທ່ານອ່ານແມ່ນຫຍັງ?</option>
+            <option value="ນັກຮ້ອງ ຫຼື ວົງດົນຕີທີ່ທ່ານມັກທີ່ສຸດແມ່ນໃຜ?">ນັກຮ້ອງ ຫຼື ວົງດົນຕີທີ່ທ່ານມັກທີ່ສຸດແມ່ນໃຜ?
+            </option>
+            <option value="custom">✍️ ກຳນົດຄຳຖາມເອງ...</option>
+          </select>
+        </div>
+
+        <div id="customQuestionWrapper" class="hidden space-y-1">
+          <label class="font-bold text-gray-700 text-sub-dark-theme">ພິມຄຳຖາມຂອງທ່ານເອງ</label>
+          <input type="text" id="modalCustomQuestionInput" placeholder="ປ້ອນຄຳຖາມຄວາມປອດໄພທີ່ທ່ານຕ້ອງການ"
+            class="w-full bg-white border border-gray-300 rounded-xl px-3.5 py-2.5 outline-none font-bold text-gray-800 text-dark-theme focus:border-[#00bba7]">
+        </div>
+
+        <!-- 2. Answer input (Hidden by default with eye toggle) -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-gray-700 text-sub-dark-theme">ຄຳຕອບຂອງທ່ານ (Your Answer)</label>
+            <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1">
+              <i data-lucide="lock" class="w-2.5 h-2.5 text-amber-500"></i> ເຊື່ອງໄວ້
+            </span>
+          </div>
+          <div class="relative">
+            <input type="password" id="modalAnswerInput" placeholder="ປ້ອນຄຳຕອບສຳລັບຄຳຖາມນີ້"
+              class="w-full bg-white border border-gray-300 rounded-xl pl-3.5 pr-10 py-2.5 outline-none font-bold text-gray-800 text-dark-theme focus:border-[#00bba7]">
+            <button type="button" onclick="toggleAnswerVisibility('modalAnswerInput', this)"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Password verification (Show popup with password) -->
+        <div class="p-3.5 bg-amber-50/80 rounded-2xl border border-amber-200 space-y-2">
+          <div class="flex items-center gap-2 text-amber-900 font-bold">
+            <i data-lucide="lock" class="w-4 h-4 text-amber-700 shrink-0"></i>
+            <span>ຢັ້ງຢືນດ້ວຍລະຫັດຜ່ານບັນຊີ (Enter Password)</span>
+          </div>
+          <p class="text-[11px] text-amber-800 leading-tight">
+            ເພື່ອຄວາມປອດໄພສູງສຸດ ກະລຸນາປ້ອນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບຂອງທ່ານເພື່ອອະນຸມັດການເພີ່ມຄຳຖາມ:
+          </p>
+          <div class="relative">
+            <input type="password" id="modalVerifyPassword" placeholder="ປ້ອນລະຫັດຜ່ານຂອງທ່ານ"
+              class="w-full bg-white border border-amber-300 rounded-xl pl-3.5 pr-10 py-2.5 outline-none font-bold text-gray-800 text-dark-theme focus:border-[#00bba7]">
+            <button type="button" onclick="toggleModalPwdVisibility()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <i data-lucide="eye" id="modalPwdEyeIcon" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
+        <button onclick="closeAddQuestionModal()"
+          class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 font-bold text-xs hover:bg-gray-50 transition-all">
+          ຍົກເລີກ
+        </button>
+        <button onclick="submitAddQuestion()"
+          class="px-5 py-2 rounded-xl bg-[#00bba7] hover:bg-[#00a190] text-white font-bold text-xs transition-all shadow-md flex items-center gap-1.5">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>ຢືນຢັນເພີ່ມຄຳຖາມ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="toast">
+    <div class="w-6 h-6 rounded-full bg-[#00bba7] text-white flex items-center justify-center shrink-0">
+      <i data-lucide="check" class="w-4 h-4"></i>
+    </div>
+    <span id="toastMsg">ອັບເດດການຕັ້ງຄ່າສຳເລັດແລ້ວ</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 1. Toast System
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // 2. Tab Navigation Logic (Matching the image tabs)
+    function switchTab(tabId) {
+      // Deactivate all nav buttons
+      document.querySelectorAll('.setting-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Activate clicked button
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Hide all tab content panes
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.add('hidden');
+      });
+
+      // Show selected pane
+      const activePane = document.getElementById(`content-${tabId}`);
+      if (activePane) {
+        activePane.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    // 3. Theme Mode Switching (Light Mode vs Dark Mode matching image buttons)
+    function setThemeMode(mode) {
+      const btnLight = document.getElementById('btnLightMode');
+      const btnDark = document.getElementById('btnDarkMode');
+
+      if (mode === 'light') {
+        document.body.classList.remove('dark-mode');
+        btnLight.className = 'px-5 py-2.5 rounded-xl bg-[#00bba7] text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all';
+        btnDark.className = 'px-5 py-2.5 rounded-xl bg-white border-2 border-[#00bba7] text-[#00bba7] font-bold text-xs flex items-center gap-2 hover:bg-teal-50/50 transition-all';
+        showToast('ປ່ຽນເປັນ: ໂໝດສະຫວ່າງ (Light Mode) ✓');
+      } else {
+        document.body.classList.add('dark-mode');
+        btnDark.className = 'px-5 py-2.5 rounded-xl bg-[#00bba7] text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all';
+        btnLight.className = 'px-5 py-2.5 rounded-xl bg-transparent border-2 border-[#00bba7] text-[#00bba7] font-bold text-xs flex items-center gap-2 hover:bg-slate-800 transition-all';
+        showToast('ປ່ຽນເປັນ: ໂໝດມືດ (Dark Mode) ✓');
+      }
+    }
+
+    // 4. Language Selector
+    function selectLanguage(langCode) {
+      const langs = ['lo', 'en', 'zh', 'vi'];
+      langs.forEach(code => {
+        const opt = document.getElementById(`langOption-${code}`);
+        const chk = document.getElementById(`check-${code}`);
+        const title = opt ? opt.querySelector('h4') : null;
+        const sub = opt ? opt.querySelector('p') : null;
+
+        if (code === langCode) {
+          opt.className = 'p-4 rounded-xl bg-[#00bba7] text-white flex items-center justify-between cursor-pointer shadow-sm transition-all';
+          if (title) {
+            title.className = 'text-sm font-extrabold text-white';
+          }
+          if (sub) {
+            sub.className = 'text-[11px] text-teal-100 font-medium';
+          }
+          if (chk) {
+            chk.classList.remove('hidden');
+            chk.classList.add('flex');
+            chk.className = 'w-6 h-6 rounded-full bg-white/20 flex items-center justify-center';
+            chk.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-white"></i>';
+          }
+        } else {
+          opt.className = 'p-4 rounded-xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/40 transition-all';
+          if (title) {
+            title.className = 'text-sm font-extrabold text-dark-theme';
+          }
+          if (sub) {
+            sub.className = 'text-[11px] text-gray-500 text-sub-dark-theme';
+          }
+          if (chk) {
+            chk.classList.add('hidden');
+            chk.classList.remove('flex');
+          }
+        }
+      });
+
+      lucide.createIcons();
+      const langNames = { lo: 'ພາສາລາວ (Lao)', en: 'English (US)', zh: '中文 (Chinese)', vi: 'Tiếng Việt (Vietnamese)' };
+      showToast(`ປ່ຽນພາສາລະບົບເປັນ: ${langNames[langCode]} ແລ້ວ`);
+    }
+
+    // 5. Password Strength Meter
+    function checkStrength(pwd) {
+      const bar = document.getElementById('strengthBarFill');
+      const text = document.getElementById('strengthText');
+
+      if (!pwd) {
+        bar.style.width = '0%';
+        bar.className = 'h-1.5 rounded-full transition-all duration-300 w-0 bg-red-500';
+        text.innerText = 'ຍັງບໍ່ໄດ້ປ້ອນ';
+        text.className = 'text-gray-400 font-bold';
+      } else if (pwd.length < 6) {
+        bar.style.width = '25%';
+        bar.className = 'h-1.5 rounded-full transition-all duration-300 bg-red-500';
+        text.innerText = 'ອ່ອນແອ (Weak)';
+        text.className = 'text-red-500 font-bold';
+      } else if (pwd.length < 10) {
+        bar.style.width = '65%';
+        bar.className = 'h-1.5 rounded-full transition-all duration-300 bg-amber-500';
+        text.innerText = 'ປານກາງ (Medium)';
+        text.className = 'text-amber-500 font-bold';
+      } else {
+        bar.style.width = '100%';
+        bar.className = 'h-1.5 rounded-full transition-all duration-300 bg-[#00bba7]';
+        text.innerText = 'ແຂງແຮງດີ (Strong)';
+        text.className = 'text-[#00bba7] font-bold';
+      }
+    }
+
+    function handleSavePassword() {
+      const cur = document.getElementById('currentPwdInput').value;
+      const np = document.getElementById('newPwdInput').value;
+      const cp = document.getElementById('confirmPwdInput').value;
+
+      if (!cur || !np || !cp) {
+        alert('ກະລຸນາປ້ອນຂໍ້ມູນລະຫັດຜ່ານໃຫ້ຄົບຖ້ວນ');
+        return;
+      }
+      if (np !== cp) {
+        alert('ລະຫັດຜ່ານໃໝ່ ແລະ ຢືນຢັນລະຫັດຜ່ານບໍ່ກົງກັນ');
+        return;
+      }
+      if (np.length < 8) {
+        alert('ລະຫັດຜ່ານໃໝ່ຕ້ອງມີຢ່າງໜ້ອຍ 8 ຕົວອັກສອນ');
+        return;
+      }
+
+      document.getElementById('currentPwdInput').value = '';
+      document.getElementById('newPwdInput').value = '';
+      document.getElementById('confirmPwdInput').value = '';
+      checkStrength('');
+      showToast('ປ່ຽນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບ ສຳເລັດແລ້ວ! ✓');
+    }
+
+    function handleFooterSave() {
+      const pwdPane = document.getElementById('content-password');
+      if (pwdPane && !pwdPane.classList.contains('hidden')) {
+        const cur = document.getElementById('currentPwdInput').value.trim();
+        const np = document.getElementById('newPwdInput').value.trim();
+        const cp = document.getElementById('confirmPwdInput').value.trim();
+        if (cur || np || cp) {
+          handleSavePassword();
+          return;
+        }
+      }
+      const tpinPane = document.getElementById('content-tpin');
+      if (tpinPane && !tpinPane.classList.contains('hidden')) {
+        const cur = document.getElementById('currentTpinInput')?.value.trim();
+        const np = document.getElementById('newTpinInput')?.value.trim();
+        const cp = document.getElementById('confirmTpinInput')?.value.trim();
+        if (cur || np || cp) {
+          handleSaveTpin();
+          return;
+        }
+      }
+      const qPane = document.getElementById('content-questions');
+      if (qPane && !qPane.classList.contains('hidden')) {
+        showToast('ບັນທຶກຄຳຖາມຄວາມປອດໄພທັງໝົດສຳເລັດແລ້ວ! ✓');
+        return;
+      }
+      const twoFaPane = document.getElementById('content-2fa');
+      if (twoFaPane && !twoFaPane.classList.contains('hidden')) {
+        showToast(`ບັນທຶກການຕັ້ງຄ່າ 2FA [Login: ${twoFaMethodTitles[current2faLoginMethod]}, Tx: ${twoFaMethodTitles[current2faTxMethod]}] ສຳເລັດແລ້ວ! ✓`);
+        return;
+      }
+      showToast('ບັນທຶກການຕັ້ງຄ່າທັງໝົດສຳເລັດຮຽບຮ້ອຍແລ້ວ! ✓');
+    }
+
+    // 6. TPIN & Password Field Management
+    function toggleTpinVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-[#00bba7]"></i>';
+      } else {
+        input.type = 'password';
+        btn.innerHTML = '<i data-lucide="eye" class="w-4 h-4"></i>';
+      }
+      lucide.createIcons();
+    }
+    const toggleFieldVisibility = toggleTpinVisibility;
+
+    function checkTpinInput(el) {
+      el.value = el.value.replace(/[^0-9]/g, '').slice(0, 6);
+      const val = el.value;
+      const countEl = document.getElementById('tpinLengthText');
+      if (countEl) {
+        countEl.innerText = `${val.length}/6 ຫຼັກ`;
+        if (val.length === 6) {
+          countEl.className = 'text-[10px] text-[#00bba7] font-bold';
+        } else {
+          countEl.className = 'text-[10px] text-gray-400 font-bold';
+        }
+      }
+      checkTpinMatch();
+    }
+
+    function checkTpinMatch() {
+      const np = document.getElementById('newTpinInput')?.value || '';
+      const cp = document.getElementById('confirmTpinInput')?.value || '';
+      const matchEl = document.getElementById('tpinMatchStatus');
+      if (!matchEl) return;
+
+      if (!cp) {
+        matchEl.innerText = '';
+        return;
+      }
+      if (np === cp && np.length === 6) {
+        matchEl.innerText = '✓ ລະຫັດ TPIN ກົງກັນ';
+        matchEl.className = 'text-[10px] font-bold text-[#00bba7]';
+      } else if (np !== cp) {
+        matchEl.innerText = '✗ ລະຫັດ TPIN ຍັງບໍ່ກົງກັນ';
+        matchEl.className = 'text-[10px] font-bold text-red-500';
+      } else {
+        matchEl.innerText = '';
+      }
+    }
+
+    function handleSaveTpin() {
+      const cur = document.getElementById('currentTpinInput')?.value.trim();
+      const np = document.getElementById('newTpinInput')?.value.trim();
+      const cp = document.getElementById('confirmTpinInput')?.value.trim();
+
+      if (!cur || !np || !cp) {
+        alert('ກະລຸນາປ້ອນຂໍ້ມູນລະຫັດ TPIN ໃຫ້ຄົບຖ້ວນທັງ 3 ຊ່ອງ');
+        return;
+      }
+      if (cur.length !== 6 || np.length !== 6 || cp.length !== 6) {
+        alert('ລະຫັດ TPIN ຕ້ອງເປັນຕົວເລກ 6 ຫຼັກ');
+        return;
+      }
+      if (np !== cp) {
+        alert('ລະຫັດ TPIN ໃໝ່ ແລະ ຢືນຢັນລະຫັດ TPIN ບໍ່ກົງກັນ');
+        return;
+      }
+      if (cur === np) {
+        alert('ລະຫັດ TPIN ໃໝ່ຕ້ອງບໍ່ຄືກັບລະຫັດ TPIN ເກົ່າ');
+        return;
+      }
+
+      // Check sequential patterns
+      const sequential = ['012345', '123456', '234567', '345678', '456789', '987654', '876543', '765432', '654321', '543210'];
+      if (sequential.includes(np)) {
+        alert('ບໍ່ສາມາດໃຊ້ລະຫັດຕົວເລກລຽງກັນໄດ້ (ເຊັ່ນ: 123456 ຫຼື 654321)');
+        return;
+      }
+
+      // Check all same digits
+      const allSame = ['000000', '111111', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999'];
+      if (allSame.includes(np)) {
+        alert('ບໍ່ສາມາດໃຊ້ລະຫັດຕົວເລກຊ້ຳກັນທັງໝົດໄດ້ (ເຊັ່ນ: 111111 ຫຼື 888888)');
+        return;
+      }
+
+      document.getElementById('currentTpinInput').value = '';
+      document.getElementById('newTpinInput').value = '';
+      document.getElementById('confirmTpinInput').value = '';
+      const countEl = document.getElementById('tpinLengthText');
+      if (countEl) { countEl.innerText = '0/6 ຫຼັກ'; countEl.className = 'text-[10px] text-gray-400 font-bold'; }
+      const matchEl = document.getElementById('tpinMatchStatus');
+      if (matchEl) matchEl.innerText = '';
+
+      showToast('ປ່ຽນລະຫັດ TPIN 6 ຫຼັກ ສຳເລັດຮຽບຮ້ອຍແລ້ວ! ✓');
+    }
+
+    // 7. Security Questions & Password Verification Modal
+    let questionCount = 2;
+
+    function openAddQuestionModal() {
+      document.getElementById('modalQuestionSelect').value = 'ຊື່ຮູບເງົາທີ່ທ່ານມັກທີ່ສຸດແມ່ນຫຍັງ?';
+      document.getElementById('customQuestionWrapper').classList.add('hidden');
+      document.getElementById('modalCustomQuestionInput').value = '';
+      document.getElementById('modalAnswerInput').value = '';
+      document.getElementById('modalVerifyPassword').value = '';
+      document.getElementById('addQuestionModal').classList.remove('hidden');
+      document.getElementById('addQuestionModal').classList.add('flex');
+    }
+
+    function closeAddQuestionModal() {
+      document.getElementById('addQuestionModal').classList.add('hidden');
+      document.getElementById('addQuestionModal').classList.remove('flex');
+    }
+
+    function handleQuestionSelectChange(sel) {
+      const wrapper = document.getElementById('customQuestionWrapper');
+      if (sel.value === 'custom') {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+      }
+    }
+
+    function submitAddQuestion() {
+      const sel = document.getElementById('modalQuestionSelect');
+      let qText = sel.value;
+      if (qText === 'custom') {
+        qText = document.getElementById('modalCustomQuestionInput').value.trim();
+      }
+      const answer = document.getElementById('modalAnswerInput').value.trim();
+      const pwd = document.getElementById('modalVerifyPassword').value.trim();
+
+      if (!qText) {
+        alert('ກະລຸນາເລືອກ ຫຼື ປ້ອນຄຳຖາມຄວາມປອດໄພ');
+        return;
+      }
+      if (!answer) {
+        alert('ກະລຸນາປ້ອນຄຳຕອບສຳລັບຄຳຖາມນີ້');
+        return;
+      }
+      if (!pwd) {
+        alert('ກະລຸນາປ້ອນລະຫັດຜ່ານເຂົ້າສູ່ລະບົບຂອງທ່ານເພື່ອຢັ້ງຢືນ');
+        return;
+      }
+
+      // Password verified, create new question card
+      questionCount++;
+      const container = document.getElementById('questionsGridContainer');
+      const ansId = 'answerInput' + questionCount;
+
+      const newCard = document.createElement('div');
+      newCard.className = 'bg-white p-5 sm:p-6 rounded-2xl border border-gray-200/90 shadow-sm space-y-4 w-full hover:border-teal-300/70 transition-all card-dark-theme';
+      newCard.innerHTML = `
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="text-xs font-black text-[#00bba7] bg-teal-50 px-3 py-1 rounded-full border border-teal-200 shadow-sm">
+              ຄຳຖາມທີ ${questionCount}
+            </span>
+            <span class="text-[11px] text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100 flex items-center gap-1 font-semibold">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-[#00bba7]"></i> ຢັ້ງຢືນແລ້ວ
+            </span>
+          </div>
+          <span class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100 flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+            <span>ປົກປ້ອງດ້ວຍການເຂົ້າລະຫັດ</span>
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full items-end">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+              <span>ຄຳຖາມຄວາມປອດໄພ</span>
+            </label>
+            <input type="text" value="${qText}" readonly
+              class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-xs font-bold text-gray-800 outline-none">
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-gray-700 text-sub-dark-theme flex items-center gap-1.5">
+                <i data-lucide="key-round" class="w-3.5 h-3.5 text-[#00bba7]"></i>
+                <span>ຄຳຕອບຂອງທ່ານ</span>
+              </label>
+              <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1">
+                <i data-lucide="lock" class="w-2.5 h-2.5 text-amber-500"></i> ເຊື່ອງໄວ້
+              </span>
+            </div>
+            <div class="relative">
+              <input type="password" id="${ansId}" value="${answer}" readonly
+                class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-11 py-2.5 text-xs font-semibold text-gray-800 outline-none focus:border-[#00bba7] focus:ring-2 focus:ring-teal-100/50 transition-all shadow-sm">
+              <button type="button" onclick="toggleAnswerVisibility('${ansId}', this)"
+                class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#00bba7] transition-all"
+                title="ສະແດງ/ເຊື່ອງ ຄຳຕອບ">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(newCard);
+
+      closeAddQuestionModal();
+      lucide.createIcons();
+      showToast(`ເພີ່ມຄຳຖາມທີ ${questionCount} ດ້ວຍລະຫັດຜ່ານສຳເລັດແລ້ວ! ✓`);
+    }
+
+    function toggleAnswerVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-[#00bba7]"></i>';
+      } else {
+        input.type = 'password';
+        btn.innerHTML = '<i data-lucide="eye" class="w-4 h-4"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    function toggleModalPwdVisibility() {
+      const inp = document.getElementById('modalVerifyPassword');
+      const icon = document.getElementById('modalPwdEyeIcon');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        inp.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    // 8. 2FA Sub-Tabs & Method Selection Logic
+    let current2faLoginMethod = 'tpin';
+    let current2faTxMethod = 'tpin';
+
+    const twoFaMethodTitles = {
+      'sms': 'SMS',
+      'question': 'QUESTION',
+      'sms_email': 'SMS,EMAIL',
+      'email': 'EMAIL',
+      'tpin': 'TPIN'
+    };
+
+    function switch2faSubTab(type) {
+      const btnLogin = document.getElementById('subtab-btn-login');
+      const btnTx = document.getElementById('subtab-btn-tx');
+      const panelLogin = document.getElementById('subtab-panel-login');
+      const panelTx = document.getElementById('subtab-panel-transaction');
+
+      if (!btnLogin || !btnTx || !panelLogin || !panelTx) return;
+
+      if (type === 'login') {
+        btnLogin.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all bg-[#00bba7] text-white shadow-sm';
+        btnTx.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all text-gray-600 hover:text-gray-900 hover:bg-white/80';
+        panelLogin.classList.remove('hidden');
+        panelTx.classList.add('hidden');
+      } else {
+        btnTx.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all bg-[#00bba7] text-white shadow-sm';
+        btnLogin.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all text-gray-600 hover:text-gray-900 hover:bg-white/80';
+        panelTx.classList.remove('hidden');
+        panelLogin.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function select2faMethod(type, methodKey) {
+      const methods = ['sms', 'question', 'sms_email', 'email', 'tpin'];
+      const prefix = type === 'login' ? 'opt-login-' : 'opt-tx-';
+
+      if (type === 'login') {
+        current2faLoginMethod = methodKey;
+      } else {
+        current2faTxMethod = methodKey;
+      }
+
+      methods.forEach(k => {
+        const el = document.getElementById(prefix + k);
+        if (!el) return;
+        const chk = el.querySelector('.chk-icon');
+        const h4 = el.querySelector('h4');
+        const p = el.querySelector('p');
+        const iconWrap = el.querySelector('.w-10');
+
+        if (k === methodKey) {
+          el.className = 'twofa-row p-4 rounded-2xl bg-[#00bba7] text-white flex items-center justify-between cursor-pointer shadow-md transition-all hover:opacity-95';
+          if (iconWrap) iconWrap.className = 'w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0';
+          if (h4) h4.className = 'text-sm font-black tracking-wide text-white';
+          if (p) {
+            p.className = 'text-[11px] text-teal-100 font-medium';
+            if (!p.innerText.includes('ກຳລັງໃຊ້ງານ')) {
+              p.innerText = p.innerText + ' - ກຳລັງໃຊ້ງານ';
+            }
+          }
+          if (chk) {
+            chk.className = 'chk-icon w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0';
+            chk.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-white"></i>';
+          }
+        } else {
+          el.className = 'twofa-row p-4 rounded-2xl bg-white border border-gray-200 text-gray-800 flex items-center justify-between cursor-pointer hover:border-[#00bba7] hover:bg-teal-50/30 transition-all card-dark-theme shadow-sm';
+          if (iconWrap) iconWrap.className = 'w-10 h-10 rounded-xl bg-teal-50 text-[#00bba7] flex items-center justify-center shrink-0';
+          if (h4) h4.className = 'text-sm font-black tracking-wide text-dark-theme';
+          if (p) {
+            p.className = 'text-[11px] text-gray-500 text-sub-dark-theme';
+            p.innerText = p.innerText.replace(' - ກຳລັງໃຊ້ງານ', '');
+          }
+          if (chk) {
+            chk.className = 'chk-icon w-6 h-6 rounded-full border border-gray-300 hidden items-center justify-center shrink-0';
+          }
+        }
+      });
+
+      lucide.createIcons();
+      const tabLabel = type === 'login' ? 'TPIN Login' : 'TPIN Transaction';
+      showToast(`ປ່ຽນວິທີຢັ້ງຢືນ ${tabLabel} ເປັນ: ${twoFaMethodTitles[methodKey]} ສຳເລັດແລ້ວ! ✓`);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const pwdInput = document.getElementById('modalVerifyPassword');
+      if (pwdInput) {
+        pwdInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            submitAddQuestion();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
