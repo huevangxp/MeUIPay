@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="lo">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ບໍລິການໂອນເງິນ - APB MeBank Digital Banking</title>
+
+  <!-- Google Fonts: Noto Sans Lao for Lao typography & Inter for crisp numbers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'apb-teal': '#006b5d',
+            'apb-teal-dark': '#005449',
+            'apb-teal-light': '#008775',
+            'apb-header': '#007a6c',
+            'apb-accent': '#008a7a',
+            'bg-page': '#edf1f4',
+            'bg-card': '#ffffff',
+            'text-dark': '#0f172a',
+            'text-muted': '#64748b',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04)',
+            'card': '0 4px 20px -2px rgba(0, 107, 93, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
+            'card-hover': '0 12px 30px -4px rgba(0, 107, 93, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04)',
+            'pill': '0 2px 8px rgba(0, 122, 108, 0.25)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style type="text/tailwindcss">
+    :root {
+      --apb-teal: #006b5d;
+      --apb-header: #007a6c;
+      --apb-accent: #008a7a;
+      --bg-page: #edf1f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans Lao", "Inter", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: #0f172a;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .number-font {
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f3f7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--apb-teal);
+      border-radius: 9999px;
+    }
+
+    /* Top Module Nav Button (Exact match with index.html) */
+    .top-module-btn {
+      flex: 1;
+      background-color: #007a6c;
+      color: #ffffff;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .top-module-btn:last-child {
+      border-right: none;
+    }
+
+    .top-module-btn:hover:not(.active) {
+      background-color: #006357;
+    }
+
+    /* Tab Pill Buttons (Exact representation from provided user image) */
+    .mockup-tab-btn {
+      padding: 8px 22px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    /* Active: Dark Teal solid background (#008a7a / #007a6c) with crisp white text */
+    .mockup-tab-btn.active {
+      background-color: #008a7a;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 138, 122, 0.25);
+    }
+
+    /* Inactive: Clean soft light teal/gray background with teal text */
+    .mockup-tab-btn:not(.active) {
+      background-color: #f1f6f5;
+      color: #007a6c;
+    }
+
+    .mockup-tab-btn:not(.active):hover {
+      background-color: #e2eeec;
+      color: #005449;
+    }
+
+    /* Modern Transaction Card (Exact match to image + micro-elevation) */
+    .tx-row-card {
+      background-color: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e9edf0;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .tx-row-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px rgba(0, 107, 93, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.02);
+      border-color: #99f6e4;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid #334155;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-[#edf1f4]">
+  <div class="flex min-h-screen">
+    <!-- 1. LEFT SIDEBAR NAVIGATION (Exact Sidebar from index.html) -->
+    <aside
+      class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
+      <div class="space-y-6">
+        <!-- Logo & Brand Header -->
+        <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+          <div class="bg-white p-2.5 rounded-2xl inline-block mx-auto border border-teal-100 shadow-sm">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-amber-500 text-white font-extrabold flex items-center justify-center text-xs border-2 border-green-700">
+                🌾
+              </div>
+              <div class="text-left">
+                <h2 class="text-xs font-extrabold text-teal-800 leading-tight">APB BANK</h2>
+                <p class="text-[9px] text-teal-600 font-semibold leading-tight">ທະນາຄານ ສົ່ງເສີມກະສິກຳ</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- APB MeBank Badge -->
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center shadow-inner">
+            <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+            <span class="text-xs font-extrabold text-white">MeBank</span>
+          </div>
+        </div>
+
+        <!-- Main Nav Menu with Lucide Icons -->
+        <nav class="space-y-1">
+          <a href="index.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>ໜ້າຫຼັກ</span>
+          </a>
+          <a href="transfer.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-800/80 text-white border-l-4 border-amber-400">
+            <i data-lucide="arrow-right-left" class="w-4 h-4"></i>
+            <span>ບໍລິການໂອນເງິນ</span>
+          </a>
+          <a href="payment.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ປະຫວັດທຸລະກຳ</span>
+          </a>
+          <a href="termdeposit.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>ບັນຊີຝາກປະຈຳ</span>
+          </a>
+          <a href="report.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>ລາຍງານ</span>
+          </a>
+
+          <div class="pt-3 border-t border-teal-600/40">
+            <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+            <a href="setting.html"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 transition-all">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+              <span>ຕັ້ງຄ່າ</span>
+            </a>
+            <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              <span>ຊ່ວຍ</span>
+            </a>
+            <a href="index.html"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>ອອກຈາກລະບົບ</span>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Sidebar Promo Card Banner -->
+      <div
+        class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3.5 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
+        <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2.5 py-0.5 rounded-full inline-block">
+          CASHBACK 10%
+        </div>
+        <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+        <div
+          class="w-full h-14 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5 shadow-inner">
+          <i data-lucide="train" class="w-4 h-4"></i>
+          <span>MePom 10% Off</span>
+        </div>
+        <div class="flex justify-center gap-1.5 pt-0.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. CENTER MAIN DASHBOARD CONTENT -->
+    <main class="flex-1 p-5 sm:p-6 space-y-5 overflow-y-auto">
+      <!-- Top 6 Module Buttons Header Bar (Consistent with index & other pages) -->
+      <div class="bg-[#007a6c] rounded-2xl border border-teal-700 overflow-hidden flex flex-wrap mb-2 shadow-sm">
+        <a href="transfer.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
+          <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+          <span>ໂອນເງິນ</span>
+        </a>
+        <a href="bill.html" class="top-module-btn">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
+          <span>ຊໍາລະບິນ</span>
+        </a>
+        <a href="exchange.html" class="top-module-btn">
+          <i data-lucide="repeat" class="w-5 h-5"></i>
+          <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+        </a>
+        <a href="termdeposit.html" class="top-module-btn">
+          <i data-lucide="wallet" class="w-5 h-5"></i>
+          <span>ບັນຊີຝາກປະຈຳ</span>
+        </a>
+        <a href="qrcode.html" class="top-module-btn">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+          <span>ຄິວອາໂຄດ</span>
+        </a>
+        <a href="payment.html" class="top-module-btn">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          <span>ປະຫວັດ</span>
+        </a>
+      </div>
+
+      <!-- Modern Top Breadcrumb & User Company Overview Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-gray-500">
+            <a href="index.html" class="hover:text-[#006b5d] transition-colors">ໜ້າຫຼັກ</a>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
+            <span class="text-[#006b5d] font-bold">ບໍລິການໂອນເງິນ (Transfer)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-black text-gray-900 flex items-center gap-2.5 mt-1 tracking-tight">
+            <span>ລາຍການໂອນເງິນ</span>
+            <span class="text-xs font-extrabold text-[#008a7a] bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-full">
+              APB FastPay
+            </span>
+          </h1>
+        </div>
+
+        <!-- Account Balance Quick Pill -->
+        <div class="flex items-center gap-3">
+          <div class="bg-white px-4 py-2.5 rounded-2xl border border-gray-200/90 shadow-sm flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-teal-50 text-[#006b5d] flex items-center justify-center font-bold">
+              <i data-lucide="wallet-cards" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-[10px] text-gray-400 font-semibold leading-tight">ຍອດເງິນບັນຊີຕົ້ນທາງ (LAK)</p>
+              <p class="text-sm font-black text-[#006b5d] number-font leading-tight">125,450,000.00 LAK</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTAINER: White card holding the controls and the exact requested design -->
+      <div class="space-y-4">
+        <!-- TOP CONTROLS & THE EXACT 4 BUTTONS FROM THE IMAGE -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <!-- Left: Modern Search & Currency Dropdown Filter -->
+          <div class="flex items-center gap-2.5 flex-1 max-w-lg">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchInput" oninput="filterTransactions()"
+                placeholder="ຄົ້ນຫາຊື່ບໍລິສັດ ຫຼື ເລກບັນຊີ..."
+                class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-semibold text-gray-800 outline-none focus:border-[#008a7a] focus:ring-2 focus:ring-[#008a7a]/15 shadow-sm transition-all" />
+            </div>
+
+            <select id="currencyFilter" onchange="filterTransactions()"
+              class="bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-xl px-3.5 py-2.5 outline-none focus:border-[#008a7a] shadow-sm cursor-pointer hover:border-gray-300 transition-all">
+              <option value="ALL">ທຸກສະກຸນເງິນ</option>
+              <option value="LAK">LAK (ກີບ)</option>
+              <option value="THB">THB (ບາດ)</option>
+              <option value="USD">USD (ໂດລາ)</option>
+            </select>
+          </div>
+
+          <!-- RIGHT: THE 4 EXACT TABS MATCHING THE SCREENSHOT -->
+          <!-- ໂອນເງິນ | ສ້າງຮ່າງການໂອນ | ລາຍການມັກ | ທັງໝົດ -->
+          <div class="flex items-center gap-2 justify-start md:justify-end shrink-0" id="mainTabGroup">
+            <button onclick="switchTab('transfer')" id="tabBtn-transfer" class="mockup-tab-btn">
+              <span>ໂອນເງິນ</span>
+            </button>
+            <button onclick="switchTab('template')" id="tabBtn-template" class="mockup-tab-btn">
+              <span>ສ້າງຮ່າງການໂອນ</span>
+            </button>
+            <button onclick="switchTab('favorites')" id="tabBtn-favorites" class="mockup-tab-btn">
+              <span>ລາຍການມັກ</span>
+            </button>
+            <button onclick="switchTab('all')" id="tabBtn-all" class="mockup-tab-btn active">
+              <span>ທັງໝົດ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. TAB CONTENT: "ທັງໝົດ" (All Transfers - Matching Image Pixel for Pixel) -->
+        <div id="tabContent-all" class="space-y-3">
+
+          <!-- RECORD 1: THE EXACT TRANSACTION FROM USER'S SCREENSHOT -->
+          <div onclick="openReceiptModal({
+              currency: 'LAK',
+              fromName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              fromAcc: '0000-XXXX-10006551',
+              toName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              toAcc: '0000-XXXX-10006551',
+              amount: '- 10,000,000.00 LAK',
+              date: 'Oct 25, 2024',
+              status: 'ສຳເລັດ',
+              ref: 'TXN-20241025-10006551',
+              fee: '0.00 LAK',
+              desc: 'ໂອນເງິນພາຍໃນບັນຊີບໍລິສັດ - ບັນຊີກະແສລາຍວັນ'
+            })"
+            class="tx-row-card p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+              <!-- Left cluster: Currency circular badge + Source + Arrow + Destination -->
+              <div class="flex items-center gap-4 sm:gap-8 flex-wrap sm:flex-nowrap">
+                <!-- White circular badge with LAK -->
+                <div
+                  class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-sm border border-gray-200/90 flex items-center justify-center font-black text-xs sm:text-sm text-[#008a7a] shrink-0 tracking-wide">
+                  LAK
+                </div>
+
+                <!-- Source Account (ບັນຊີຕົ້ນທາງ) -->
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີຕົ້ນທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0000-XXXX-10006551</p>
+                </div>
+
+                <!-- Center arrow indicator -->
+                <div class="text-gray-400 flex items-center justify-center shrink-0">
+                  <span class="text-lg font-bold text-gray-400">→</span>
+                </div>
+
+                <!-- Destination Account (ບັນຊີປາຍທາງ) -->
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີປາຍທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0000-XXXX-10006551</p>
+                </div>
+              </div>
+
+              <!-- Right cluster: Amount, Date & Status -->
+              <div class="flex items-center justify-between lg:justify-end gap-6 sm:gap-10 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-gray-100">
+                <!-- Amount & Date -->
+                <div class="text-left lg:text-right space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ຈຳນວນເງິນ</p>
+                  <p class="text-sm sm:text-base font-black text-red-600 number-font tracking-tight">- 10,000,000.00 LAK</p>
+                  <p class="text-[11px] font-medium text-gray-400 number-font">Oct 25, 2024</p>
+                </div>
+
+                <!-- Status Badge -->
+                <div class="text-center sm:text-right shrink-0 space-y-1">
+                  <p class="text-[11px] font-semibold text-gray-400">ສະຖານະ:</p>
+                  <span
+                    class="inline-flex items-center justify-center px-4 py-1 rounded-full text-xs font-bold bg-[#008a7a] text-white shadow-sm">
+                    ສຳເລັດ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECORD 2: THB Fuel Import Transaction -->
+          <div onclick="openReceiptModal({
+              currency: 'THB',
+              fromName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              fromAcc: '2020-XXXX-49104551',
+              toName: 'PTT Oil and Retail Business Lao Co., Ltd.',
+              toAcc: '5542-XXXX-89210043',
+              amount: '- 145,000.00 THB',
+              date: 'Oct 24, 2024',
+              status: 'ສຳເລັດ',
+              ref: 'TXN-20241024-88421099',
+              fee: '150.00 THB',
+              desc: 'ຊໍາລະຄ່າສິນຄ້າ ແລະ ນໍ້າມັນເຊື້ອໄຟປະຈຳງວດ'
+            })"
+            class="tx-row-card p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+              <div class="flex items-center gap-4 sm:gap-8 flex-wrap sm:flex-nowrap">
+                <div
+                  class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-sm border border-gray-200/90 flex items-center justify-center font-black text-xs sm:text-sm text-blue-700 shrink-0 tracking-wide">
+                  THB
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີຕົ້ນທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">2020-XXXX-49104551</p>
+                </div>
+                <div class="text-gray-400 flex items-center justify-center shrink-0">
+                  <span class="text-lg font-bold text-gray-400">→</span>
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີປາຍທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">PTT Oil and Retail Business Lao</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">5542-XXXX-89210043</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between lg:justify-end gap-6 sm:gap-10 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-gray-100">
+                <div class="text-left lg:text-right space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ຈຳນວນເງິນ</p>
+                  <p class="text-sm sm:text-base font-black text-red-600 number-font tracking-tight">- 145,000.00 THB</p>
+                  <p class="text-[11px] font-medium text-gray-400 number-font">Oct 24, 2024</p>
+                </div>
+                <div class="text-center sm:text-right shrink-0 space-y-1">
+                  <p class="text-[11px] font-semibold text-gray-400">ສະຖານະ:</p>
+                  <span
+                    class="inline-flex items-center justify-center px-4 py-1 rounded-full text-xs font-bold bg-[#008a7a] text-white shadow-sm">
+                    ສຳເລັດ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECORD 3: USD International Cargo Transfer -->
+          <div onclick="openReceiptModal({
+              currency: 'USD',
+              fromName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              fromAcc: '3030-XXXX-88128810',
+              toName: 'Chevron Marine Lubricants Pte Ltd',
+              toAcc: '9011-XXXX-44201992',
+              amount: '- 12,500.00 USD',
+              date: 'Oct 22, 2024',
+              status: 'ສຳເລັດ',
+              ref: 'TXN-20241022-77192033',
+              fee: '25.00 USD',
+              desc: 'International Lubricant Cargo Commercial Payment'
+            })"
+            class="tx-row-card p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+              <div class="flex items-center gap-4 sm:gap-8 flex-wrap sm:flex-nowrap">
+                <div
+                  class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-sm border border-gray-200/90 flex items-center justify-center font-black text-xs sm:text-sm text-red-600 shrink-0 tracking-wide">
+                  USD
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີຕົ້ນທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">3030-XXXX-88128810</p>
+                </div>
+                <div class="text-gray-400 flex items-center justify-center shrink-0">
+                  <span class="text-lg font-bold text-gray-400">→</span>
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີປາຍທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">Chevron Marine Lubricants Pte</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">9011-XXXX-44201992</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between lg:justify-end gap-6 sm:gap-10 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-gray-100">
+                <div class="text-left lg:text-right space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ຈຳນວນເງິນ</p>
+                  <p class="text-sm sm:text-base font-black text-red-600 number-font tracking-tight">- 12,500.00 USD</p>
+                  <p class="text-[11px] font-medium text-gray-400 number-font">Oct 22, 2024</p>
+                </div>
+                <div class="text-center sm:text-right shrink-0 space-y-1">
+                  <p class="text-[11px] font-semibold text-gray-400">ສະຖານະ:</p>
+                  <span
+                    class="inline-flex items-center justify-center px-4 py-1 rounded-full text-xs font-bold bg-[#008a7a] text-white shadow-sm">
+                    ສຳເລັດ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECORD 4: Electricity Utility (EDL) Transfer -->
+          <div onclick="openReceiptModal({
+              currency: 'LAK',
+              fromName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              fromAcc: '0000-XXXX-10006551',
+              toName: 'ລັດວິສາຫະກິດໄຟຟ້າລາວ (EDL)',
+              toAcc: '0101-XXXX-99201452',
+              amount: '- 4,850,000.00 LAK',
+              date: 'Oct 20, 2024',
+              status: 'ສຳເລັດ',
+              ref: 'TXN-20241020-33418890',
+              fee: '0.00 LAK',
+              desc: 'ຊໍາລະຄ່າກະແສໄຟຟ້າສຳນັກງານໃຫຍ່ ແລະ ສາງນ້ຳມັນ'
+            })"
+            class="tx-row-card p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+              <div class="flex items-center gap-4 sm:gap-8 flex-wrap sm:flex-nowrap">
+                <div
+                  class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-sm border border-gray-200/90 flex items-center justify-center font-black text-xs sm:text-sm text-[#008a7a] shrink-0 tracking-wide">
+                  LAK
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີຕົ້ນທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0000-XXXX-10006551</p>
+                </div>
+                <div class="text-gray-400 flex items-center justify-center shrink-0">
+                  <span class="text-lg font-bold text-gray-400">→</span>
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີປາຍທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ລັດວິສາຫະກິດໄຟຟ້າລາວ (EDL)</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0101-XXXX-99201452</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between lg:justify-end gap-6 sm:gap-10 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-gray-100">
+                <div class="text-left lg:text-right space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ຈຳນວນເງິນ</p>
+                  <p class="text-sm sm:text-base font-black text-red-600 number-font tracking-tight">- 4,850,000.00 LAK</p>
+                  <p class="text-[11px] font-medium text-gray-400 number-font">Oct 20, 2024</p>
+                </div>
+                <div class="text-center sm:text-right shrink-0 space-y-1">
+                  <p class="text-[11px] font-semibold text-gray-400">ສະຖານະ:</p>
+                  <span
+                    class="inline-flex items-center justify-center px-4 py-1 rounded-full text-xs font-bold bg-[#008a7a] text-white shadow-sm">
+                    ສຳເລັດ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECORD 5: Pending Contractor Transfer -->
+          <div onclick="openReceiptModal({
+              currency: 'LAK',
+              fromName: 'ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ',
+              fromAcc: '0000-XXXX-10006551',
+              toName: 'ບໍລິສັດ ບົວລະພາ ກະສິກຳ-ປ່າໄມ້ ຈຳກັດ',
+              toAcc: '0304-XXXX-33418890',
+              amount: '- 25,000,000.00 LAK',
+              date: 'Oct 18, 2024',
+              status: 'ກຳລັງດຳເນີນການ',
+              ref: 'TXN-20241018-99014511',
+              fee: '0.00 LAK',
+              desc: 'ຄ່າເຊົ່າສາງ ແລະ ວັດສະດຸກໍ່ສ້າງປະຈຳເດືອນ'
+            })"
+            class="tx-row-card p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+              <div class="flex items-center gap-4 sm:gap-8 flex-wrap sm:flex-nowrap">
+                <div
+                  class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-sm border border-gray-200/90 flex items-center justify-center font-black text-xs sm:text-sm text-amber-600 shrink-0 tracking-wide">
+                  LAK
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີຕົ້ນທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0000-XXXX-10006551</p>
+                </div>
+                <div class="text-gray-400 flex items-center justify-center shrink-0">
+                  <span class="text-lg font-bold text-gray-400">→</span>
+                </div>
+                <div class="min-w-[190px] sm:min-w-[230px] space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ບັນຊີປາຍທາງ</p>
+                  <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-snug">ບໍລິສັດ ບົວລະພາ ກະສິກຳ-ປ່າໄມ້ ຈຳກັດ</h4>
+                  <p class="text-xs font-semibold text-gray-500 number-font tracking-tight">0304-XXXX-33418890</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between lg:justify-end gap-6 sm:gap-10 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-gray-100">
+                <div class="text-left lg:text-right space-y-0.5">
+                  <p class="text-[11px] font-semibold text-gray-400">ຈຳນວນເງິນ</p>
+                  <p class="text-sm sm:text-base font-black text-red-600 number-font tracking-tight">- 25,000,000.00 LAK</p>
+                  <p class="text-[11px] font-medium text-gray-400 number-font">Oct 18, 2024</p>
+                </div>
+                <div class="text-center sm:text-right shrink-0 space-y-1">
+                  <p class="text-[11px] font-semibold text-gray-400">ສະຖານະ:</p>
+                  <span
+                    class="inline-flex items-center justify-center px-4 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-sm">
+                    ກຳລັງກວດສອບ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TAB CONTENT: "ໂອນເງິນ" (Transfer Portal Form) -->
+        <div id="tabContent-transfer" class="hidden space-y-6">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/90 shadow-sm space-y-6">
+            <div class="border-b border-gray-100 pb-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-teal-50 text-[#006b5d] flex items-center justify-center">
+                  <i data-lucide="send" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-extrabold text-gray-900">ໂອນເງິນດ່ວນ (Quick Transfer)</h3>
+                  <p class="text-xs text-gray-500">ໂອນເງິນພາຍໃນທະນາຄານ APB ແລະ ຕ່າງທະນາຄານ LAPNet 24/7</p>
+                </div>
+              </div>
+              <span class="text-xs bg-teal-50 text-[#006b5d] font-bold px-3 py-1.5 rounded-xl border border-teal-100">
+                ຄ່າທຳນຽມ 0 ກີບ
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Left Inputs -->
+              <div class="space-y-4">
+                <div class="space-y-1.5">
+                  <label class="text-xs font-bold text-gray-700">ບັນຊີຕົ້ນທາງ (Source Account)</label>
+                  <select id="quickFromAcc" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-xs font-bold text-gray-800 outline-none focus:border-[#008a7a]">
+                    <option value="0000-XXXX-10006551">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວ (10006551) - 125,450,000.00 LAK</option>
+                    <option value="2020-XXXX-49104551">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວ (49104551) - 85,200.00 THB</option>
+                    <option value="3030-XXXX-88128810">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວ (88128810) - 4,500.00 USD</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label class="text-xs font-bold text-gray-700">ເລືອກຊ່ອງທາງການໂອນ (Transfer Channel)</label>
+                  <div class="grid grid-cols-3 gap-2.5">
+                    <button type="button" class="py-2.5 px-3 rounded-xl border-2 border-[#008a7a] bg-teal-50/60 text-[#008a7a] text-xs font-bold flex flex-col items-center gap-1 shadow-sm">
+                      <i data-lucide="building-2" class="w-4 h-4"></i>
+                      <span>ພາຍໃນ APB</span>
+                    </button>
+                    <button type="button" class="py-2.5 px-3 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold flex flex-col items-center gap-1 hover:border-gray-300 transition-all">
+                      <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                      <span>LAPNet</span>
+                    </button>
+                    <button type="button" class="py-2.5 px-3 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold flex flex-col items-center gap-1 hover:border-gray-300 transition-all">
+                      <i data-lucide="globe" class="w-4 h-4"></i>
+                      <span>SWIFT ຕ່າງປະເທດ</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label class="text-xs font-bold text-gray-700">ເລກບັນຊີປາຍທາງ (Recipient Account)</label>
+                  <div class="relative">
+                    <input type="text" id="quickToAcc" placeholder="ປ້ອນເລກບັນຊີ 10-16 ຫຼັກ..."
+                      class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs font-bold text-gray-800 outline-none focus:border-[#008a7a]" />
+                    <button type="button" onclick="showToast('ກວດສອບບັນຊີສຳເລັດ ✓')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-teal-100 hover:bg-teal-200 text-[#006b5d] text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all">
+                      ກວດສອບ
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Inputs -->
+              <div class="space-y-4">
+                <div class="space-y-1.5">
+                  <label class="text-xs font-bold text-gray-700">ຈຳນວນເງິນໂອນ (Amount)</label>
+                  <div class="relative">
+                    <input type="text" id="quickAmount" placeholder="0.00"
+                      class="w-full bg-white border border-gray-300 rounded-xl pl-4 pr-16 py-3 text-base font-black text-gray-900 number-font outline-none focus:border-[#008a7a]" />
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-500">LAK</span>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label class="text-xs font-bold text-gray-700">ຄຳອະທິບາຍ / ເຫດຜົນການໂອນ (Remark)</label>
+                  <input type="text" id="quickRemark" placeholder="ຕົວຢ່າງ: ຊຳລະຄ່ານ້ຳມັນເຊື້ອໄຟ..."
+                    class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs font-medium text-gray-800 outline-none focus:border-[#008a7a]" />
+                </div>
+
+                <div class="pt-2 flex items-center gap-3">
+                  <button type="button" onclick="handleExecuteTransfer()"
+                    class="flex-1 bg-[#006b5d] hover:bg-[#005449] text-white py-3.5 px-5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>ຢືນຢັນການໂອນເງິນ</span>
+                  </button>
+                  <button type="button" onclick="saveAsDraft()"
+                    class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i>
+                    <span>ບັນທຶກເປັນຮ່າງ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TAB CONTENT: "ສ້າງຮ່າງການໂອນ" (Drafts & Templates) -->
+        <div id="tabContent-template" class="hidden space-y-4">
+          <div class="bg-white rounded-3xl p-6 border border-gray-200/90 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+              <div>
+                <h3 class="text-base font-extrabold text-gray-900">ຮ່າງລາຍການໂອນທີ່ບັນທຶກໄວ້ (Transfer Drafts)</h3>
+                <p class="text-xs text-gray-500">ຮ່າງທີ່ທ່ານສ້າງໄວ້ເພື່ອໂອນຊ້ຳໄດ້ໄວ ແລະ ວ່ອງໄວ</p>
+              </div>
+              <button onclick="showToast('ເປີດຟອມສ້າງຮ່າງໃໝ່')" class="px-3.5 py-2 bg-teal-50 hover:bg-teal-100 text-[#006b5d] rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>ສ້າງຮ່າງໃໝ່</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-3 hover:border-teal-300 transition-all">
+                <div class="flex justify-between items-start">
+                  <span class="p-2 rounded-xl bg-teal-100/70 text-[#006b5d] font-bold text-xs"><i data-lucide="users" class="w-4 h-4"></i></span>
+                  <span class="text-[10px] bg-teal-100 text-[#006b5d] px-2 py-0.5 rounded-full font-bold">ປະຈຳເດືອນ</span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">ເງິນເດືອນພະນັກງານ ງວດ 1</h4>
+                  <p class="text-xs text-gray-500 font-medium">ຈຳນວນ 12 ບັນຊີຜູ້ຮັບ</p>
+                </div>
+                <div class="pt-2 border-t border-gray-200/60 flex items-center justify-between">
+                  <span class="text-xs font-black text-gray-900 number-font">36,000,000 LAK</span>
+                  <button onclick="showToast('ກຳລັງເປີດຮ່າງເງິນເດືອນ...')" class="text-xs font-bold text-[#006b5d] hover:underline flex items-center gap-1">
+                    <span>ໂອນດຽວນີ້</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-3 hover:border-teal-300 transition-all">
+                <div class="flex justify-between items-start">
+                  <span class="p-2 rounded-xl bg-blue-100/70 text-blue-700 font-bold text-xs"><i data-lucide="fuel" class="w-4 h-4"></i></span>
+                  <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold">ນ້ຳມັນເຊື້ອໄຟ</span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">ສັ່ງຊື້ນ້ຳມັນ PTT Cargo</h4>
+                  <p class="text-xs text-gray-500 font-medium">PTT Oil and Retail (THB)</p>
+                </div>
+                <div class="pt-2 border-t border-gray-200/60 flex items-center justify-between">
+                  <span class="text-xs font-black text-gray-900 number-font">145,000 THB</span>
+                  <button onclick="showToast('ກຳລັງເປີດຮ່າງ PTT...')" class="text-xs font-bold text-[#006b5d] hover:underline flex items-center gap-1">
+                    <span>ໂອນດຽວນີ້</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-3 hover:border-teal-300 transition-all">
+                <div class="flex justify-between items-start">
+                  <span class="p-2 rounded-xl bg-amber-100/70 text-amber-700 font-bold text-xs"><i data-lucide="zap" class="w-4 h-4"></i></span>
+                  <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">ຄ່າສາທາລະນູປະໂພກ</span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">ຄ່າໄຟຟ້າ EDL ປະຈຳເດືອນ</h4>
+                  <p class="text-xs text-gray-500 font-medium">ລັດວິສາຫະກິດໄຟຟ້າລາວ</p>
+                </div>
+                <div class="pt-2 border-t border-gray-200/60 flex items-center justify-between">
+                  <span class="text-xs font-black text-gray-900 number-font">4,850,000 LAK</span>
+                  <button onclick="showToast('ກຳລັງເປີດຮ່າງ EDL...')" class="text-xs font-bold text-[#006b5d] hover:underline flex items-center gap-1">
+                    <span>ໂອນດຽວນີ້</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. TAB CONTENT: "ລາຍການມັກ" (Favorite Accounts) -->
+        <div id="tabContent-favorites" class="hidden space-y-4">
+          <div class="bg-white rounded-3xl p-6 border border-gray-200/90 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+              <div>
+                <h3 class="text-base font-extrabold text-gray-900">ບັນຊີຜູ້ຮັບທີ່ບັນທຶກເປັນລາຍການມັກ (Favorites)</h3>
+                <p class="text-xs text-gray-500">ເລືອກຜູ້ຮັບເພື່ອໂອນເງິນໄດ້ທັນທີໂດຍບໍ່ຕ້ອງປ້ອນເລກບັນຊີຊ້ຳ</p>
+              </div>
+              <button onclick="showToast('ເພີ່ມຜູ້ຮັບລາຍການມັກ')" class="px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all">
+                <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+                <span>ເພີ່ມຜູ້ຮັບ</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 hover:border-teal-300 transition-all space-y-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-full bg-teal-100 text-[#006b5d] font-black text-xs flex items-center justify-center">
+                    PV
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-gray-900">ບສ ເປໂຕຣຫວຽດນາມອອຍ</h4>
+                    <p class="text-[11px] text-gray-500 number-font">0000-XXXX-10006551</p>
+                  </div>
+                </div>
+                <button onclick="quickTransferTo('0000-XXXX-10006551', 'ບສ ເປໂຕຣຫວຽດນາມອອຍ')" class="w-full py-2 bg-white border border-gray-300 hover:border-[#008a7a] hover:text-[#008a7a] rounded-xl text-xs font-bold transition-all">
+                  ເລືອກໂອນບັນຊີນີ້
+                </button>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 hover:border-teal-300 transition-all space-y-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-full bg-blue-100 text-blue-700 font-black text-xs flex items-center justify-center">
+                    PTT
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-gray-900">PTT Oil and Retail Business</h4>
+                    <p class="text-[11px] text-gray-500 number-font">5542-XXXX-89210043</p>
+                  </div>
+                </div>
+                <button onclick="quickTransferTo('5542-XXXX-89210043', 'PTT Oil and Retail Business')" class="w-full py-2 bg-white border border-gray-300 hover:border-[#008a7a] hover:text-[#008a7a] rounded-xl text-xs font-bold transition-all">
+                  ເລືອກໂອນບັນຊີນີ້
+                </button>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 hover:border-teal-300 transition-all space-y-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-full bg-red-100 text-red-600 font-black text-xs flex items-center justify-center">
+                    EDL
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-gray-900">ລັດວິສາຫະກິດໄຟຟ້າລາວ EDL</h4>
+                    <p class="text-[11px] text-gray-500 number-font">0101-XXXX-99201452</p>
+                  </div>
+                </div>
+                <button onclick="quickTransferTo('0101-XXXX-99201452', 'ລັດວິສາຫະກິດໄຟຟ້າລາວ EDL')" class="w-full py-2 bg-white border border-gray-300 hover:border-[#008a7a] hover:text-[#008a7a] rounded-xl text-xs font-bold transition-all">
+                  ເລືອກໂອນບັນຊີນີ້
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- DIGITAL RECEIPT MODAL (Official APB Bank Receipt) -->
+  <div id="receiptModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="text-center space-y-2 border-b border-gray-100 pb-4 relative">
+        <button onclick="closeReceiptModal()" class="absolute right-0 top-0 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-100 shadow-sm">
+          <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-base font-black text-gray-900">ໃບຢັ້ງຢືນການໂອນເງິນສຳເລັດ</h3>
+        <p class="text-xs text-gray-500 font-medium">APB MeBank Digital Banking Receipt</p>
+      </div>
+
+      <!-- Amount Banner -->
+      <div class="bg-gradient-to-br from-teal-50/70 to-emerald-50/40 p-4 rounded-2xl border border-teal-100 text-center space-y-1">
+        <span class="text-[10px] font-extrabold text-teal-800 uppercase tracking-wider">ຈຳນວນເງິນໂອນທັງໝົດ</span>
+        <h2 class="text-2xl font-black text-gray-900 number-font" id="rcptAmount">- 10,000,000.00 LAK</h2>
+        <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold" id="rcptStatus">
+          ● ສຳເລັດ (Successful)
+        </span>
+      </div>
+
+      <!-- Receipt Data Grid -->
+      <div class="space-y-3 text-xs">
+        <div class="flex justify-between py-1.5 border-b border-gray-100">
+          <span class="text-gray-400 font-medium">ເລກອ້າງອີງ (Ref. No):</span>
+          <span class="font-bold text-gray-800 number-font" id="rcptRef">TXN-20241025-10006551</span>
+        </div>
+        <div class="flex justify-between py-1.5 border-b border-gray-100">
+          <span class="text-gray-400 font-medium">ວັນທີ & ເວລາ:</span>
+          <span class="font-bold text-gray-800 number-font" id="rcptDate">Oct 25, 2024 14:30:25</span>
+        </div>
+        <div class="space-y-1 py-1.5 border-b border-gray-100">
+          <span class="text-gray-400 font-medium block">ບັນຊີຕົ້ນທາງ:</span>
+          <p class="font-bold text-gray-900" id="rcptFromName">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</p>
+          <p class="text-[11px] text-gray-500 number-font" id="rcptFromAcc">0000-XXXX-10006551</p>
+        </div>
+        <div class="space-y-1 py-1.5 border-b border-gray-100">
+          <span class="text-gray-400 font-medium block">ບັນຊີປາຍທາງ:</span>
+          <p class="font-bold text-gray-900" id="rcptToName">ບສ ເປໂຕຣຫວຽດນາມອອຍລາວຈໍາກັດ</p>
+          <p class="text-[11px] text-gray-500 number-font" id="rcptToAcc">0000-XXXX-10006551</p>
+        </div>
+        <div class="flex justify-between py-1.5 border-b border-gray-100">
+          <span class="text-gray-400 font-medium">ຄ່າທຳນຽມ:</span>
+          <span class="font-bold text-emerald-600 number-font" id="rcptFee">0.00 LAK</span>
+        </div>
+        <div class="flex justify-between py-1.5">
+          <span class="text-gray-400 font-medium">ໝາຍເຫດ:</span>
+          <span class="font-bold text-gray-800" id="rcptDesc">ໂອນເງິນພາຍໃນບັນຊີບໍລິສັດ</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button onclick="downloadReceipt()"
+          class="flex items-center justify-center gap-2 bg-[#006b5d] hover:bg-[#005449] text-white py-3 px-4 rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>ດາວໂຫຼດໃບບິນ</span>
+        </button>
+        <button onclick="repeatTransfer()"
+          class="flex items-center justify-center gap-2 bg-teal-50 hover:bg-teal-100 text-[#006b5d] py-3 px-4 rounded-xl text-xs font-bold transition-all active:scale-95">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          <span>ໂອນອີກຄັ້ງ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+    <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Switch between the 4 exact tabs matching the screenshot
+    function switchTab(tabKey) {
+      const tabs = ['transfer', 'template', 'favorites', 'all'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn-${t}`);
+        const content = document.getElementById(`tabContent-${t}`);
+        if (t === tabKey) {
+          btn.className = 'mockup-tab-btn active';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'mockup-tab-btn';
+          content.classList.add('hidden');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    function quickTransferTo(accNo, name) {
+      switchTab('transfer');
+      document.getElementById('quickToAcc').value = accNo;
+      document.getElementById('quickRemark').value = `ໂອນໃຫ້ ${name}`;
+      showToast(`ເລືອກຜູ້ຮັບ: ${name}`);
+    }
+
+    function handleExecuteTransfer() {
+      const toAcc = document.getElementById('quickToAcc').value;
+      const amount = document.getElementById('quickAmount').value;
+      if (!toAcc || !amount) {
+        showToast('ກະລຸນາປ້ອນເລກບັນຊີປາຍທາງ ແລະ ຈຳນວນເງິນ');
+        return;
+      }
+      showToast('✓ ດຳເນີນການໂອນເງິນສຳເລັດແລ້ວ');
+      setTimeout(() => {
+        switchTab('all');
+      }, 1000);
+    }
+
+    function saveAsDraft() {
+      showToast('✓ ບັນທຶກເປັນຮ່າງການໂອນຮຽບຮ້ອຍແລ້ວ');
+    }
+
+    // Modal Receipt
+    let currentReceipt = null;
+
+    function openReceiptModal(data) {
+      currentReceipt = data;
+      document.getElementById('rcptAmount').innerText = data.amount;
+      document.getElementById('rcptRef').innerText = data.ref || 'TXN-20241025-10006551';
+      document.getElementById('rcptDate').innerText = data.date;
+      document.getElementById('rcptFromName').innerText = data.fromName;
+      document.getElementById('rcptFromAcc').innerText = data.fromAcc;
+      document.getElementById('rcptToName').innerText = data.toName;
+      document.getElementById('rcptToAcc').innerText = data.toAcc;
+      document.getElementById('rcptFee').innerText = data.fee || '0.00 LAK';
+      document.getElementById('rcptDesc').innerText = data.desc || '-';
+      document.getElementById('rcptStatus').innerText = `● ${data.status} (Verified)`;
+
+      const modal = document.getElementById('receiptModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeReceiptModal() {
+      const modal = document.getElementById('receiptModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function downloadReceipt() {
+      showToast('📥 ກຳລັງດາວໂຫຼດໃບບິນ E-Receipt ເຂົ້າເຄື່ອງ...');
+    }
+
+    function repeatTransfer() {
+      closeReceiptModal();
+      if (currentReceipt) {
+        quickTransferTo(currentReceipt.toAcc, currentReceipt.toName);
+      }
+    }
+
+    // Real-time Search & Currency Filter
+    function filterTransactions() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const curr = document.getElementById('currencyFilter').value;
+      const cards = document.querySelectorAll('#tabContent-all .tx-row-card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const matchesQuery = !q || text.includes(q);
+        const matchesCurr = curr === 'ALL' || text.includes(curr);
+
+        if (matchesQuery && matchesCurr) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
