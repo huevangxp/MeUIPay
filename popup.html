@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="lo">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Info Popup - APB MeBank</title>
+
+    <!-- Google Fonts for Lao (Noto Sans Lao) & Numbers/Latin (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'apb-teal': '#006b5d',
+                        'apb-teal-dark': '#005449',
+                        'apb-teal-light': '#008775',
+                        'apb-teal-subtle': '#f0fdf9',
+                        'apb-teal-border': '#ccede6',
+                        'apb-header': '#007a6c',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+                        mono: ['"Inter"', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            font-family: 'Noto Sans Lao', 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .font-mono-numbers {
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.04em;
+        }
+
+        /* Modal animation styles */
+        .modal-overlay {
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-card {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.hidden-state {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal-card.hidden-state {
+            opacity: 0;
+            transform: scale(0.93) translateY(10px);
+        }
+
+        /* Toast Notification */
+        .toast-pill {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .toast-pill.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-[#edf1f4] min-h-screen text-[#1a202c] relative flex flex-col justify-center items-center p-4">
+
+    <!-- Background Demo Context (APB MeBank dashboard backdrop mockup) -->
+    <div
+        class="w-full max-w-4xl bg-white rounded-3xl p-6 shadow-sm border border-gray-200/80 space-y-4 filter blur-[1px] opacity-75 select-none pointer-events-none">
+        <div class="flex items-center justify-between border-b pb-4 border-gray-100">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-[#006b5d] text-white flex items-center justify-center font-bold text-xs">
+                    APB</div>
+                <div>
+                    <h2 class="font-bold text-sm text-gray-800">APB MeBank Digital</h2>
+                    <p class="text-xs text-gray-400">ລະບົບທະນາຄານດິຈິຕອລ</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <div class="h-8 w-24 bg-gray-100 rounded-lg"></div>
+                <div class="h-8 w-24 bg-teal-50 rounded-lg"></div>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 h-24"></div>
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 h-24"></div>
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 h-24"></div>
+        </div>
+    </div>
+
+    <!-- Reopen Button (Floating at bottom for easy testing) -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <button onclick="openAccountModal()"
+            class="bg-[#006b5d] hover:bg-[#005449] text-white font-semibold text-xs px-4 py-2.5 rounded-full shadow-lg shadow-teal-900/20 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 cursor-pointer">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>ເປີດປັອບອັບຄືນ (Re-open)</span>
+        </button>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- REDESIGNED TEAL ACCOUNT INFO POPUP MODAL (PERFECT & SMALL IN CENTER)  -->
+    <!-- ===================================================================== -->
+    <div id="accountModalOverlay"
+        class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+        onclick="handleBackdropClick(event)">
+
+        <!-- Modal Card Container (Small, compact max-w-[380px] perfectly centered) -->
+        <div id="accountModalCard"
+            class="modal-card bg-white w-full max-w-[390px] rounded-3xl shadow-2xl shadow-teal-950/25 border border-teal-100/90 overflow-hidden relative"
+            onclick="event.stopPropagation()">
+
+            <!-- Top Subtle Decorative Accent Header -->
+            <div
+                class="bg-gradient-to-r from-teal-50/80 via-[#f0fbf8] to-emerald-50/60 px-5 pt-5 pb-4 border-b border-teal-100/60 flex items-center justify-between">
+
+                <!-- Icon & Title -->
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#006b5d] to-[#005449] text-white flex items-center justify-center shadow-md shadow-teal-900/20 shrink-0">
+                        <i data-lucide="contact" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-gray-900 tracking-tight">ຂໍ້ມູນບັນຊີ</h3>
+                            <span
+                                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-100/80 text-[#006b5d]">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Active
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-gray-500 font-medium">ຂໍ້ມູນບັນຊີ APB MeBank</p>
+                    </div>
+                </div>
+
+                <!-- Close "X" Button -->
+                <button onclick="closeAccountModal()" title="ປິດ"
+                    class="w-8 h-8 rounded-full bg-white/90 hover:bg-teal-100 text-gray-400 hover:text-[#006b5d] flex items-center justify-center transition-all border border-gray-100 active:scale-90 cursor-pointer">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body Content -->
+            <div class="p-5 space-y-3">
+
+                <!-- Field 1: Customer Name (ຊື່ລູກຄ້າ) -->
+                <div
+                    class="bg-gray-50/80 hover:bg-teal-50/40 border border-gray-200/80 hover:border-teal-200/90 rounded-2xl p-3 flex items-center justify-between gap-3 transition-colors group">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <!-- Icon -->
+                        <div
+                            class="w-9 h-9 rounded-xl bg-teal-100/70 text-[#006b5d] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <!-- Labels & Value -->
+                        <div class="min-w-0">
+                            <span class="text-[10px] text-gray-400 font-semibold block leading-tight">ຊື່ບັນຊີ</span>
+                            <p id="customerName" class="text-sm font-bold text-gray-800 truncate"
+                                title="ທ່ານ ບຸນມີ ໄຊຍະສິ">
+                                ທ່ານ ບຸນມີ ໄຊຍະສິ
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Copy Button -->
+                    <button onclick="copyFieldValue('customerName', 'copyNameBtn', 'ຊື່ລູກຄ້າ')" id="copyNameBtn"
+                        title="ຄັດລອກຊື່"
+                        class="p-2 rounded-xl text-gray-400 hover:text-[#006b5d] hover:bg-teal-100/60 active:scale-95 transition-all shrink-0 cursor-pointer">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Field 2: Account Number (ເລກບັນຊີ) -->
+                <div
+                    class="bg-gray-50/80 hover:bg-teal-50/40 border border-gray-200/80 hover:border-teal-200/90 rounded-2xl p-3 flex items-center justify-between gap-3 transition-colors group">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <!-- Icon -->
+                        <div
+                            class="w-9 h-9 rounded-xl bg-teal-100/70 text-[#006b5d] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <i data-lucide="credit-card" class="w-4 h-4"></i>
+                        </div>
+                        <!-- Labels & Value -->
+                        <div class="min-w-0">
+                            <span class="text-[10px] text-gray-400 font-semibold block leading-tight">ເລກບັນຊີ</span>
+                            <p id="accountNumber"
+                                class="text-sm font-bold text-gray-900 font-mono-numbers tracking-wide truncate">
+                                01000000000075
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Copy Button -->
+                    <button onclick="copyFieldValue('accountNumber', 'copyAccBtn', 'ເລກບັນຊີ')" id="copyAccBtn"
+                        title="ຄັດລອກເລກບັນຊີ"
+                        class="p-2 rounded-xl text-gray-400 hover:text-[#006b5d] hover:bg-teal-100/60 active:scale-95 transition-all shrink-0 cursor-pointer">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Redesigned Action Button (Teal instead of Red, perfectly proportioned) -->
+                <div class="pt-2">
+                    <button onclick="closeAccountModal()"
+                        class="w-full bg-[#006b5d] hover:bg-[#005449] active:bg-[#00473d] text-white py-2.5 px-4 rounded-xl text-sm font-bold shadow-md shadow-teal-900/15 flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>ປິດ</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Toast Notification Pill for Copy Feedback -->
+    <div id="copyToast"
+        class="toast-pill bg-slate-900/90 backdrop-blur-md text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-xl border border-white/10 flex items-center gap-2">
+        <div class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+        </div>
+        <span id="toastMessage">ຄັດລອກສຳເລັດແລ້ວ</span>
+    </div>
+
+
+    <script>
+        // Initialize Lucide icons on load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Close Modal
+        function closeAccountModal() {
+            const overlay = document.getElementById('accountModalOverlay');
+            const card = document.getElementById('accountModalCard');
+            overlay.classList.add('hidden-state');
+            card.classList.add('hidden-state');
+        }
+
+        // Open Modal
+        function openAccountModal() {
+            const overlay = document.getElementById('accountModalOverlay');
+            const card = document.getElementById('accountModalCard');
+            overlay.classList.remove('hidden-state');
+            card.classList.remove('hidden-state');
+        }
+
+        // Close when clicking outside modal card (backdrop)
+        function handleBackdropClick(e) {
+            if (e.target.id === 'accountModalOverlay') {
+                closeAccountModal();
+            }
+        }
+
+        // Close on Escape key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAccountModal();
+            }
+        });
+
+        // Copy to clipboard with visual checkmark & toast
+        function copyFieldValue(textElementId, btnElementId, labelName) {
+            const textToCopy = document.getElementById(textElementId).innerText.trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change icon to check
+                const btn = document.getElementById(btnElementId);
+                btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>';
+                lucide.createIcons();
+
+                // Show toast
+                showToast(`ຄັດລອກ ${labelName} ແລ້ວ: ${textToCopy}`);
+
+                // Revert icon after 1.8s
+                setTimeout(() => {
+                    btn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i>';
+                    lucide.createIcons();
+                }, 1800);
+            }).catch(() => {
+                showToast('ບໍ່ສາມາດຄັດລອກໄດ້');
+            });
+        }
+
+        // Show toast notification
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('copyToast');
+            const msg = document.getElementById('toastMessage');
+            msg.innerText = message;
+            toast.classList.add('show');
+            lucide.createIcons();
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+</body>
+
+</html>
