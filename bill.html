@@ -1,438 +1,1100 @@
 <!doctype html>
 <html lang="lo">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ຊໍາລະບິນ - Digital Banking</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ຊໍາລະບິນ (Bill Payment) - APB MeBank Digital Banking</title>
 
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Noto Sans Lao for Lao typography & Inter for crisp numbers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'primary-teal': '#006b5d',
-              'primary-teal-hover': '#005449',
-              'primary-teal-light': '#eaf4f3',
-              'accent-yellow': '#f19e38',
-              'accent-red': '#e53e3e',
-              'accent-green': '#10b981',
-              'bg-page': '#edf1f4',
-              'bg-card': '#ffffff',
-              'bg-input': '#f1f3f7',
-              'text-dark': '#1a202c',
-              'text-muted': '#64748b',
-              'border-color': '#e2e8f0',
-            },
-            fontFamily: {
-              sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
-              inter: ['"Inter"', 'sans-serif'],
-            },
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'apb-teal': '#006b5d',
+            'apb-teal-dark': '#005449',
+            'apb-teal-light': '#008775',
+            'apb-header': '#007a6c',
+            'apb-badge-teal': '#008a7a',
+            'apb-subtle-teal': '#f0fdfa',
+            'bg-page': '#edf1f4',
+            'bg-card': '#ffffff',
+            'text-dark': '#0f172a',
+            'text-muted': '#64748b',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans Lao"', '"Inter"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04)',
+            'card': '0 10px 30px -5px rgba(0, 107, 93, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
+            'badge-hover': '0 12px 28px -4px rgba(0, 138, 122, 0.22), 0 4px 10px -2px rgba(0, 107, 93, 0.1)',
+            'glass': '0 8px 32px 0 rgba(0, 107, 93, 0.08)',
           },
         },
-      };
-    </script>
+      },
+    };
+  </script>
 
-    <style type="text/tailwindcss">
-      :root {
-        --primary-teal: #006b5d;
-        --accent-yellow: #f19e38;
-        --bg-page: #edf1f4;
-      }
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Noto Sans Lao", "Inter", sans-serif;
-      }
+  <style type="text/tailwindcss">
+    :root {
+      --apb-teal: #006b5d;
+      --apb-header: #007a6c;
+      --apb-badge-teal: #008a7a;
+      --bg-page: #edf1f4;
+    }
 
-      body {
-        background-color: var(--bg-page);
-        color: #1a202c;
-        min-height: 100vh;
-        padding-bottom: 60px;
-      }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans Lao", "Inter", sans-serif;
+    }
 
-      .number-font {
-        font-family: "Inter", sans-serif;
-      }
+    body {
+      background-color: var(--bg-page);
+      color: #0f172a;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-      .top-nav {
-        background-color: var(--primary-teal);
-        width: 100%;
-        overflow-x: auto;
-        position: sticky;
-        top: 0;
-        z-index: 99;
-      }
+    .number-font {
+      font-family: "Inter", sans-serif;
+    }
 
-      .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        min-width: 900px;
-      }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f3f7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--apb-teal);
+      border-radius: 9999px;
+    }
 
-      .nav-item {
-        flex: 1;
-        text-align: center;
-        padding: 16px 10px;
-        color: rgba(255, 255, 255, 0.75);
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 500;
-        border-bottom: 3.5px solid transparent;
-        transition: all 0.2s ease;
-        cursor: pointer;
-      }
+    /* Top Module Nav Button */
+    .top-module-btn {
+      flex: 1;
+      background-color: #007a6c;
+      color: #ffffff;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-      .nav-item svg {
-        width: 22px;
-        height: 22px;
-        fill: currentColor;
-      }
+    .top-module-btn:last-child {
+      border-right: none;
+    }
 
-      .nav-item:hover {
-        color: #ffffff;
-        background-color: rgba(255, 255, 255, 0.05);
-      }
+    .top-module-btn:hover:not(.active) {
+      background-color: #006357;
+    }
 
-      .nav-item.active,
-      .nav-item.pay-bill-active {
-        color: var(--accent-yellow);
-        font-weight: 600;
-      }
+    /* Modern Squircle Badge matching screenshot perfectly */
+    .service-badge-container {
+      width: 90px;
+      height: 90px;
+      border-radius: 26px;
+      border: 2.4px solid #008a7a;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(0, 138, 122, 0.04);
+    }
 
-      .nav-item.pay-bill-active svg {
-        fill: var(--accent-yellow);
+    @media (min-width: 640px) {
+      .service-badge-container {
+        width: 100px;
+        height: 100px;
+        border-radius: 28px;
       }
+    }
 
-      .nav-divider {
-        width: 1px;
-        height: 30px;
-        background-color: rgba(255, 255, 255, 0.2);
-        margin: 0 4px;
-      }
+    .service-item-wrapper:hover .service-badge-container {
+      transform: translateY(-6px) scale(1.03);
+      border-color: #006b5d;
+      background: linear-gradient(145deg, #ffffff, #f0fdfa);
+      box-shadow: 0 14px 28px -4px rgba(0, 107, 93, 0.22);
+    }
 
-      .main-content {
-        max-width: 1100px;
-        margin: 30px auto;
-        padding: 0 20px;
-      }
+    .service-item-wrapper:active .service-badge-container {
+      transform: translateY(-1px) scale(0.96);
+    }
 
-      .bill-card-item {
-        border: 2px solid var(--border-color);
-        border-radius: 20px;
-        padding: 20px;
-        background: #ffffff;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 10px;
-      }
+    /* Category Pill */
+    .filter-pill {
+      padding: 7px 18px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .filter-pill.active {
+      background-color: #007a6c;
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 122, 108, 0.3);
+    }
+    .filter-pill:not(.active) {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #e2e8f0;
+    }
+    .filter-pill:not(.active):hover {
+      background-color: #f8fafc;
+      color: #007a6c;
+      border-color: #cbd5e1;
+    }
 
-      .bill-card-item:hover {
-        border-color: var(--primary-teal);
-        transform: translateY(-2px);
-      }
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid #334155;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+    }
 
-      .bill-card-item.selected {
-        border-color: var(--primary-teal);
-        background-color: var(--primary-teal-light);
-      }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
 
-      .toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        background-color: #1a202c;
-        color: #ffffff;
-        padding: 14px 24px;
-        border-radius: 16px;
-        font-weight: 600;
-        font-size: 14px;
-        z-index: 1000;
-        opacity: 0;
-        transition: all 0.4s ease;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+    /* Modal animation */
+    .modal-backdrop {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-card {
+      transform: scale(0.94) translateY(24px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-backdrop.open .modal-card {
+      transform: scale(1) translateY(0);
+    }
 
-      .toast.show {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-      }
+    /* Subdued divider */
+    .bill-section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+      margin: 28px 0;
+    }
+  </style>
+</head>
 
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
-
-      .modal-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      /* Top Module Nav Button */
-      .top-module-btn {
-        flex: 1;
-        background-color: #007a6c;
-        color: #ffffff;
-        padding: 12px 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        font-size: 12px;
-        font-weight: 600;
-        text-decoration: none;
-        border-right: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.2s ease;
-      }
-      .top-module-btn:last-child {
-        border-right: none;
-      }
-      .top-module-btn:hover {
-        background-color: #006357;
-      }
-    </style>
-  </head>
-  <body class="bg-[#edf1f4]">
-    <div class="flex min-h-screen">
-      <!-- 1. LEFT SIDEBAR NAVIGATION -->
-      <aside class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700">
-        <div class="space-y-6">
-          <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center">
-              <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
-              <span class="text-xs font-extrabold text-white">MeBank</span>
+<body class="bg-[#edf1f4]">
+  <div class="flex min-h-screen">
+    <!-- 1. LEFT SIDEBAR NAVIGATION (Matching APB MeBank Ecosystem) -->
+    <aside
+      class="w-64 bg-[#006b5d] text-white flex flex-col justify-between flex-shrink-0 min-h-screen p-4 border-r border-teal-700 hidden lg:flex">
+      <div class="space-y-6">
+        <!-- Logo & Brand Header -->
+        <div class="space-y-3 border-b border-teal-600/40 pb-4 text-center">
+          <div class="bg-white p-2.5 rounded-2xl inline-block mx-auto border border-teal-100 shadow-sm">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-amber-500 text-white font-extrabold flex items-center justify-center text-xs border-2 border-green-700">
+                🌾
+              </div>
+              <div class="text-left">
+                <h2 class="text-xs font-extrabold text-teal-800 leading-tight">APB BANK</h2>
+                <p class="text-[9px] text-teal-600 font-semibold leading-tight">ທະນາຄານ ສົ່ງເສີມກະສິກຳ</p>
+              </div>
             </div>
           </div>
 
-          <nav class="space-y-1">
-            <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
-              <i data-lucide="home" class="w-4 h-4"></i>
-              <span>ໜ້າຫຼັກ</span>
-            </a>
-            <a href="payment.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
-              <i data-lucide="file-text" class="w-4 h-4"></i>
-              <span>ປະຫວັດທຸລະກຳ</span>
-            </a>
-            <a href="termdeposit.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
-              <i data-lucide="credit-card" class="w-4 h-4"></i>
-              <span>ບັນຊີຝາກປະຈຳ</span>
-            </a>
-            <a href="report.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
-              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-              <span>ລາຍງານ</span>
-            </a>
-
-            <div class="pt-3 border-t border-teal-600/40">
-              <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
-              <a href="setting.html" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 transition-all">
-                <i data-lucide="settings" class="w-4 h-4"></i>
-                <span>ຕັ້ງຄ່າ</span>
-              </a>
-              <a href="#" onclick="showToast('ສູນຊ່ວຍເຫຼືອ 1555')" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
-                <i data-lucide="help-circle" class="w-4 h-4"></i>
-                <span>ຊ່ວຍ</span>
-              </a>
-              <a href="index.html" class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                <span>ອອກຈາກລະບົບ</span>
-              </a>
-            </div>
-          </nav>
-        </div>
-
-        <div class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden">
-          <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">CASHBACK 10%</div>
-          <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
-          <div class="w-full h-16 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5">
-            <i data-lucide="train" class="w-4 h-4"></i>
-            <span>MePom 10% Off</span>
+          <!-- APB MeBank Badge -->
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-teal-700 to-teal-900 border-2 border-teal-400/40 rounded-2xl mx-auto flex flex-col items-center justify-center shadow-inner">
+            <span class="text-[10px] font-bold text-amber-400 tracking-wider">APB</span>
+            <span class="text-xs font-extrabold text-white">MeBank</span>
           </div>
         </div>
-      </aside>
 
-      <!-- 2. CENTER MAIN CONTENT -->
-      <main class="flex-1 p-5 space-y-5 overflow-y-auto">
-        <!-- Top 6 Module Buttons Header Bar -->
-        <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap mb-6 border border-teal-600/50">
-          <a href="transfer.html" class="top-module-btn">
-            <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
-            <span>ໂອນເງິນ</span>
+        <!-- Main Nav Menu -->
+        <nav class="space-y-1">
+          <a href="index.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>ໜ້າຫຼັກ</span>
           </a>
-          <a href="bill.html" class="top-module-btn font-bold text-amber-300 bg-teal-800">
-            <i data-lucide="receipt" class="w-5 h-5"></i>
+          <a href="transfer.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="arrow-right-left" class="w-4 h-4"></i>
+            <span>ບໍລິການໂອນເງິນ</span>
+          </a>
+          <a href="bill.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-800/80 text-white border-l-4 border-amber-400 shadow-sm">
+            <i data-lucide="receipt" class="w-4 h-4 text-amber-300"></i>
             <span>ຊໍາລະບິນ</span>
           </a>
-          <a href="exchange.html" class="top-module-btn">
-            <i data-lucide="repeat" class="w-5 h-5"></i>
-            <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+          <a href="payment.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ປະຫວັດທຸລະກຳ</span>
           </a>
-          <a href="termdeposit.html" class="top-module-btn">
-            <i data-lucide="wallet" class="w-5 h-5"></i>
+          <a href="termdeposit.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
             <span>ບັນຊີຝາກປະຈຳ</span>
           </a>
-          <a href="qrcode.html" class="top-module-btn">
-            <i data-lucide="qr-code" class="w-5 h-5"></i>
-            <span>ຄິວອາໂຄດ</span>
+          <a href="report.html"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 hover:text-white transition-all">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>ລາຍງານ</span>
           </a>
-          <a href="payment.html" class="top-module-btn">
-            <i data-lucide="history" class="w-5 h-5"></i>
-            <span>ປະຫວັດ</span>
-          </a>
-        </div>
 
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-xl font-bold text-primary-teal flex items-center gap-2">
-          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-1 15H6v-2h12v2m0-3H6v-2h12v2m0-3H6V7h12v2M8.5 11h1v1.5h-1V11m2-1.5h1v1.5h-1V9.5z"/></svg>
-          ບໍລິການຊໍາລະບິນ (Bill Payment Portal)
-        </h1>
-        <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-3 py-1.5 rounded-full border border-amber-200">
-          ★ ຊໍາລະຟຣີບໍ່ມີຄ່າທຳນຽມ
-        </span>
+          <div class="pt-3 border-t border-teal-600/40">
+            <p class="text-[10px] uppercase font-bold text-teal-300/70 px-3 mb-1">ເຄື່ອງມື (Tools)</p>
+            <a href="setting.html"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 transition-all">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+              <span>ຕັ້ງຄ່າ</span>
+            </a>
+            <a href="#" onclick="showToast('ສູນບໍລິການລູກຄ້າ APB ໂທ: 1555')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-teal-700/50 transition-all">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              <span>ຊ່ວຍເຫຼືອ</span>
+            </a>
+            <a href="index.html" onclick="return confirm('ທ່ານຕ້ອງການອອກຈາກລະບົບແທ້ບໍ່?')"
+              class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium text-teal-100 hover:bg-red-600/60 transition-all">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>ອອກຈາກລະບົບ</span>
+            </a>
+          </div>
+        </nav>
       </div>
 
-      <!-- Categories Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8">
-        <div onclick="selectCategory(this, 'EDL', 'ໄຟຟ້າ EDL')" class="bill-card-item selected">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold">⚡</div>
-          <span class="text-xs font-bold text-gray-800">ໄຟຟ້າ (EDL)</span>
+      <!-- Promo Banner in Sidebar -->
+      <div
+        class="mt-4 bg-gradient-to-br from-teal-800 to-teal-950 p-3.5 rounded-2xl border border-teal-500/30 text-center space-y-2 relative overflow-hidden shadow-md">
+        <div class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block">
+          CASHBACK 10%
         </div>
-        <div onclick="selectCategory(this, 'NPNL', 'ນ້ຳປະປາ NPNL')" class="bill-card-item">
-          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">💧</div>
-          <span class="text-xs font-bold text-gray-800">ນ້ຳປະປາ</span>
-        </div>
-        <div onclick="selectCategory(this, 'TELECOM', 'ອິນເຕີເນັດ/ໂທລະສັບ')" class="bill-card-item">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold">📶</div>
-          <span class="text-xs font-bold text-gray-800">ເນັດ/ໂທລະສັບ</span>
-        </div>
-        <div onclick="selectCategory(this, 'TAX', 'ພາສີ-ອາກອນ')" class="bill-card-item">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl font-bold">🏛️</div>
-          <span class="text-xs font-bold text-gray-800">ພາສີ-ອາກອນ</span>
-        </div>
-        <div onclick="selectCategory(this, 'SCHOOL', 'ຄ່າຮຽນ')" class="bill-card-item">
-          <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl font-bold">🏫</div>
-          <span class="text-xs font-bold text-gray-800">ຄ່າຮຽນ</span>
-        </div>
-        <div onclick="selectCategory(this, 'LOAN', 'ສິນເຊື່ອ')" class="bill-card-item">
-          <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold">🛡️</div>
-          <span class="text-xs font-bold text-gray-800">ປະກັນ/ສິນເຊື່ອ</span>
+        <p class="text-[11px] font-bold text-white leading-tight">ລຸ້ນລົດໄຟກ່ຽວອັນ ລົດໄຟຄວາມໄວສູງ MePom!</p>
+        <div
+          class="w-full h-14 bg-gradient-to-r from-red-600 to-amber-500 rounded-xl flex items-center justify-center text-white font-extrabold text-xs gap-1.5 shadow-sm">
+          <i data-lucide="train" class="w-4 h-4"></i>
+          <span>MePom 10% Off</span>
         </div>
       </div>
+    </aside>
 
-      <!-- Bill Search & Lookup Card -->
-      <div class="bg-white rounded-3xl p-8 border border-gray-100 max-w-2xl mx-auto space-y-6">
-        <h3 class="text-base font-bold text-primary-teal flex items-center gap-2 border-b border-gray-100 pb-3">
-          <span id="selectedCatTitle">ຊໍາລະບິນ: ໄຟຟ້າ EDL (Electricite du Laos)</span>
-        </h3>
+    <!-- 2. MAIN CONTENT AREA -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-7 space-y-6 overflow-y-auto max-w-[1380px] mx-auto w-full">
+      
+      <!-- Top 6 Module Navigation Bar -->
+      <div class="bg-[#007a6c] rounded-2xl overflow-hidden flex flex-wrap border border-teal-600/50 shadow-sm">
+        <a href="transfer.html" class="top-module-btn">
+          <i data-lucide="arrow-right-left" class="w-5 h-5"></i>
+          <span>ໂອນເງິນ</span>
+        </a>
+        <a href="bill.html" class="top-module-btn font-bold text-amber-300 bg-teal-800/90 shadow-inner">
+          <i data-lucide="receipt" class="w-5 h-5 text-amber-300"></i>
+          <span>ຊໍາລະບິນ</span>
+        </a>
+        <a href="exchange.html" class="top-module-btn">
+          <i data-lucide="repeat" class="w-5 h-5"></i>
+          <span>LFX ຕະຫຼາດແລກປ່ຽນ</span>
+        </a>
+        <a href="termdeposit.html" class="top-module-btn">
+          <i data-lucide="wallet" class="w-5 h-5"></i>
+          <span>ບັນຊີຝາກປະຈຳ</span>
+        </a>
+        <a href="qrcode.html" class="top-module-btn">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+          <span>ຄິວອາໂຄດ</span>
+        </a>
+        <a href="payment.html" class="top-module-btn">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          <span>ປະຫວັດ</span>
+        </a>
+      </div>
 
+      <!-- Header with Title & Quick Filter Controls -->
+      <div class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">ປ້ອນເລກບັນຊີສັນຍາ / ເລກໝໍ້ໄຟ (Contract / Consumer ID)</label>
-          <div class="flex gap-2">
-            <input id="billConsumerId" type="text" value="EDL-8891024" placeholder="ປ້ອນ ID" class="flex-1 bg-bg-input border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-800 number-font outline-none focus:ring-2 focus:ring-primary-teal" />
-            <button onclick="fetchBillInfo()" class="bg-primary-teal hover:bg-primary-teal-hover text-white font-bold px-6 py-3 rounded-xl text-sm">
-              ຄົ້ນຫາບິນ
-            </button>
-          </div>
+          <!-- Page Title directly matching user's image with modern typography -->
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-[#006b5d] tracking-tight flex items-center gap-2.5">
+            <span>ຊໍາລະບິນ</span>
+            <span class="text-xs bg-teal-100 text-[#006b5d] font-bold px-3 py-1 rounded-full border border-teal-200">
+              0₭ ຄ່າທຳນຽມ
+            </span>
+          </h1>
         </div>
 
-        <!-- Bill Details Box -->
-        <div id="billDetailsBox" class="bg-teal-50/70 border border-teal-200 rounded-2xl p-5 space-y-3">
-          <div class="flex justify-between text-xs font-semibold text-gray-600">
-            <span>ຊື່ຜູ້ຊົມໃຊ້:</span>
-            <span class="font-bold text-gray-900">ສົມພອນ ໄຊຍະວົງ (SOMPHONE)</span>
-          </div>
-          <div class="flex justify-between text-xs font-semibold text-gray-600">
-            <span>ປະຈຳເດືອນ:</span>
-            <span class="font-bold text-gray-900 number-font">07/2026</span>
-          </div>
-          <div class="flex justify-between text-xs font-semibold text-gray-600">
-            <span>ກຳນົດຊຳລະ:</span>
-            <span class="font-bold text-amber-600 number-font">15/08/2026</span>
-          </div>
-          <div class="border-t border-teal-200 pt-3 flex justify-between items-center">
-            <span class="text-xs font-bold text-gray-800">ຍອດເງິນຕ້ອງຊຳລະ:</span>
-            <span class="text-xl font-extrabold text-primary-teal number-font">345,000 LAK</span>
-          </div>
+        <!-- Quick Filter Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <button onclick="setFilterCategory('all', this)" class="filter-pill active">ທັງໝົດ (All)</button>
+          <button onclick="setFilterCategory('utilities', this)" class="filter-pill">ສາທາລະນູປະໂພກ</button>
+          <button onclick="setFilterCategory('flights', this)" class="filter-pill">ຈອງປີ້ເຮືອບິນ</button>
+          <button onclick="setFilterCategory('loans', this)" class="filter-pill">ສິນເຊື່ອ</button>
+          <button onclick="setFilterCategory('wallets', this)" class="filter-pill">ເຕີມເງິນເຂົ້າກະເປົາ</button>
         </div>
+      </div>
 
-        <button onclick="payBillNow()" class="w-full bg-primary-teal hover:bg-primary-teal-hover text-white font-bold py-4 rounded-xl text-sm transition-all">
-          ຊໍາລະບິນດຽວນີ້ (Pay Now)
-        </button>
+      <!-- MAIN BILL PAYMENT CARD (Matching user's attached design with high-end modern elegance) -->
+      <div class="bg-white rounded-[28px] sm:rounded-[34px] border border-slate-200/90 shadow-card p-6 sm:p-8 lg:p-10 transition-all">
+
+        <!-- SECTION 1: ສາທາລະນູປະໂພກ & ລັດຖະບານ (Row of 6 items as in screenshot) -->
+        <section id="section-utilities" class="service-category-section">
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-y-6 gap-x-4 sm:gap-6 justify-items-center">
+            
+            <!-- 1. เติมมูลค่าโท (Lao: ເຕີມມູນຄ່າໂທ - Mobile Top Up) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ເຕີມມູນຄ່າໂທ"
+                 data-keywords="mobile phone topup ໂທລະສັບ ເຕີມເງິນ unitel ltc tplus etl"
+                 onclick="openBillModal('topup', 'ເຕີມມູນຄ່າໂທ', 'Mobile Airtime Top-Up', 'topup-icon')">
+              <div class="service-badge-container">
+                <!-- Telephone handset on base station with antenna and wireless transmission waves -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Phone base cradle -->
+                  <path d="M20 42h32c2.2 0 4 1.8 4 4v4c0 2.2-1.8 4-4 4H20c-2.2 0-4-1.8-4-4v-4c0-2.2 1.8-4 4-4z" />
+                  <line x1="26" y1="48" x2="30" y2="48" stroke-width="2.5" />
+                  <line x1="34" y1="48" x2="38" y2="48" stroke-width="2.5" />
+                  <line x1="42" y1="48" x2="46" y2="48" stroke-width="2.5" />
+                  <!-- Phone receiver handset -->
+                  <path d="M18 36c0-6 3.5-12 9-14.5l5-2c2.5-1 3.5-3.5 2.5-6l-1-2.5c-1-2.5-3.5-3.5-6-2.5L23 11c-4.5 2-8 6-9 11-1.5 7.5 1.5 16 7 21l3-2.5c2-1.5 2-4 0-5.5L20 32c-1.3-1-2-2.5-2-4.5z" fill="currentColor" stroke="none" />
+                  <!-- Wireless broadcast waves -->
+                  <path d="M40 30a10 10 0 0 1 10-10" />
+                  <path d="M44 23a16 16 0 0 1 16-11" />
+                  <path d="M48 16a22 22 0 0 1 20-9" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ເຕີມມູນຄ່າໂທ
+              </span>
+            </div>
+
+            <!-- 2. ຈ່າຍຄ່າໄຟຟ້າ (Electricity EDL) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ຈ່າຍຄ່າໄຟຟ້າ"
+                 data-keywords="edl electricity ໄຟຟ້າ ໄຟຟ້າລາວ ໝໍ້ໄຟ"
+                 onclick="openBillModal('electricity', 'ຈ່າຍຄ່າໄຟຟ້າ (EDL)', 'Electricite Du Laos Bill', 'electricity-icon')">
+              <div class="service-badge-container">
+                <!-- Two-prong electric plug with cord dangling down -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <!-- Prongs -->
+                  <rect x="29" y="14" width="4.5" height="12" rx="2" />
+                  <rect x="38.5" y="14" width="4.5" height="12" rx="2" />
+                  <!-- Plug Body -->
+                  <path d="M23 25h26c2.5 0 4.5 2 4.5 4.5v11c0 6.5-5.5 11.5-12 11.5h-11C28.5 52 23 47 23 40.5v-11c0-2.5 2-4.5 4.5-4.5z" />
+                  <!-- Cord dangling down with smooth s-curve -->
+                  <path d="M36 52v7c0 3.5-3 6.5-6.5 6.5s-6.5-3-6.5-6.5v-2" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ຈ່າຍຄ່າໄຟຟ້າ
+              </span>
+            </div>
+
+            <!-- 3. ຈ່າຍຄ່ານ້ຳ (Water utility NPNL) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ຈ່າຍຄ່ານ້ຳ"
+                 data-keywords="water npnl ນ້ຳປະປາ ນ້ຳ ຊຳລະຄ່ານ້ຳ"
+                 onclick="openBillModal('water', 'ຈ່າຍຄ່ານ້ຳ (NPNL)', 'Nam Papa Nakhone Luang', 'water-icon')">
+              <div class="service-badge-container">
+                <!-- Water pipe elbow with water droplet dripping -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <!-- Left pipe collar flange -->
+                  <rect x="14" y="21" width="5.5" height="18" rx="2" />
+                  <!-- Pipe body bending downward -->
+                  <path d="M19 25h22c4.5 0 8 3.5 8 8v12h-11V34c0-1.2-1-2.2-2.2-2.2H19v-6.8z" />
+                  <!-- Lower nozzle collar -->
+                  <rect x="35" y="44" width="17" height="4.5" rx="1.5" />
+                  <!-- Water dripping droplet -->
+                  <path d="M43.5 52.5c0 0-4.5 4.5-4.5 7.5a4.5 4.5 0 0 0 9 0c0-3-4.5-7.5-4.5-7.5z" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ຈ່າຍຄ່ານ້ຳ
+              </span>
+            </div>
+
+            <!-- 4. ຄ່າທຳນຽມທາງ (Road Tollway / Expressway) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ຄ່າທຳນຽມທາງ"
+                 data-keywords="road toll expressway ທາງດ່ວນ ຄ່າທຳນຽມທາງ ວຽງຈັນ ວັງວຽງ"
+                 onclick="openBillModal('toll', 'ຄ່າທຳນຽມທາງ (Expressway)', 'Road Tollway & Expressway', 'toll-icon')">
+              <div class="service-badge-container">
+                <!-- Expressway stretching in perspective with dashed dividing line -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="none">
+                  <!-- Road Surface (Trapezoid) -->
+                  <path d="M26 18h20l11 38H15l11-38z" fill="currentColor" />
+                  <!-- Center white dashed lines -->
+                  <line x1="36" y1="22" x2="36" y2="29" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" />
+                  <line x1="36" y1="34" x2="36" y2="42" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" />
+                  <line x1="36" y1="47" x2="36" y2="54" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ຄ່າທຳນຽມທາງ
+              </span>
+            </div>
+
+            <!-- 5. ຈ່າຍຄ່າອາກອນ (Taxes / Government Revenue) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ຈ່າຍຄ່າອາກອນ"
+                 data-keywords="tax customs revenue ອາກອນ ພາສີ ລັດຖະບານ TIN"
+                 onclick="openBillModal('tax', 'ຈ່າຍຄ່າອາກອນ (Tax & Revenue)', 'Lao Revenue & Customs', 'tax-icon')">
+              <div class="service-badge-container">
+                <!-- Lao National Revenue Crest / Emblem -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="none" stroke="currentColor">
+                  <!-- Outer decorative wreath border -->
+                  <circle cx="36" cy="36" r="23" stroke-width="2.2" stroke-dasharray="3.5 2" />
+                  <circle cx="36" cy="36" r="19.5" stroke-width="1.4" />
+                  <!-- Pha That Luang Temple spire in center -->
+                  <path d="M36 21l1.8 4.5h-3.6l1.8-4.5zm-2.8 5.5h5.6v3.5h-5.6v-3.5zm-4.2 4.5h14v3.5h-14v-3.5zm-2.8 4.5h19.6v3.5H26.2v-3.5z" fill="currentColor" stroke="none" />
+                  <!-- Framing grain sheaves left & right -->
+                  <path d="M21 31c-1.5 5.5-.5 10.5 4 14.5" stroke-width="1.8" stroke-linecap="round" />
+                  <path d="M51 31c1.5 5.5.5 10.5-4 14.5" stroke-width="1.8" stroke-linecap="round" />
+                  <!-- Gear at bottom -->
+                  <path d="M30 48h12v3.5a1.5 1.5 0 0 1-1.5 1.5h-9a1.5 1.5 0 0 1-1.5-1.5V48z" fill="currentColor" stroke="none" />
+                  <!-- Star on top -->
+                  <polygon points="36,17.5 37.2,20.2 40,20.2 37.6,21.8 38.5,24.5 36,23 33.5,24.5 34.4,21.8 32,20.2 34.8,20.2" fill="currentColor" stroke="none" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ຈ່າຍຄ່າອາກອນ
+              </span>
+            </div>
+
+            <!-- 6. ພາສີທີ່ດິນ (Land / Property Tax) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ພາສີທີ່ດິນ"
+                 data-keywords="land property tax ດິນ ພາສີທີ່ດິນ ໃບຕາດິນ"
+                 onclick="openBillModal('landtax', 'ພາສີທີ່ດິນ (Land Tax)', 'Property & Land Title Tax', 'landtax-icon')">
+              <div class="service-badge-container">
+                <!-- House outline with % percent badge -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- House Roof & Structure -->
+                  <path d="M20 33L36 20L52 33V52H20V33Z" />
+                  <path d="M43 23V19H48V27" stroke-width="2.2" />
+                  <rect x="25" y="38" width="7" height="14" rx="1" fill="currentColor" fill-opacity="0.1" />
+                  <!-- Percent Badge Circle -->
+                  <circle cx="45" cy="43" r="10" fill="#ffffff" stroke="currentColor" stroke-width="2.4" />
+                  <!-- Percent % Symbol -->
+                  <line x1="41" y1="47" x2="49" y2="39" stroke-width="2" />
+                  <circle cx="42" cy="41" r="1.3" fill="currentColor" stroke="none" />
+                  <circle cx="48" cy="45" r="1.3" fill="currentColor" stroke="none" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ພາສີທີ່ດິນ
+              </span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Elegant Divider -->
+        <div class="bill-section-divider"></div>
+
+        <!-- SECTION 2: ຈອງປີ້ເຮືອບິນ (Flight Booking) -->
+        <section id="section-flights" class="service-category-section">
+          <!-- Section Heading matching image -->
+          <h2 class="text-base sm:text-lg font-bold text-[#006b5d] mb-4 sm:mb-5">
+            ຈອງປີ້ເຮືອບິນ
+          </h2>
+
+          <div class="flex items-center gap-6 sm:gap-8 flex-wrap">
+            
+            <!-- 1. ການບິນລາວ (Lao Airlines - Dok Champa Flower) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ການບິນລາວ"
+                 data-keywords="lao airlines ການບິນລາວ ປີ້ຍົນ flight vte"
+                 onclick="openBillModal('laoairlines', 'ການບິນລາວ (Lao Airlines)', 'National Carrier Flight Booking', 'laoairlines-icon')">
+              <div class="service-badge-container">
+                <!-- Champa floral Dok Champa petals -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <path d="M36 17c-4.5 7-7 13.5-3.5 19.5c-6-4.5-12.5-2.5-16 3.5c7 2.5 12.5 0 17-2.5c-2.5 7-1 14 5 17c2-6 1-12-2.5-17c7 2 13.5-.5 17-7c-7-1-12.5 2.5-16 5c1.8-7-.9-14-6-18.5z" />
+                  <circle cx="36" cy="37" r="3" fill="#f59e0b" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ການບິນລາວ
+              </span>
+            </div>
+
+            <!-- 2. ລາວເດີນອາກາດ (Lao Skyway - Flying Bird Swallow) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="ລາວເດີນອາກາດ"
+                 data-keywords="lao skyway ລາວເດີນອາກາດ ປີ້ຍົນ ຖ້ຽວບິນ"
+                 onclick="openBillModal('laoskyway', 'ລາວເດີນອາກາດ (Lao Skyway)', 'Domestic & Regional Flights', 'laoskyway-icon')">
+              <div class="service-badge-container">
+                <!-- Swallow flying bird emblem -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <path d="M50 22c-7 5.5-15 10.5-25 12.5c-3.5-3.5-8-4.5-12.5-2.5c5.5 3.5 10 5.5 14.5 5.5c-2.5 4.5-7 8-12.5 10c8-1 15-5.5 19.5-10.5c3.5 2 7 2.5 11.5 1.5c2.5-3.5 4.5-8 4.5-16.5z" />
+                  <path d="M41 20c4.5-3.5 11-6 16-6c-4.5 6-8 11.5-10 18c-1.8-3.5-3.5-8-6-12z" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                ລາວເດີນອາກາດ
+              </span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Elegant Divider -->
+        <div class="bill-section-divider"></div>
+
+        <!-- SECTION 3: ຈ່າຍສິນເຊື່ອຕ່າງໆ (Pay Loans / Leasing) -->
+        <section id="section-loans" class="service-category-section">
+          <!-- Section Heading matching image -->
+          <h2 class="text-base sm:text-lg font-bold text-[#006b5d] mb-4 sm:mb-5">
+            ຈ່າຍສິນເຊື່ອຕ່າງໆ
+          </h2>
+
+          <div class="flex items-center gap-6 sm:gap-8 flex-wrap">
+            
+            <!-- 1. Kolao (Kolao Leasing) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="Kolao"
+                 data-keywords="kolao leasing loan ສິນເຊື່ອ ໂຄລາວ ລົດ"
+                 onclick="openBillModal('kolao', 'Kolao (ໂຄລາວ ສິນເຊື່ອ)', 'Kolao Capital & Leasing Payment', 'kolao-icon')">
+              <div class="service-badge-container">
+                <!-- Kolao mascot circle with smiling face and KOLAO logo -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="none" stroke="currentColor">
+                  <circle cx="36" cy="34" r="17" stroke-width="2.4" />
+                  <path d="M19 34c-2.5 0-4-2.5-2.5-5 1.5-2.5 3.5-.8 3.5 1.6" stroke-width="1.8" />
+                  <path d="M53 34c2.5 0 4-2.5 2.5-5-1.5-2.5-3.5-.8-3.5 1.6" stroke-width="1.8" />
+                  <ellipse cx="30" cy="28.5" rx="1.8" ry="2.2" fill="currentColor" stroke="none" />
+                  <ellipse cx="42" cy="28.5" rx="1.8" ry="2.2" fill="currentColor" stroke="none" />
+                  <path d="M31 39c2.5 2.5 7.5 2.5 10 0" stroke-width="1.8" stroke-linecap="round" />
+                  <text x="36" y="37" font-family="'Inter', sans-serif" font-weight="900" font-size="6.8" fill="currentColor" stroke="none" text-anchor="middle" letter-spacing="0.5">KOLAO</text>
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                Kolao
+              </span>
+            </div>
+
+            <!-- 2. Krungsri (Krungsri Leasing) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="Krungsri"
+                 data-keywords="krungsri leasing loan ກຸງສີ ສິນເຊື່ອ"
+                 onclick="openBillModal('krungsri', 'Krungsri (ກຸງສີ ລີດຊິ່ງ)', 'Krungsri Leasing Lao', 'krungsri-icon')">
+              <div class="service-badge-container">
+                <!-- Krungsri 3-tier stylized pagoda / chevron symbol -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <path d="M36 17l6.5 8.5h-3.8l-2.7-3.6l-2.7 3.6h-3.8l6.5-8.5z" />
+                  <path d="M36 29l10 12h-4.6l-5.4-6.5l-5.4 6.5h-4.6l10-12z" />
+                  <path d="M36 43l13 15h-4.8l-8.2-9.5l-8.2 9.5h-4.8l13-15z" />
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                Krungsri
+              </span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Elegant Divider -->
+        <div class="bill-section-divider"></div>
+
+        <!-- SECTION 4: ເຕີມເງິນເຂົ້າກະເປົາ (E-Wallet Top-up) -->
+        <section id="section-wallets" class="service-category-section">
+          <!-- Section Heading matching image -->
+          <h2 class="text-base sm:text-lg font-bold text-[#006b5d] mb-4 sm:mb-5">
+            ເຕີມເງິນເຂົ້າກະເປົາ
+          </h2>
+
+          <div class="flex items-center gap-6 sm:gap-8 flex-wrap">
+            
+            <!-- 1. UMoney (Unitel U-Money) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="UMoney"
+                 data-keywords="umoney u-money unitel wallet ກະເປົາເງິນ ຢູນິເທວ"
+                 onclick="openBillModal('umoney', 'UMoney (Unitel E-Wallet)', 'Unitel U-Money Wallet Top-Up', 'umoney-icon')">
+              <div class="service-badge-container">
+                <!-- UMoney brand badge: stylized italic 'um' and 'u-money' -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <path d="M20 25h6.5v12c0 2.8 1.4 4.2 3.8 4.2s3.8-1.4 3.8-4.2V25h6.5v12c0 6.5-4.2 9.8-10.3 9.8s-10.3-3.3-10.3-9.8V25z" />
+                  <path d="M41 30h5.5v2.8c1.8-2.2 4-3.2 6.8-3.2c3.6 0 5.8 1.8 6.8 4.8c1.8-3 4.5-4.8 7.8-4.8c4 0 6.8 2.8 6.8 7.8V46h-5.5v-7.2c0-2.8-1.4-4-3.2-4s-3.6 1.4-3.6 4V46h-5.5v-7.2c0-2.8-1.4-4-3.2-4s-3.6 1.4-3.6 4V46H41V30z" transform="scale(0.65) translate(18, 12)" />
+                  <text x="36" y="52" font-family="'Inter', sans-serif" font-weight="800" font-size="7.5" fill="currentColor" text-anchor="middle" letter-spacing="0.5">u-money</text>
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                UMoney
+              </span>
+            </div>
+
+            <!-- 2. MMoney (M MoneyX) -->
+            <div class="service-item-wrapper flex flex-col items-center group cursor-pointer"
+                 data-title="MMoney"
+                 data-keywords="mmoney mmoneyx m-money ltc lao telecom wallet ເອັມມັນນີ"
+                 onclick="openBillModal('mmoney', 'MMoney (M-MoneyX Lao Telecom)', 'M-MoneyX E-Wallet Top-Up', 'mmoney-icon')">
+              <div class="service-badge-container">
+                <!-- MMoney brand badge: stylized curved 'm' and 'moneyX' -->
+                <svg viewBox="0 0 72 72" class="w-12 h-12 text-[#008a7a]" fill="currentColor">
+                  <path d="M20 39V24h6.5v3.6c1.8-2.6 4.5-4 7.8-4c3.6 0 6.4 1.8 7.8 4.8c1.8-3 4.8-4.8 8.2-4.8c5 0 8.2 3.2 8.2 8.5V39H52v-5.5c0-3-1.4-4.5-3.6-4.5s-4 1.4-4 4.5V39h-6.5v-5.5c0-3-1.4-4.5-3.6-4.5s-4 1.4-4 4.5V39H20z" />
+                  <text x="36" y="52" font-family="'Inter', sans-serif" font-weight="800" font-size="7.8" fill="currentColor" text-anchor="middle" letter-spacing="0.5">money<tspan font-weight="900" fill="#008a7a">X</tspan></text>
+                </svg>
+              </div>
+              <span class="mt-2.5 text-xs sm:text-[13px] font-semibold text-slate-700 group-hover:text-[#006b5d] transition-colors text-center">
+                MMoney
+              </span>
+            </div>
+
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-      <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
-      <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+  <!-- INTERACTIVE PAYMENT MODAL DIALOG -->
+  <div id="paymentModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="modal-card bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-100 space-y-5 relative max-h-[92vh] overflow-y-auto">
+      
+      <!-- Close button -->
+      <button onclick="closeBillModal()" class="absolute right-5 top-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-all">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="flex items-center gap-3.5 border-b border-slate-100 pb-4">
+        <div id="modalIconContainer" class="w-14 h-14 rounded-2xl border-2 border-[#008a7a] bg-teal-50/50 flex items-center justify-center text-[#008a7a] flex-shrink-0">
+          <!-- Rendered dynamically -->
+        </div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+            APB Quick Pay
+          </span>
+          <h3 id="modalTitle" class="text-base font-bold text-slate-900 mt-0.5">ຊໍາລະບິນ</h3>
+          <p id="modalSubtitle" class="text-xs text-slate-500">ປ້ອນຂໍ້ມູນເພື່ອດຳເນີນການຊຳລະ</p>
+        </div>
+      </div>
+
+      <!-- Account Selection (Payment Source) -->
+      <div class="bg-gradient-to-br from-teal-900 to-[#005449] rounded-2xl p-4 text-white shadow-sm relative overflow-hidden">
+        <div class="flex justify-between items-start text-xs">
+          <span class="text-teal-200 text-[11px] font-semibold">ບັນຊີຫັກເງິນ (Debit Account)</span>
+          <span class="bg-amber-400 text-teal-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full">ຫຼັກ</span>
+        </div>
+        <div class="mt-2 flex justify-between items-end">
+          <div>
+            <p class="text-xs font-semibold text-teal-100">ທ້າວ ສົມພອນ ໄຊຍະວົງ</p>
+            <p class="text-sm font-mono tracking-wider text-white font-bold">100-291-8849-01</p>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-teal-200 block">ຍອດເງິນຄົງເຫຼືອ:</span>
+            <span class="text-base font-extrabold text-amber-300 number-font">₭ 45,850,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Inputs Dynamic Area -->
+      <div class="space-y-4">
+        <!-- Provider ID / Phone input -->
+        <div>
+          <label id="inputLabel" class="block text-xs font-bold text-slate-700 mb-1.5">
+            ປ້ອນເລກໝໍ້ໄຟ / ເລກສັນຍາ (Consumer ID)
+          </label>
+          <div class="relative">
+            <input
+              id="billIdInput"
+              type="text"
+              value=""
+              placeholder="ປ້ອນເລກອ້າງອີງ..."
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 number-font outline-none focus:border-[#008a7a] focus:ring-2 focus:ring-[#008a7a]/20"
+            />
+            <button onclick="mockLookupBill()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#007a6c] hover:bg-[#005449] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">
+              ກວດສອບ
+            </button>
+          </div>
+        </div>
+
+        <!-- Bill Details Summary (Visible after lookup or by default) -->
+        <div id="billLookupInfo" class="bg-teal-50/70 border border-teal-200/80 rounded-2xl p-4 text-xs space-y-2">
+          <div class="flex justify-between text-slate-600">
+            <span>ຊື່ເຈົ້າຂອງສັນຍາ:</span>
+            <span id="billOwnerName" class="font-bold text-slate-900">ສົມພອນ ໄຊຍະວົງ (SOMPHONE)</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>ຮອບບິນປະຈຳເດືອນ:</span>
+            <span id="billCycle" class="font-bold text-slate-900 number-font">10/2026</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>ຄ່າທຳນຽມທະນາຄານ:</span>
+            <span class="font-bold text-emerald-600">0 LAK (ຟຣີ)</span>
+          </div>
+        </div>
+
+        <!-- Quick Amount Chips -->
+        <div id="quickAmountsSection">
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">ເລືອກມູນຄ່າ (Quick Amounts)</label>
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            <button onclick="setAmount('10,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">10,000₭</button>
+            <button onclick="setAmount('20,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">20,000₭</button>
+            <button onclick="setAmount('50,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">50,000₭</button>
+            <button onclick="setAmount('100,000')" class="amount-btn bg-teal-50 border border-teal-400 py-2 rounded-xl text-xs font-bold text-[#006b5d] number-font">100,000₭</button>
+            <button onclick="setAmount('200,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">200,000₭</button>
+            <button onclick="setAmount('345,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">345,000₭</button>
+            <button onclick="setAmount('500,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">500,000₭</button>
+            <button onclick="setAmount('1,000,000')" class="amount-btn bg-slate-100 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 py-2 rounded-xl text-xs font-bold text-slate-700 number-font">1,000,000₭</button>
+          </div>
+        </div>
+
+        <!-- Total Pay Amount Input -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">ຈຳນວນເງິນຕ້ອງຊຳລະ (LAK)</label>
+          <div class="relative">
+            <input
+              id="paymentAmountInput"
+              type="text"
+              value="100,000"
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-14 py-3.5 text-lg font-black text-slate-900 number-font outline-none focus:border-[#008a7a] focus:ring-2 focus:ring-[#008a7a]/20"
+            />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 font-extrabold text-xs text-slate-400">LAK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 pt-2">
+        <button onclick="closeBillModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-xl text-xs transition-all">
+          ຍົກເລີກ
+        </button>
+        <button onclick="submitBillPayment()" class="w-2/3 bg-[#006b5d] hover:bg-[#005449] text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2">
+          <span>ຢືນຢັນການຊຳລະ</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
     </div>
+  </div>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        lucide.createIcons();
-      });
+  <!-- SUCCESS RECEIPT MODAL -->
+  <div id="receiptModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="modal-card bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-100 text-center space-y-4">
+      
+      <!-- Green Success Icon -->
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center shadow-inner">
+        <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+      </div>
 
-      function selectCategory(el, code, title) {
-        document.querySelectorAll('.bill-card-item').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        document.getElementById('selectedCatTitle').innerText = `ຊໍາລະບິນ: ${title}`;
-        document.getElementById('billConsumerId').value = `${code}-8891024`;
-        showToast(`ເລືອກໝວດ ${title}`);
+      <div>
+        <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          ຊໍາລະບິນສຳເລັດແລ້ວ!
+        </span>
+        <h3 class="text-lg font-bold text-slate-900 mt-2">ໃບຢືນຢັນການຊຳລະ (E-Receipt)</h3>
+        <p class="text-xs text-slate-400 number-font mt-0.5">Ref: APB-TX-9981240819</p>
+      </div>
+
+      <!-- Receipt Voucher Body -->
+      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs space-y-2.5 text-left">
+        <div class="flex justify-between">
+          <span class="text-slate-500">ບໍລິການ:</span>
+          <span id="receiptService" class="font-bold text-slate-800">ເຕີມມູນຄ່າໂທ</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">ເລກອ້າງອີງ:</span>
+          <span id="receiptRef" class="font-bold text-slate-800 number-font">020-55998822</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">ວັນທີ-ເວລາ:</span>
+          <span id="receiptTime" class="font-bold text-slate-800 number-font">13/10/2026 14:35</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">ຫັກຈາກບັນຊີ:</span>
+          <span class="font-bold text-slate-800 number-font">100-291-8849-01</span>
+        </div>
+        <div class="border-t border-dashed border-slate-300 pt-2.5 flex justify-between items-center">
+          <span class="font-bold text-slate-800">ຈຳນວນເງິນທັງໝົດ:</span>
+          <span id="receiptTotal" class="text-base font-extrabold text-[#006b5d] number-font">100,000 LAK</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="downloadReceiptMock()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>ບັນທຶກໃບບິນ</span>
+        </button>
+        <button onclick="closeReceiptModal()" class="flex-1 bg-[#006b5d] hover:bg-[#005449] text-white font-bold py-3 rounded-xl text-xs transition-all">
+          <span>ສຳເລັດ (Done)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification element -->
+  <div id="toast" class="toast">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+    <span id="toastMsg">ດຳເນີນການສຳເລັດ</span>
+  </div>
+
+  <!-- Client-side Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    let currentServiceKey = 'topup';
+
+    const servicePresets = {
+      'topup': {
+        title: 'ເຕີມມູນຄ່າໂທ',
+        subtitle: 'Mobile Top-Up (Unitel, Lao Telecom, Tplus, ETL)',
+        label: 'ປ້ອນເບີໂທລະສັບ (Phone Number)',
+        defaultId: '020-55998822',
+        owner: 'ທ້າວ ສົມພອນ (020 55998822)',
+        cycle: 'Prepaid Realtime',
+        amount: '50,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M20 42h32c2.2 0 4 1.8 4 4v4c0 2.2-1.8 4-4 4H20c-2.2 0-4-1.8-4-4v-4c0-2.2 1.8-4 4-4z"/><path d="M18 36c0-6 3.5-12 9-14.5l5-2c2.5-1 3.5-3.5 2.5-6l-1-2.5c-1-2.5-3.5-3.5-6-2.5L23 11c-4.5 2-8 6-9 11-1.5 7.5 1.5 16 7 21l3-2.5c2-1.5 2-4 0-5.5L20 32c-1.3-1-2-2.5-2-4.5z" fill="currentColor" stroke="none"/><path d="M40 30a10 10 0 0 1 10-10"/><path d="M44 23a16 16 0 0 1 16-11"/></svg>`
+      },
+      'electricity': {
+        title: 'ຈ່າຍຄ່າໄຟຟ້າ (EDL)',
+        subtitle: 'Electricite Du Laos Bill Payment',
+        label: 'ປ້ອນເລກບັນຊີສັນຍາ / ເລກໝໍ້ໄຟ (Contract ID)',
+        defaultId: 'EDL-8891024',
+        owner: 'ສົມພອນ ໄຊຍະວົງ (SOMPHONE)',
+        cycle: '10/2026',
+        amount: '345,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><rect x="29" y="14" width="4.5" height="12" rx="2"/><rect x="38.5" y="14" width="4.5" height="12" rx="2"/><path d="M23 25h26c2.5 0 4.5 2 4.5 4.5v11c0 6.5-5.5 11.5-12 11.5h-11C28.5 52 23 47 23 40.5v-11c0-2.5 2-4.5 4.5-4.5z"/><path d="M36 52v7c0 3.5-3 6.5-6.5 6.5s-6.5-3-6.5-6.5v-2" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>`
+      },
+      'water': {
+        title: 'ຈ່າຍຄ່ານ້ຳ (NPNL)',
+        subtitle: 'Nam Papa Nakhone Luang Water Utility',
+        label: 'ປ້ອນເລກສັນຍານ້ຳປະປາ (Water Account ID)',
+        defaultId: 'NPNL-554201',
+        owner: 'ສົມພອນ ໄຊຍະວົງ (ບ້ານ ໜອງບອນ)',
+        cycle: '10/2026',
+        amount: '84,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><rect x="14" y="21" width="5.5" height="18" rx="2"/><path d="M19 25h22c4.5 0 8 3.5 8 8v12h-11V34c0-1.2-1-2.2-2.2-2.2H19v-6.8z"/><rect x="35" y="44" width="17" height="4.5" rx="1.5"/><path d="M43.5 52.5c0 0-4.5 4.5-4.5 7.5a4.5 4.5 0 0 0 9 0c0-3-4.5-7.5-4.5-7.5z"/></svg>`
+      },
+      'toll': {
+        title: 'ຄ່າທຳນຽມທາງ (Expressway Toll)',
+        subtitle: 'Vientiane - Vang Vieng Tollway',
+        label: 'ປ້ອນປ້າຍທະບຽນລົດ (Vehicle License Plate)',
+        defaultId: 'ກກ 9988 ວັງວຽງ',
+        owner: 'TOYOTA FORTUNER (VIP PASS)',
+        cycle: 'One-Way Toll Pass',
+        amount: '120,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="none"><path d="M26 18h20l11 38H15l11-38z" fill="currentColor"/><line x1="36" y1="22" x2="36" y2="29" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/><line x1="36" y1="34" x2="36" y2="42" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round"/><line x1="36" y1="47" x2="36" y2="54" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/></svg>`
+      },
+      'tax': {
+        title: 'ຈ່າຍຄ່າອາກອນ (Tax & Revenue)',
+        subtitle: 'Lao National Tax & Customs Department',
+        label: 'ປ້ອນເລກປະຈຳຕົວຜູ້ເສຍອາກອນ (TIN / Barcode)',
+        defaultId: 'TIN-01009988241',
+        owner: 'ບໍລິສັດ ເອພີບີ ພັດທະນາ ຈຳກັດ',
+        cycle: 'Q3/2026',
+        amount: '1,500,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="none" stroke="currentColor"><circle cx="36" cy="36" r="23" stroke-width="2.2" stroke-dasharray="3.5 2"/><path d="M36 21l1.8 4.5h-3.6l1.8-4.5zm-2.8 5.5h5.6v3.5h-5.6v-3.5zm-4.2 4.5h14v3.5h-14v-3.5z" fill="currentColor" stroke="none"/></svg>`
+      },
+      'landtax': {
+        title: 'ພາສີທີ່ດິນ (Land Tax)',
+        subtitle: 'Land Title & Property Tax Portal',
+        label: 'ປ້ອນເລກທີໃບຕາດິນ (Land Title Number)',
+        defaultId: 'LAND-VTE-00992',
+        owner: 'ສົມພອນ ໄຊຍະວົງ (ຕາດິນ 420 ຕາແມັດ)',
+        cycle: 'ປະຈຳປີ 2026',
+        amount: '250,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M20 33L36 20L52 33V52H20V33Z"/><circle cx="45" cy="43" r="10" fill="#ffffff" stroke="currentColor" stroke-width="2.4"/></svg>`
+      },
+      'laoairlines': {
+        title: 'ການບິນລາວ (Lao Airlines)',
+        subtitle: 'National Carrier Flight Booking (QV)',
+        label: 'ປ້ອນລະຫັດການຈອງຖ້ຽວບິນ (Booking Ref / PNR)',
+        defaultId: 'QV-8X99PL',
+        owner: 'SOMPHONE XAYAVONG (VTE ✈ LPQ)',
+        cycle: 'QV-101 Economy Flex',
+        amount: '890,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><path d="M36 17c-4.5 7-7 13.5-3.5 19.5c-6-4.5-12.5-2.5-16 3.5c7 2.5 12.5 0 17-2.5c-2.5 7-1 14 5 17c2-6 1-12-2.5-17c7 2 13.5-.5 17-7c-7-1-12.5 2.5-16 5c1.8-7-.9-14-6-18.5z"/></svg>`
+      },
+      'laoskyway': {
+        title: 'ລາວເດີນອາກາດ (Lao Skyway)',
+        subtitle: 'Domestic & Charter Flights (LLL)',
+        label: 'ປ້ອນລະຫັດການຈອງ (Booking Ref)',
+        defaultId: 'SKY-7782LK',
+        owner: 'SOMPHONE XAYAVONG (VTE ✈ PKZ)',
+        cycle: 'LLL-205 Seat 04A',
+        amount: '750,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><path d="M50 22c-7 5.5-15 10.5-25 12.5c-3.5-3.5-8-4.5-12.5-2.5c5.5 3.5 10 5.5 14.5 5.5c-2.5 4.5-7 8-12.5 10c8-1 15-5.5 19.5-10.5z"/></svg>`
+      },
+      'kolao': {
+        title: 'Kolao (ໂຄລາວ ສິນເຊື່ອ)',
+        subtitle: 'Kolao Capital & Leasing Payment',
+        label: 'ປ້ອນເລກສັນຍາສິນເຊື່ອ (Contract ID)',
+        defaultId: 'KOL-99281-VTE',
+        owner: 'ສົມພອນ ໄຊຍະວົງ (KIA SORENTO)',
+        cycle: 'ງວດທີ 14/48',
+        amount: '1,850,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="none" stroke="currentColor"><circle cx="36" cy="34" r="17" stroke-width="2.4"/><text x="36" y="37" font-family="'Inter', sans-serif" font-weight="900" font-size="6.8" fill="currentColor" stroke="none" text-anchor="middle">KOLAO</text></svg>`
+      },
+      'krungsri': {
+        title: 'Krungsri (ກຸງສີ ລີດຊິ່ງ)',
+        subtitle: 'Krungsri Leasing Lao Company',
+        label: 'ປ້ອນເລກທີສັນຍາ (Contract Reference)',
+        defaultId: 'KSL-449102',
+        owner: 'ສົມພອນ ໄຊຍະວົງ',
+        cycle: 'ງວດທີ 08/36',
+        amount: '2,200,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><path d="M36 17l6.5 8.5h-3.8l-2.7-3.6l-2.7 3.6h-3.8l6.5-8.5z"/><path d="M36 29l10 12h-4.6l-5.4-6.5l-5.4 6.5h-4.6l10-12z"/><path d="M36 43l13 15h-4.8l-8.2-9.5l-8.2 9.5h-4.8l13-15z"/></svg>`
+      },
+      'umoney': {
+        title: 'UMoney (Unitel E-Wallet)',
+        subtitle: 'Unitel U-Money Wallet Top-Up',
+        label: 'ປ້ອນເບີກະເປົາ U-Money (Wallet Phone)',
+        defaultId: '020-99887711',
+        owner: 'SOMPHONE XAYAVONG (U-Money Verified)',
+        cycle: 'Instant Wallet Deposit',
+        amount: '200,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><path d="M20 25h6.5v12c0 2.8 1.4 4.2 3.8 4.2s3.8-1.4 3.8-4.2V25h6.5v12c0 6.5-4.2 9.8-10.3 9.8s-10.3-3.3-10.3-9.8V25z"/><text x="36" y="52" font-family="'Inter', sans-serif" font-weight="800" font-size="7.5" fill="currentColor" text-anchor="middle">u-money</text></svg>`
+      },
+      'mmoney': {
+        title: 'MMoney (M-MoneyX Lao Telecom)',
+        subtitle: 'Lao Telecom M-MoneyX Wallet',
+        label: 'ປ້ອນເບີກະເປົາ M-Money (Wallet Phone)',
+        defaultId: '020-55998822',
+        owner: 'SOMPHONE XAYAVONG (M-Money Gold)',
+        cycle: 'Instant Wallet Deposit',
+        amount: '150,000',
+        svg: `<svg viewBox="0 0 72 72" class="w-8 h-8 text-[#008a7a]" fill="currentColor"><path d="M20 39V24h6.5v3.6c1.8-2.6 4.5-4 7.8-4c3.6 0 6.4 1.8 7.8 4.8c1.8-3 4.8-4.8 8.2-4.8c5 0 8.2 3.2 8.2 8.5V39H52v-5.5c0-3-1.4-4.5-3.6-4.5s-4 1.4-4 4.5V39h-6.5v-5.5c0-3-1.4-4.5-3.6-4.5s-4 1.4-4 4.5V39H20z"/><text x="36" y="52" font-family="'Inter', sans-serif" font-weight="800" font-size="7.8" fill="currentColor" text-anchor="middle" letter-spacing="0.5">money<tspan font-weight="900" fill="#008a7a">X</tspan></text></svg>`
       }
+    };
 
-      function fetchBillInfo() {
-        showToast('ດຶງຂໍ້ມູນບິນລ່າສຸດສຳເລັດ ✓');
-      }
+    function openBillModal(key) {
+      currentServiceKey = key;
+      const data = servicePresets[key] || servicePresets['topup'];
 
-      function payBillNow() {
-        showToast('ຊໍາລະບິນສຳເລັດແລ້ວ! 🎉');
-      }
+      document.getElementById('modalTitle').innerText = data.title;
+      document.getElementById('modalSubtitle').innerText = data.subtitle;
+      document.getElementById('inputLabel').innerText = data.label;
+      document.getElementById('billIdInput').value = data.defaultId;
+      document.getElementById('billOwnerName').innerText = data.owner;
+      document.getElementById('billCycle').innerText = data.cycle;
+      document.getElementById('paymentAmountInput').value = data.amount;
+      document.getElementById('modalIconContainer').innerHTML = data.svg;
 
-      function showToast(msg) {
-        const toast = document.getElementById('toast');
-        document.getElementById('toastMsg').innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+      document.getElementById('paymentModal').classList.add('open');
+    }
+
+    function closeBillModal() {
+      document.getElementById('paymentModal').classList.remove('open');
+    }
+
+    function setAmount(val) {
+      document.getElementById('paymentAmountInput').value = val;
+    }
+
+    function mockLookupBill() {
+      showToast('ກວດສອບຂໍ້ມູນບິນລ່າສຸດສຳເລັດ ✓');
+    }
+
+    function submitBillPayment() {
+      const data = servicePresets[currentServiceKey] || servicePresets['topup'];
+      const refId = document.getElementById('billIdInput').value || data.defaultId;
+      const amount = document.getElementById('paymentAmountInput').value || '100,000';
+
+      closeBillModal();
+
+      // Populate Receipt
+      document.getElementById('receiptService').innerText = data.title;
+      document.getElementById('receiptRef').innerText = refId;
+      document.getElementById('receiptTotal').innerText = `${amount} LAK`;
+
+      const now = new Date();
+      const formattedDate = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.getElementById('receiptTime').innerText = formattedDate;
+
+      // Show receipt modal
+      document.getElementById('receiptModal').classList.add('open');
+      showToast('ຊໍາລະບິນສຳເລັດແລ້ວ! 🎉');
+    }
+
+    function closeReceiptModal() {
+      document.getElementById('receiptModal').classList.remove('open');
+    }
+
+    function downloadReceiptMock() {
+      showToast('ບັນທຶກໃບບິນລົງອຸປະກອນສຳເລັດ ✓');
+    }
+
+
+
+    function setFilterCategory(cat, el) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+
+      const sUtilities = document.getElementById('section-utilities');
+      const sFlights = document.getElementById('section-flights');
+      const sLoans = document.getElementById('section-loans');
+      const sWallets = document.getElementById('section-wallets');
+
+      const allSections = [sUtilities, sFlights, sLoans, sWallets];
+
+      if (cat === 'all') {
+        allSections.forEach(s => s && (s.style.display = 'block'));
+      } else {
+        allSections.forEach(s => s && (s.style.display = 'none'));
+        if (cat === 'utilities' && sUtilities) sUtilities.style.display = 'block';
+        if (cat === 'flights' && sFlights) sFlights.style.display = 'block';
+        if (cat === 'loans' && sLoans) sLoans.style.display = 'block';
+        if (cat === 'wallets' && sWallets) sWallets.style.display = 'block';
       }
-    </script>
-  </body>
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+
 </html>
